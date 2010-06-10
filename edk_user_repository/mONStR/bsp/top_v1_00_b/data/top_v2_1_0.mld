@@ -1,0 +1,78 @@
+#
+#	File: top_v2_1_0.mld
+#	Owner: Michal Simek
+#
+#	Copyright C - 2008 All rights reserved. Michal Simek
+#
+#	No part of this program may be reproduced or adapted in any form
+#	or by any means, electronic or mechanical, without permission from
+#	Michal Simek. This program is confidential and may not be disclosed,
+#	decompiled or reverse engineered without permission in writing from
+#	Michal Simek
+#	===================================================================
+#
+#	Michal Simek - top level generator
+#
+
+OPTION psf_version = 2.1;
+
+BEGIN OS TOP
+
+OPTION DRC = top_drc;
+
+OPTION SUPPORTED_PERIPHERALS = (microblaze ppc405 ppc405_virtex4);
+OPTION DESC = "Generate BSP for U-BOOT, FDT, eCos, PetaLogix / PetaLinux kernel 2.4";
+
+PARAMETER name = TARGET_DIR, desc = "Destination directory for PetaLinux BSP (auto-config.in)", type = string;
+
+PARAMETER name = stdout, desc = "stdout peripheral for bootloader", type = peripheral_instance, requires_interface=stdout, range=(opb_uartlite, xps_uartlite, xps_uart16550, opb_uart16550, opb_mdm, plb_uart16550), default = none;
+PARAMETER name = stdin, desc = "stdin peripheral for bootloader", type = peripheral_instance, requires_interface=stdin, range=(opb_uartlite, xps_uartlite, xps_uart16550, opb_uart16550, opb_mdm, plb_uart16550), default = none;
+
+PARAMETER name = main_memory, desc ="Name of Main Memory used with PetaLinux", type = peripheral_instance, range=(opb_ddr, opb_emc, plb_ddr, plb_emc, opb_sdram, plb_sdram, mch_opb_sdram, mch_opb_ddr, mch_opb_ddr2, mch_opb_emc, plb_ddr2, mpmc, xps_mch_emc), default = none;
+PARAMETER name = main_memory_bank, desc="Bank Nr. within memory controller of main memory", type = integer, default = 0;
+PARAMETER name = main_memory_start, desc="Manual override of main memory start address",type = integer, default = -1;
+PARAMETER name = main_memory_size, desc="Manual override of main memory size", type = integer, default = 0;
+PARAMETER name = main_memory_offset, desc="Manual override of main memory start offset", type = integer, default = 0;
+
+PARAMETER name = flash_memory, desc ="Name of Flash Memory Controller used with PetaLinux", type = peripheral_instance, range=(opb_emc, plb_emc, mch_opb_emc, xps_mch_emc), default = none;
+PARAMETER name = flash_memory_bank, desc="Bank Nr. within memory controller of flash memory", type = integer, default = 0;
+PARAMETER name = flash_memory_start, desc="Manual override of flash memory startaddress", type=integer, default=-1;
+PARAMETER name = flash_memory_size, desc="Manual override of flash memory size", type = integer, default = 0;
+PARAMETER name = flash_memory_offset, desc="Manual override of flash memory start offset", type = integer, default = 0;
+
+PARAMETER name = lmb_memory, desc = "Name of LMB Memory used with PetaLinux", type = peripheral_instance, range=(lmb_bram_if_cntlr, opb_bram_if_cntlr), default = none;
+
+PARAMETER name = periph_type_overrides, desc = "List of peripheral type overrides", type = string, default = "";
+
+#FIXME I don't know why but U-BOOT generator can't take value from CATEGORY
+#BEGIN CATEGORY u-boot
+#PARAMETER name = U-BOOT_config, type = bool, default = false, desc = "Setting ignored", permit = none, dep = (special = microblaze);
+PARAMETER name = uboot_position, desc="Uboot position in memory", type = integer, default = 0;
+PARAMETER name = gpio, desc="Led interface", type = peripheral_instance, range=(opb_gpio,plb_gpio,xps_gpio), default = none;
+PARAMETER name = iic, desc="iic interface", type = peripheral_instance, range=(opb_iic,xps_iic), default = none;
+PARAMETER name = sysace, desc="Sysace interface for CF", type = peripheral_instance, range=(opb_sysace, xps_sysace), default = none;
+PARAMETER name = ethernet, desc="Ethernet controller", type = peripheral_instance, range=(opb_ethernet, opb_ethernetlite, xps_ethernetlite, xps_ethernet, xps_ll_temac), default = none;
+PARAMETER name = timer, desc="Timer for measuring time", type = peripheral_instance, range=(opb_timer, plb_timer, xps_timer), default = none;
+#END CATEGORY
+
+#BEGIN CATEGORY fdt
+#PARAM name = FDT_config, type = bool, default = false, desc = "Setting ignored", permit = none, dep = (special = microblaze);
+PARAMEMTER name = bootargs, desc = "Booting arguments", type = string, default = "console=ttyUL0,115200";
+#END CATEGORY
+PARAM name = name, desc = "Name of board for eCos", type = string, default = "";
+
+BEGIN CATEGORY microblaze_exceptions
+        PARAM name = microblaze_exceptions, type = bool, default = false, desc = "Setting ignored", permit = none, dep = (special = microblaze);
+
+BEGIN ARRAY microblaze_exception_vectors
+        PROPERTY desc = "Unused. Exception handling managed by PetaLinux kernel";
+        PROPERTY size = 8;
+        PROPERTY default = ((XEXC_NONE, XNullHandler, 0), (XEXC_NONE, XNullHandler, 0), (XEXC_NONE, XNullHandler, 0), (XEXC_NONE, XNullHandler, 0), (XEXC_NONE, XNullHandler, 0), (XEXC_NONE, XNullHandler, 0), (XEXC_NONE, XNullHandler, 0), (XEXC_NONE, XNullHandler, 0));
+        PARAM name = exception, type = enum, values = ("Unused" = XEXC_NONE), desc = "Unused", permit=none;
+        PARAM name = handler, type = string, desc = "Unused";
+        PARAM name = callback, desc = "Unused";
+
+END ARRAY
+END CATEGORY
+
+END OS
