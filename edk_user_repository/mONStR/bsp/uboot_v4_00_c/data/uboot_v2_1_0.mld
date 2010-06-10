@@ -52,5 +52,5 @@ PARAMETER name = timer, desc="Timer for measuring time", type = peripheral_insta
 PARAMETER name = stdout, desc = "Console peripheral for bootloader", type = peripheral_instance,range=(opb_uartlite, opb_uart16550, opb_uart16440, xps_uartlite), default = none;
 PARAMETER name = stdin, desc = "Console peripheral for bootloader", type = peripheral_instance,range=(opb_uartlite, opb_uart16550, opb_uart16440, xps_uartlite), default = none;
 #PARAMETER name = bootargs, desc = "Booting arguments", type = string, default = "root=/dev/xsysace/disc0/part2";
-PARAMETER name = name, desc = "Name of board", type = string, default = "";
+#PARAMETER name = name, desc = "Name of board", type = string, default = "";
 END OS

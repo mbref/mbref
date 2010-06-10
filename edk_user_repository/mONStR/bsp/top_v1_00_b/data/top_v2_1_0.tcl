@@ -13,12 +13,11 @@
 #
 #	Michal Simek - top level generator
 #
-#	Calling PetaLinux BSP is permitted from Petalogix
-#
 
 set top_version "top_v1_00_b"
 set ecos_version "ecos_v1_00_a"
 set fdt_version "fdt_v1_00_a"
+set xilinx_version "device-tree_v1_01_a"
 set uboot_version "uboot_v4_00_c"
 set petalogix_version "petalinux_v1_00_b"
 # not use now set standalone_version "standalone_v1_00_a"
@@ -68,6 +67,7 @@ proc create_namespace {path name os_handle} {
 			variable debug_level
 			variable gpio_count
 			variable uart16550_count
+			variable device_tree_generator_version
 #--M-- setting of variable
 #--M-- bsp_name - full_name; short_name - only the name without version
 			set tcl_name [string range $bsp_name 0 [string first "_" $bsp_name]]
@@ -236,6 +236,9 @@ proc generate {os_handle} {
 
 	variable fdt_version
 	create_namespace $path $fdt_version $os_handle
+
+	variable xilinx_version
+	create_namespace $path $xilinx_version $os_handle
 
 	variable uboot_version
 	create_namespace $path $uboot_version $os_handle
