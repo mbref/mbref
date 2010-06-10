@@ -42,6 +42,12 @@ set cpunumber 0
 set periphery_array ""
 set uartlite_count 0
 set mac_count 0
+set gpio_names {}
+set overrides {}
+
+set serial_count 0
+set ethernet_count 0
+set alias_node_list {}
 
 #
 # How to use generate_device_tree() from another MLD
@@ -92,6 +98,16 @@ proc generate {os_handle} {
 
 	set bootargs [xget_sw_parameter_value $os_handle "bootargs"]
 	set consoleip [xget_sw_parameter_value $os_handle "stdout"]
+	global overrides
+	set overrides [xget_sw_parameter_value $os_handle "periph_type_overrides"]
+	global main_memory
+	set main_memory [xget_sw_parameter_value $os_handle "main_memory"]
+	global main_memory_bank
+	set main_memory_bank [xget_sw_parameter_value $os_handle "main_memory_bank"]
+	global flash_memory
+	set flash_memory [xget_sw_parameter_value $os_handle "flash_memory"]
+	global flash_memory_bank
+	set flash_memory_bank [xget_sw_parameter_value $os_handle "flash_memory_bank"]
 	generate_device_tree "xilinx.dts" $bootargs $consoleip
 }
 
@@ -101,8 +117,6 @@ proc generate_device_tree {filepath bootargs {consoleip ""}} {
 	debug info "generating $filepath"
 
 	set toplevel {}
-	set chosen {}
-	lappend chosen [list bootargs string $bootargs]
 
 	set proc_handle [xget_libgen_proc_handle]
 	set hwproc_handle [xget_handle $proc_handle "IPINST"]
@@ -211,7 +225,43 @@ proc generate_device_tree {filepath bootargs {consoleip ""}} {
 			error "unsupported CPU"
 		}
 	}
-	
+
+	variable serial_count
+	variable alias_node_list
+	puts "$serial_count $alias_node_list"
+
+	if {[llength $bootargs] == 0} {
+		# default number for ttyULX or ttySX is 0
+		set serial_number 0
+		# find out which serial number is my choose uart - from aliases node - there is correct order
+		foreach node $alias_node_list {
+			if { "[lindex $node 2]" == "$consoleip" } {
+				regsub serial "[lindex $node 0]" "" x
+				set serial_number "$x"
+			}
+		}
+		# generate default string for uart16550 or uartlite
+		set uart_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] $consoleip]
+		switch -exact [xget_value $uart_handle "VALUE"] {
+			"xps_uart16550" -
+			"plb_uart16550" -
+			"opb_uart16550" {
+				# for uart16550 is default string 115200
+				set bootargs "console=ttyS$serial_number,115200"
+			}
+			"xps_uartlite" -
+			"opb_uartlite" {
+				set bootargs "console=ttyUL$serial_number,[xget_sw_parameter_value $uart_handle "C_BAUDRATE"]"
+			}
+			default {
+				debug warning "WARNING: Unsupported console ip $consoleip. Can't generate bootargs."
+			}
+		}
+	}
+
+	set chosen {}
+	lappend chosen [list bootargs string $bootargs]
+
 	if {$consoleip != ""} {
 		set consolepath [get_pathname_for_label $toplevel $consoleip]
 		if {$consolepath != ""} {
@@ -226,8 +276,17 @@ proc generate_device_tree {filepath bootargs {consoleip ""}} {
 	lappend toplevel [list \#size-cells int 1]
 	lappend toplevel [list \#address-cells int 1]
 	lappend toplevel [list model string "testing"]
+	set reset [reset_gpio]
+	if { "$reset" != "" } {
+		lappend toplevel $reset
+	}
 	lappend toplevel [list chosen tree $chosen]
 
+	#
+	# Add the alias section to toplevel
+	#
+	lappend toplevel [list aliases tree $alias_node_list]
+	
 	set toplevel [gen_memories $toplevel $hwproc_handle]
 
 	set toplevel_file [open $filepath w]
@@ -282,6 +341,94 @@ proc headerc {ufile generator_version} {
 	puts $ufile " * XPS project directory: [prj_dir]"
 	puts $ufile " */"
 	puts $ufile ""
+}
+
+# generate structure for reset gpio.
+# mss description - first pin of Reset_GPIO ip is used for system reset
+# {key-word IP_name gpio_pin size_of_pin}
+# for reset-gpio is used only size equals 1
+#
+# PARAMETER periph_type_overrides = {hard-reset-gpios Reset_GPIO 1 1}
+proc reset_gpio {} {
+	global overrides
+	# ignore size parameter
+	set reset {}
+	foreach over $overrides {
+		# parse hard-reset-gpio keyword
+		if {[lindex $over 0] == "hard-reset-gpios"} {
+			# search if that gpio name is valid IP core in system
+			set desc [valid_gpio [lindex $over 1]]
+			if { "$desc" != "" } {
+				# check if is pin larger then gpio width
+				if {[lindex $desc 1] > [lindex $over 2]} {
+					set k [ list [lindex $over 1] [lindex $over 2] 1]
+					set reset "hard-reset-gpios labelref-ext {{$k}}"
+					return $reset
+				} else {
+					puts "RESET-GPIO: Requested pin is greater than number of GPIO pins: $over"
+				}
+			} else {
+				puts "RESET-GPIO: Not valid IP name: $over"
+			}
+		}
+	}
+	return
+}
+
+# For generation of gpio led description
+# this function is called from bus code because linux needs to have this description in the same node as is IP
+# FIXME there could be maybe problem if system contains bridge and gpio is after it - needs test
+#
+# PARAMETER periph_type_overrides = {led heartbeat LEDs_8Bit 5 5} {led yellow LEDs_8Bit 7 2} {led green LEDs_8Bit 4 1}
+proc led_gpio {} {
+	global overrides
+	set tree {}
+	foreach over $overrides {
+		# parse hard-reset-gpio keyword
+		if {[lindex $over 0] == "led"} {
+			# clear trigger
+			set trigger ""
+			set desc [valid_gpio [lindex $over 2]]
+			if { "$desc" != "" } {
+				# check if is pin larger then gpio width
+				if { [lindex $desc 1] > [lindex $over 3]} {
+					# check if the size exceed number of pins
+					if { [lindex $desc 1] >= [expr [lindex $over 3] + [lindex $over 4]] } {
+						# assemble led node
+						set label_desc "{label string [lindex $over 1]}"
+						set led_pins "{[lindex $over 2] [lindex $over 3] [lindex $over 4]}"
+						if { [string match -nocase "heartbeat" [lindex $over 1]] } {
+							set trigger "{linux,default-trigger string heartbeat}"
+						}
+						set tree "{[lindex $over 1] tree { $label_desc $trigger { gpios labelref-ext $led_pins }}} $tree"
+					} else {
+						puts "LED-GPIO: Requested pin size reach out of GPIO pins width: $over"
+					}
+
+				} else {
+					puts "LED-GPIO: Requested pin is greater than number of GPIO pins: $over"
+				}
+			} else {
+				puts "LED-GPIO: Not valid IP name $over"
+			}
+		}
+	}
+	# it is a complex node that's why I have to assemble it
+	if { "$tree" != "" } {
+		set tree "gpio-leds tree { {compatible string gpio-leds} $tree }"
+	}
+	return $tree
+}
+
+# Check if gpio name is valid or not
+proc valid_gpio {name} {
+	global gpio_names
+	foreach gpio_desc $gpio_names {
+		if { [lindex $gpio_desc 0] == "$name" } {
+			return $gpio_desc
+		}
+	}
+	return
 }
 
 proc get_intc_signals {intc} {
@@ -388,7 +535,11 @@ proc slaveip_dcr_or_plb {slave intc devicetype params {baseaddr_prefix ""} {othe
 	# '1' indicates core connected on PLB bus directly
 	# '0' indicates core connected on DCR bus directly
 	if {$bus_name == "1"} {
-		return [slaveip $slave $intc $devicetype $params "PLB_" $other_compatibles]
+		if {[parameter_exists $slave "C_PLB_BASEADDR"] != 0} {
+			return [slaveip $slave $intc $devicetype $params "PLB_" $other_compatibles]
+		} else {
+			return [slaveip $slave $intc $devicetype $params "SPLB_" $other_compatibles]
+		}
 	} else {
 		# When the core is connected directly on the DCR bus
 		return [slaveip_dcr $slave $intc "tft" [default_parameters $slave] "DCR_" $other_compatibles]
@@ -431,8 +582,10 @@ proc slaveip {slave intc devicetype params {baseaddr_prefix ""} {other_compatibl
 	set tree [slaveip_explicit_baseaddr $slave $intc $devicetype $params $baseaddr $highaddr $other_compatibles]
 	set dcr_busif_handle [xget_hw_busif_handle $slave "SDCR"]
 	if {[llength $dcr_busif_handle] != 0} {
-		# Hmm.. looks like there's a dcr interface.
-		set tree [append_dcr_interface $tree $slave]
+		if {[bus_is_connected $slave "SDCR"] != 0} {
+			# Hmm.. looks like there's a dcr interface.
+			set tree [append_dcr_interface $tree $slave]
+		}
 	}
 	return $tree
 }
@@ -510,10 +663,19 @@ proc slave_ll_temac_port {slave intc index} {
 	set baseaddr [expr $baseaddr + $index * 0x40]
 	set highaddr [expr $baseaddr + 0x3f]
 
+	#
+	# Add this temac channel to the alias list
+	#
+	variable ethernet_count
+	variable alias_node_list
+	set alias_node [list ethernet$ethernet_count aliasref $name]
+	lappend alias_node_list $alias_node
+	incr ethernet_count
+
 	set ip_tree [slaveip_basic $slave $intc "" [format_ip_name "ethernet" $baseaddr]]
 	set ip_tree [tree_append $ip_tree [list "device_type" string "network"]]
 	variable mac_count
-	set ip_tree [tree_append $ip_tree [list "local-mac-address" bytesequence [list 02 00 00 00 00 $mac_count]]]
+	set ip_tree [tree_append $ip_tree [list "local-mac-address" bytesequence [list 0x00 0x0a 0x35 0x00 0x00 $mac_count]]]
 	set mac_count [expr $mac_count + 1]
 
 	set ip_tree [tree_append $ip_tree [gen_reg_property $name $baseaddr $highaddr]]
@@ -653,6 +815,19 @@ proc tt {number} {
 	return $tab
 }
 
+# Change the name of a node.
+proc change_nodename {nodetochange oldname newname} {
+	if {[llength $nodetochange] == 0} {
+		error "Tried to change the name of an empty node: $oldname with $newname"
+	}
+	# The name of a node is in the first element of the node
+	set lineofname [lindex $nodetochange 0]
+	set substart [string first $oldname $lineofname]
+	set subend [expr {$substart + [string length $oldname] - 1}]
+	set lineofname [string replace $lineofname $substart $subend $newname]
+	return [lreplace $nodetochange 0 0 "$lineofname"]
+}
+
 proc gener_slave {node slave intc} {
 	set name [xget_hw_name $slave]
 	set type [xget_hw_value $slave]
@@ -660,7 +835,7 @@ proc gener_slave {node slave intc} {
 		"opb_intc" -
 		"xps_intc" {
 			# Interrupt controllers
-			lappend node [gen_intc $slave $intc "interrupt-controller" "C_NUM_INTR_INPUTS"]
+			lappend node [gen_intc $slave $intc "interrupt-controller" "C_NUM_INTR_INPUTS C_KIND_OF_INTR"]
 		}
 		"mdm" -
 		"opb_mdm" {
@@ -670,6 +845,14 @@ proc gener_slave {node slave intc} {
 		}
 		"xps_uartlite" -
 		"opb_uartlite" {
+			#
+			# Add this uartlite device to the alias list
+			#
+			variable serial_count
+			variable alias_node_list
+			lappend alias_node_list [list serial$serial_count aliasref $name]
+			incr serial_count
+
 			set ip_tree [slaveip_intr $slave $intc [interrupt_list $slave] "serial" [default_parameters $slave] ]
 			set ip_tree [tree_append $ip_tree [list "device_type" string "serial"]]
 			variable uartlite_count
@@ -687,7 +870,15 @@ proc gener_slave {node slave intc} {
 		"xps_uart16550" -
 		"plb_uart16550" -
 		"opb_uart16550" {
-			set ip_tree [slaveip_intr $slave $intc [interrupt_list $slave] "serial" [default_parameters $slave] "" "" [list "ns16550"] ]
+			#
+			# Add this uart device to the alias list
+			#
+			variable serial_count
+			variable alias_node_list
+			lappend alias_node_list [list serial$serial_count aliasref $name]
+			incr serial_count
+
+			set ip_tree [slaveip_intr $slave $intc [interrupt_list $slave] "serial" [default_parameters $slave] "" "" [list "ns16550a"] ]
 			set ip_tree [tree_append $ip_tree [list "device_type" string "serial"]]
 			set ip_tree [tree_append $ip_tree [list "current-speed" int "9600"]]
 
@@ -714,6 +905,21 @@ proc gener_slave {node slave intc} {
 		"xps_timer" -
 		"opb_timer" {
 			lappend node [slaveip_intr $slave $intc [interrupt_list $slave] "timer" [default_parameters $slave] ]
+
+			# for version 1.01b of the xps timer, make sure that it has the patch applied to the h/w
+			# so that it's using an edge interrupt rather than a falling as described in AR 33880
+			# this is tracking a h/w bug in EDK 11.4 that should be fixed in the future
+ 
+			set hw_ver [xget_hw_parameter_value $slave "HW_VER"]
+			if { $hw_ver == "1.01.b" && $type == "xps_timer" } {
+				set port_handle [xget_hw_port_handle $slave "Interrupt"]
+				set sensitivity [xget_hw_subproperty_value $port_handle "SENSITIVITY"];
+				if { [string compare -nocase $sensitivity "EDGE_RISING"] != 0 } {
+					error "xps_timer version 1.01b must be patched to rising edge IRQ sensitivity. \
+						Please see Xilinx Answer Record 33880 at http://www.xilinx.com/support/answers/33880.htm \
+						and follow the instructions there."
+				}
+			}
 			#"C_COUNT_WIDTH C_ONE_TIMER_ONLY"]
 		}
 		"xps_sysace" -
@@ -726,11 +932,19 @@ proc gener_slave {node slave intc} {
 		"opb_ethernetlite" -
 		"xps_ethernetlite" -
 		"plb_temac" {
+			#
+			# Add this temac channel to the alias list
+			#
+			variable ethernet_count
+			variable alias_node_list
+			lappend alias_node_list [list ethernet$ethernet_count aliasref $name]
+			incr ethernet_count
+
 			# 'network' type
 			set ip_tree [slaveip_intr $slave $intc [interrupt_list $slave] "ethernet" [default_parameters $slave]]
 			set ip_tree [tree_append $ip_tree [list "device_type" string "network"]]
 			variable mac_count
-			set ip_tree [tree_append $ip_tree [list "local-mac-address" bytesequence [list 02 00 00 00 00 $mac_count]]]
+			set ip_tree [tree_append $ip_tree [list "local-mac-address" bytesequence [list 0x00 0x0a 0x35 0x00 0x00 $mac_count]]]
 			set mac_count [expr $mac_count + 1]
 
 			lappend node $ip_tree
@@ -783,13 +997,22 @@ proc gener_slave {node slave intc} {
 		}
 		"opb_gpio" -
 		"xps_gpio" {
+			# save gpio names and width for gpio reset code
+			global gpio_names
+			lappend gpio_names [list [xget_hw_name $slave] [scan_int_parameter_value $slave "C_GPIO_WIDTH"]]
 			# We should handle this specially, to report two ports.
-			lappend node [slaveip_intr $slave $intc [interrupt_list $slave] "gpio" [default_parameters $slave]]
+			set ip_tree [slaveip_intr $slave $intc [interrupt_list $slave] "gpio" [default_parameters $slave]]
+			set ip_tree [tree_append $ip_tree [list "#gpio-cells" int "2"]]
+			set ip_tree [tree_append $ip_tree [list "gpio-controller" empty empty]]
+			lappend node $ip_tree
 		}
 		"opb_iic" -
 		"xps_iic" {
 			# We should handle this specially, to report two ports.
 			lappend node [slaveip_intr $slave $intc [interrupt_list $slave] "i2c" [default_parameters $slave]]
+		}
+		"xps_usb_host" {
+			lappend node [slaveip_intr $slave $intc [interrupt_list $slave] "usb" [default_parameters $slave] "SPLB_" "" [list "usb-ehci"]]
 		}
 		"plb_bram_if_cntlr" -
 		"opb_bram_if_cntlr" -
@@ -808,6 +1031,7 @@ proc gener_slave {node slave intc} {
 		"plb_emc" -
 		"mch_opb_emc" -
 		"xps_mch_emc" {
+			global main_memory main_memory_bank
 			# Handle flash memories with 'banks'. Generate one flash node
 			# for each bank, if necessary.  If not connected to flash,
 			# then do nothing.
@@ -816,24 +1040,25 @@ proc gener_slave {node slave intc} {
 				set count 1
 			}
 			for {set x 0} {$x < $count} {incr x} {
-				set synch_mem [scan_int_parameter_value $slave [format "C_SYNCH_MEM_%d" $x]]
-				# C_SYNCH_MEM_$x = 0 indicates the bank handles
-				# a flash device and it should be listed as a
-				# slave in fdt.
-				# C_SYNCH_MEM_$x = 1 indicates the bank handles
-				# SRAM and it should be listed as a memory in
-				# fdt.
-				if {$synch_mem == 0} {
-					debug warning "WARNING: Bank $x of EMC core $name is used in asynchronous mode.  We assume this core is connected to a flash memory, although in some older designs this configuration may have been used to interface to a peripheral.  Current design recommendations suggest using an EPC core to interface to such peripherals."
-					set baseaddr_prefix [format "MEM%d_" $x]
-					set tree [slaveip_intr $slave $intc [interrupt_list $slave] "flash" [default_parameters $slave] $baseaddr_prefix "" "cfi-flash"]
+				
+				# Make sure we didn't already register this guy as the main memory.
+				# see main handling in gen_memories
+				if {[ string match -nocase $name $main_memory ] && $x == $main_memory_bank } {
+					continue;
+				}
+				global flash_memory flash_memory_bank
+				set baseaddr_prefix [format "MEM%d_" $x]
+				set tree [slaveip_intr $slave $intc [interrupt_list $slave] "flash" [default_parameters $slave] $baseaddr_prefix "" "cfi-flash"]
 
-					# Flash needs a bank-width attribute.
-					set datawidth [scan_int_parameter_value $slave [format "C_%sWIDTH" $baseaddr_prefix]]
-					set tree [tree_append $tree [list "bank-width" int "[expr ($datawidth/8)]"]]
+				# Flash needs a bank-width attribute.
+				set datawidth [scan_int_parameter_value $slave [format "C_%sWIDTH" $baseaddr_prefix]]
+				set tree [tree_append $tree [list "bank-width" int "[expr ($datawidth/8)]"]]
 
-					lappend node $tree
-				} 
+				# If it is a set as the system Flash memory, change the name of this node to PetaLinux standard system Flash emmory name
+				if {[ string match -nocase $name $flash_memory ] && $x == $flash_memory_bank} {
+					set tree [change_nodename $tree $name "primary_flash"]
+				}
+				lappend node $tree
 			}
 		}
 		"mpmc" {
@@ -843,6 +1068,29 @@ proc gener_slave {node slave intc} {
 			# parameters here because of the slew of parameters the
 			# mpmc has.
 			lappend node [slave_mpmc $slave $intc]
+		}
+		"xps_spi" {
+			# We will handle SPI FLASH here
+			global flash_memory flash_memory_bank
+			set tree [slaveip_intr $slave $intc [interrupt_list $slave] "" [default_parameters $slave] "" ]
+			
+			if {[string match -nocase $flash_memory $name]} {
+				# Add the address-cells and size-cells to make the DTC compiler stop outputing warning
+				set tree [tree_append $tree [list "#address-cells" int "1"]]
+				set tree [tree_append $tree [list "#size-cells" int "0"]]
+				# If it is a SPI FLASH, we will add a SPI Flash
+				# subnode to the SPI controller
+				set subnode {}
+				# Set the SPI Flash chip select
+				lappend subnode [list "reg" hexinttuple [list $flash_memory_bank]]
+				# Set the SPI Flash clock freqeuncy
+				set sys_clk [get_clock_frequency $slave "SPLB_Clk"]
+				set sck_ratio [scan_int_parameter_value $slave "C_SCK_RATIO"]
+				set sck [expr { $sys_clk / $sck_ratio }]
+				lappend subnode [list [format_name "spi-max-frequency"] int $sck]
+				set tree [tree_append $tree [list [format_ip_name $type $flash_memory_bank "primary_flash"] tree $subnode]]
+			}
+			lappend node $tree
 		}
 		"opb2plb_bridge" {
 			# Hmm.. how do we represent this?
@@ -891,6 +1139,56 @@ proc gener_slave {node slave intc} {
 
 			lappend node $tree
 		}
+		"plbv46_pci" {
+			# We can automatically generate the ranges property, but that's about it
+			# the interrupt-map encodes board-level info that cannot be
+			# derived from the MHS.
+			# Default handling for all params first
+			set ip_tree [slaveip_intr $slave $intc [interrupt_list $slave] "plbv46-pci" [default_parameters $slave]]
+
+			# Standard stuff required fror the pci OF bindings
+			set ip_tree [tree_append $ip_tree [list "#size-cells" int "2"]]
+			set ip_tree [tree_append $ip_tree [list "#address-cells" int "3"]]
+			set ip_tree [tree_append $ip_tree [list "#interrupt-cells" int "1"]]
+			set ip_tree [tree_append $ip_tree [list "device_type" string "pci"]]
+			# Generate ranges property.  Lots of assumptions here - 32 bit address space being the main one
+			set ranges ""
+			set ipifbar_num [ scan_int_parameter_value $slave "C_IPIFBAR_NUM"]
+			for {set i 0} {$i < $ipifbar_num} {incr i} {
+				set ipif_spacetype [ scan_int_parameter_value $slave [ format "C_IPIF_SPACETYPE_%i" $i ] ]
+				set ipifbar [ scan_int_parameter_value $slave [ format "C_IPIFBAR_%i" $i ] ]
+				set ipif_highaddr [ scan_int_parameter_value $slave [ format "C_IPIF_HIGHADDR_%i" $i ] ]
+				set ipifbar2pcibar [ scan_int_parameter_value $slave [ format "C_IPIFBAR2PCIBAR_%i" $i ] ]
+				# A quick DRC to make sure the IPIFBAR and IPIFBAR2PCIBAR match
+				# This is a limitation of the kernel PCI layer rather than anything else
+				if { $ipifbar != $ipifbar2pcibar } {
+					error "ERROR: $name:  C_IPIFBAR_$i and C_IPIBAR2PCIBAR_$i must match"
+				}
+				# Different magic number depending upon the type of address space
+				switch $ipif_spacetype {
+					"0" {
+						# IO space
+						set space_code "0x01000000"
+						debug warning "WARNING: $name BAR $i: PCI I/O spaces not supported in Linux kernel PCI drivers"
+					}
+					"1" {
+						# mem space
+						set space_code "0x02000000"
+					}
+				}
+				set ranges [lappend ranges $space_code 0 $ipifbar2pcibar $ipifbar 0 [ expr $ipif_highaddr - $ipifbar + 1 ]]
+			}
+			set ip_tree [tree_append $ip_tree [ list "ranges" hexinttuple $ranges ]]
+
+			# Now the interrupt-map-mask etc
+			set ip_tree [tree_append $ip_tree [ list "interrupt-map-mask" hexinttuple "0xff00 0x0 0x0 0x7" ]]
+
+			# Make sure the user knows they've still got more work to do
+			# If we were prepared to add a custom PARAMETER to the MLD then we could do moer here, but for now this is 
+			# the best we can do
+			debug warning "WARNING: Cannot automatically populate PCI interrupt-map property - this must be completed manually"
+			lappend node $ip_tree
+		}
 		"microblaze" {
 			debug ip "Other Microblaze CPU $name=$type"
 			lappend node [gen_microblaze $slave [default_parameters $slave]]
@@ -901,9 +1199,22 @@ proc gener_slave {node slave intc} {
 		}
 		default {
 			# *Most* IP should be handled by this default case.
-			if {[catch {lappend node [slaveip_intr $slave $intc [interrupt_list $slave] "" [default_parameters $slave] "" ]} {error}]} {
-				debug warning "Warning: Default slave handling for unknown IP $name ($type) Failed...  It won't show up in the device tree."
-				debug warning $error
+			# check if is any parameter BASEADDR
+			set ip_params [xget_hw_parameter_handle $slave "*"]
+			foreach par_name $ip_params {
+				# check all 
+				set name [xget_hw_name $par_name]
+				# remove BASEADDR substring and if is succesful then means that it is there
+				if { [regsub -all "BASEADDR" $name "" name] } {
+					# remove C_ prefix
+					regsub -all "C_" $name "" name
+					# handle slave IP
+					if {[catch {lappend node [slaveip_intr $slave $intc [interrupt_list $slave] "" [default_parameters $slave] $name ]} {error}]} {
+						debug warning "Warning: Default slave handling for unknown IP $name ($type) Failed...  It won't show up in the device tree."
+						debug warning $error
+					}
+					break;
+				}
 			}
 		}
 	}
@@ -1096,12 +1407,16 @@ proc gen_microblaze {tree hwproc_handle params} {
 }
 
 proc gen_memories {tree hwproc_handle} {
+	global main_memory main_memory_bank
 	set mhs_handle [xget_hw_parent_handle $hwproc_handle]
 	set ip_handles [xget_hw_ipinst_handle $mhs_handle "*"]
 	set memory_count 0
 	foreach slave $ip_handles {
 		set name [xget_hw_name $slave]
 		set type [xget_hw_value $slave]
+		if {![string match $name $main_memory]} {
+			continue;
+		}
 		switch $type {
 			"plb_bram_if_cntlr" -
 			"opb_bram_if_cntlr" {
@@ -1138,25 +1453,10 @@ proc gen_memories {tree hwproc_handle} {
 					set count 1
 				}
 				for {set x 0} {$x < $count} {incr x} {
-					switch $type {
-						"plb_emc" -
-						"opb_emc" -
-						"mch_opb_emc" -
-						"xps_mch_emc" {
-							# C_SYNCH_MEM_$x = 0 indicates the bank handles
-							# a flash device and it should be listed as a
-							# slave in fdt.
-							# C_SYNCH_MEM_$x = 1 indicates the bank handles
-							# SRAM and it should be listed as a memory in
-							# fdt.
-							set synch_mem [scan_int_parameter_value $slave [format "C_SYNCH_MEM_%d" $x]]
-							if {$synch_mem == 0} {
-								continue;
-							}
-						}
-					}			
-					lappend tree [memory $slave [format "MEM%d_" $x] ""]
-					set memory_count [expr $memory_count + 1]
+					if { $x == $main_memory_bank } {
+						lappend tree [memory $slave [format "MEM%d_" $x] ""]
+						set memory_count [expr $memory_count + 1]
+					}
 				}
 			}
 			"mpmc" {
@@ -1237,6 +1537,7 @@ proc bus_bridge {slave intc_handle baseaddr face} {
 	set mhs_handle [xget_hw_parent_handle $slave]
 	set bus_handle [xget_hw_ipinst_handle $mhs_handle $bus_name]
 
+#FIXME remove compatible_list property and add simple-bus in  gen_compatible_property function
 	set compatible_list {}
 	if {[llength $bus_handle] == 0} {
 		debug handles "Bus handle $face connected directly..."
@@ -1310,6 +1611,13 @@ proc bus_bridge {slave intc_handle baseaddr face} {
 		}
 	}
 
+	# I have to generate led description on the same level as gpio node is
+	# we are using designs with one plb - that's why is ok to have it here
+	set led [led_gpio]
+	if { "$led" != "" } {
+		lappend bus_node $led
+	}
+
 	lappend bus_node [list \#size-cells int 1]
 	lappend bus_node [list \#address-cells int 1]
 	lappend bus_node [gen_compatible_property $bus_name $bus_type $hw_ver $compatible_list]
@@ -1334,7 +1642,6 @@ proc interrupt_list {ip_handle} {
 	set interrupt_ports {}
 	foreach port $port_handles {
 		set name [xget_value $port "NAME"]
-		set list [xget_hw_subproperty_handle $port "SIGIS"]
 		set sigis [xget_hw_subproperty_value $port "SIGIS"]
 		if {[string match $sigis "INTERRUPT"]} {
 			lappend interrupt_ports $name
@@ -1392,6 +1699,14 @@ proc default_parameters {ip_handle} {
 	return $params
 }
 
+proc parameter_exists {ip_handle name} {
+	set param_handle [xget_hw_parameter_handle $ip_handle $name]
+	if {$param_handle == ""} {
+		return 0
+	}
+	return 1
+}
+
 proc scan_int_parameter_value {ip_handle name} {
 	set param_handle [xget_hw_parameter_handle $ip_handle $name]
 	if {$param_handle == ""} {
@@ -1441,10 +1756,37 @@ proc format_ip_name {devicetype baseaddr {label ""}} {
 	}
 }
 
+# TODO: remove next two lines which is a temporary HACK for CR 532315
+set num_intr_inputs -1
+
 proc gen_params {node_list handle params {trimprefix "C_"} } {
 	foreach par_name $params {
 		if {[catch {
 			set par_value [scan_int_parameter_value $handle $par_name]
+			# TODO: remove next if elseif block which is a temporary HACK for CR 532315
+			if {[string match C_NUM_INTR_INPUTS $par_name]} {
+				set num_intr_inputs $par_value
+			} elseif {[string match C_KIND_OF_INTR $par_name]} {
+				# Pad to 32 bits - num_intr_inputs
+				if {$num_intr_inputs != -1} {
+					set count 0
+					set mask 0
+					set par_mask 0
+					while {$count < $num_intr_inputs} {
+						set mask [expr {1<<$count}]
+						set new_mask [expr {$mask | $par_mask}]
+						set par_mask $new_mask
+						set new_count [expr {$count + 1}]
+						set count $new_count
+					}
+					set par_value_32 $par_value
+					set par_value [expr {$par_value_32 & $par_mask}]
+				} else {
+					debug warning "Warning: num-intr-inputs not set yet, kind-of-intr will be set to zero"
+					set par_value 0
+				}
+					
+			}
 			lappend node_list [list [format_param_name $par_name $trimprefix] hexint $par_value]
 		} {err}]} {
 			set par_handle [xget_hw_parameter_handle $handle $par_name]
@@ -1460,9 +1802,45 @@ proc gen_params {node_list handle params {trimprefix "C_"} } {
 }
 
 proc gen_compatible_property {nodename type hw_ver {other_compatibles {}} } {
+	array set compatible_list [ list \
+		{opb_intc} {xps_intc_1.00.a} \
+		{opb_timer} {xps-timer-1.00.a} \
+		{xps_timer} {xps-timer-1.00.a} \
+		{plb_v46} {plb_v46_1.00.a} \
+		{plbv46_pci} {plbv46_pci_1.03.a} \
+		{xps_bram_if_cntlr} {xps_bram_if_cntlr_1.00.a} \
+		{xps_ethernetlite} {xps_ethernetlite_1.00.a} \
+		{xps_gpio} {xps_gpio_1.00.a} \
+		{xps_hwicap} {xps_hwicap_1.00.a} \
+		{xps_iic} {xps_iic_2.00.a} \
+		{xps_intc} {xps_intc_1.00.a} \
+		{xps_ll_temac} {xps_ll_temac_1.00.a} \
+		{xps_ps2} {xps_ps2_1.00.a} \
+		{xps_spi_2} {xps_spi_2.00.a} \
+		{xps_uart16550_2} {xps_uart16550_2.00.a} \
+		{xps_uartlite} {xps_uartlite_1.00.a} \
+		{xps_can} {xps_can_1.00.a} \
+		{xps_sysace} {xps_sysace_1.00.a} \
+		{xps_usb_host} {xps_usb_host_1.00.a} \
+	]
+
 	if {$hw_ver != ""} {
 		set namewithver [format "%s_%s" $type $hw_ver]
 		set clist [list [format_xilinx_name "$namewithver"]]
+		regexp {([^\.]*)} $hw_ver hw_ver_wildcard
+		set namewithwildcard [format "%s_%s" $type $hw_ver_wildcard]
+		if { [info exists compatible_list($namewithver)] } {              # Check exact match
+			set add_clist [list [format_xilinx_name "$compatible_list($namewithver)"]]
+			set clist [concat $clist $add_clist]
+		} elseif { [info exists compatible_list($namewithwildcard)] } {   # Check major wildcard match
+			set add_clist [list [format_xilinx_name "$compatible_list($namewithwildcard)"]]
+			set clist [concat $clist $add_clist]
+		} elseif { [info exists compatible_list($type)] } {               # Check type wildcard match
+			set add_clist [list [format_xilinx_name "$compatible_list($type)"]]
+			if { ![string match $clist $add_clist] } {
+				set clist [concat $clist $add_clist]
+			}
+		}
 	} else {
 		set clist [list [format_xilinx_name "$type"]]
 	}
@@ -1566,6 +1944,14 @@ proc write_value {file indent type value} {
 			puts -nonewline $file "\]"
 		} elseif {$type == "labelref"} {
 			puts -nonewline $file "= <&$value>"
+		} elseif {$type == "labelref-ext"} {
+			puts -nonewline $file "= < &"
+			foreach element $value {
+				puts -nonewline $file "$element "
+			}
+			puts -nonewline $file ">"
+		} elseif {$type == "aliasref"} {
+			puts -nonewline $file "= &$value"
 		} elseif {$type == "string"} {
 			puts -nonewline $file "= \"$value\""
 		} elseif {$type == "stringtuple"} {
