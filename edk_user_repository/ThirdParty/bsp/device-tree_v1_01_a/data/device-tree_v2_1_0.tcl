@@ -1199,22 +1199,9 @@ proc gener_slave {node slave intc} {
 		}
 		default {
 			# *Most* IP should be handled by this default case.
-			# check if is any parameter BASEADDR
-			set ip_params [xget_hw_parameter_handle $slave "*"]
-			foreach par_name $ip_params {
-				# check all 
-				set name [xget_hw_name $par_name]
-				# remove BASEADDR substring and if is succesful then means that it is there
-				if { [regsub -all "BASEADDR" $name "" name] } {
-					# remove C_ prefix
-					regsub -all "C_" $name "" name
-					# handle slave IP
-					if {[catch {lappend node [slaveip_intr $slave $intc [interrupt_list $slave] "" [default_parameters $slave] $name ]} {error}]} {
-						debug warning "Warning: Default slave handling for unknown IP $name ($type) Failed...  It won't show up in the device tree."
-						debug warning $error
-					}
-					break;
-				}
+			if {[catch {lappend node [slaveip_intr $slave $intc [interrupt_list $slave] "" [default_parameters $slave] "" ]} {error}]} {
+				debug warning "Warning: Default slave handling for unknown IP $name ($type) Failed...  It won't show up in the device tree."
+				debug warning $error
 			}
 		}
 	}

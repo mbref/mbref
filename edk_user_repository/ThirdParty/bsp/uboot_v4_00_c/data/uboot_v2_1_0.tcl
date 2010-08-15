@@ -45,6 +45,16 @@ proc generate {os_handle} {
 proc post_generate {lib_handle} {
 }
 
+# Return the clock frequency attribute of the port of the given ip core.
+proc get_clock_frequency {ip_handle portname} {
+	set clk ""
+	set clkhandle [xget_hw_port_handle $ip_handle $portname]
+	if {[string compare -nocase $clkhandle ""] != 0} {
+		set clk [xget_hw_subproperty_value $clkhandle "CLK_FREQ_HZ"]
+	}
+	return $clk
+}
+
 proc generate_uboot {os_handle} {
 	puts "\#--------------------------------------"
 	puts "\# uboot BSP generate..."
@@ -107,6 +117,9 @@ proc generate_uboot {os_handle} {
 							puts $config_file "#define XILINX_USE_DCACHE\t$arg_value"
 						}
 					}
+					DCACHE_BYTE_SIZE {
+						puts $config_file "#define XILINX_DCACHE_BYTE_SIZE\t$arg_value"
+					}
 					#DCACHE_BASEADDR {
 					#	puts $config_file "#define XILINX_DCACHE_BASEADDR\t$arg_value"
 					#}
@@ -155,25 +168,41 @@ proc generate_uboot {os_handle} {
 			}
 
 			# OPB bus resolve
-			set dopb [xget_handle $hwproc_handle "BUS_INTERFACE" "DOPB"]
-			set dopb [xget_value $dopb "VALUE"]
-			set iopb [xget_handle $hwproc_handle "BUS_INTERFACE" "IOPB"]
-			set iopb [xget_value $iopb "VALUE"]
-			if { $dopb == $iopb } {
-				set system_bus "$dopb"
-				puts "System bus for instruction and data $dopb"
-				#testing
-				#	set bus [xget_sw_parameter_value $os_handle "opb_v20"]
-				##	set bus_handle [xget_sw_ipinst_handle_from_processor $proc_handle $bus]
-				##	set hodn [xget_sw_parameter_value $bus_handle "C_EXT_RESET_HIGH"]
-				#	puts "fdf $bus fds"
-				#	set clk [xget_handle $dopb "PORT" "OPB_Clk"]
-				#	puts "$clk"
-				#	set clk [xget_value $clk "VALUE"]
-				#	error "$clk"
-				#end testing
+			set busif_handle [xget_hw_busif_handle $hwproc_handle "DPLB"]
+			if {[llength $busif_handle] != 0} {
+				# Microblaze v7 has PLB.
+				set dplb [xget_handle $hwproc_handle "BUS_INTERFACE" "DPLB"]
+				set dplb [xget_value $dplb "VALUE"]
+				set iplb [xget_handle $hwproc_handle "BUS_INTERFACE" "IPLB"]
+				set iplb [xget_value $iplb "VALUE"]
+				if { $dplb == $iplb } {
+					set system_bus "$dplb"
+					puts "System bus for instruction and data $dplb"
+				} else {
+					error "different microblaze architecture - dual busses $iplb $dplb"
+				}
 			} else {
-				error "different microblaze architecture - dual busses $iopb $dopb"
+				# Older microblazes have OPB.
+				set dopb [xget_handle $hwproc_handle "BUS_INTERFACE" "DOPB"]
+				set dopb [xget_value $dopb "VALUE"]
+				set iopb [xget_handle $hwproc_handle "BUS_INTERFACE" "IOPB"]
+				set iopb [xget_value $iopb "VALUE"]
+				if { $dopb == $iopb } {
+					set system_bus "$dopb"
+					puts "System bus for instruction and data $dopb"
+					#testing
+					#	set bus [xget_sw_parameter_value $os_handle "opb_v20"]
+					##	set bus_handle [xget_sw_ipinst_handle_from_processor $proc_handle $bus]
+					##	set hodn [xget_sw_parameter_value $bus_handle "C_EXT_RESET_HIGH"]
+					#	puts "fdf $bus fds"
+					#	set clk [xget_handle $dopb "PORT" "OPB_Clk"]
+					#	puts "$clk"
+					#	set clk [xget_value $clk "VALUE"]
+					#	error "$clk"
+					#end testing
+				} else {
+					error "different microblaze architecture - dual busses $iopb $dopb"
+				}
 			}
 			puts $config_file ""
 			uboot_intc $os_handle $proc_handle $config_file $config_file2 $system_bus
@@ -379,19 +408,41 @@ proc uboot_intc {os_handle proc_handle config_file config_file2 system_bus} {
 	} else {
 		set flash_mem_handle [xget_sw_ipinst_handle_from_processor $proc_handle $flash_mem]
 		set flash_mem_bank [xget_sw_parameter_value $os_handle "flash_memory_bank"]
-		set base_param_name [format "C_MEM%i_BASEADDR" $flash_mem_bank]
-		set high_param_name [format "C_MEM%i_HIGHADDR" $flash_mem_bank]
-		set flash_start [xget_sw_parameter_value $flash_mem_handle $base_param_name]
-		set flash_end [xget_sw_parameter_value $flash_mem_handle $high_param_name]
-		set flash_size [expr $flash_end - $flash_start + 1]
-		set flash_start [format "0x%08x" $flash_start]
-		set flash_size [format "0x%08x" $flash_size]
-		if {$eram_base < $flash_start} {
-			puts $config_file "/* Flash Memory is $flash_mem */"
-			puts $config_file "#define XILINX_FLASH_START\t$flash_start"
-			puts $config_file "#define XILINX_FLASH_SIZE\t$flash_size"
-		} else {
-			error "Flash base address must be on higher address than ram memory"
+		set flash_type [xget_hw_value $flash_mem_handle];
+		puts $config_file "/* Flash Memory is $flash_mem */"
+
+		# Handle different FLASHs differently
+		switch -exact $flash_type {
+			"xps_spi" {
+				# SPI FLASH
+				# Set the SPI FLASH's SPI controller's base address.
+				set spi_start [xget_sw_parameter_value $flash_mem_handle "C_BASEADDR"]
+				puts $config_file "#define XILINX_SPI_FLASH_BASEADDR\t$spi_start"
+				# Set the SPI FLASH clock frequency
+				set sys_clk [get_clock_frequency $flash_mem_handle "SPLB_CLK"]
+				set sck_ratio [xget_sw_parameter_value $flash_mem_handle "C_SCK_RATIO"]
+				set sck [expr { $sys_clk / $sck_ratio }]
+				puts $config_file "#define XILINX_SPI_FLASH_MAX_FREQ\t$sck"
+				# Set the SPI FLASH chip select
+				global flash_memory_bank
+				puts $config_file "#define XILINX_SPI_FLASH_CS\t$flash_memory_bank"
+			}
+			default {
+				# Parallel Flash
+				set base_param_name [format "C_MEM%i_BASEADDR" $flash_mem_bank]
+				set high_param_name [format "C_MEM%i_HIGHADDR" $flash_mem_bank]
+				set flash_start [xget_sw_parameter_value $flash_mem_handle $base_param_name]
+				set flash_end [xget_sw_parameter_value $flash_mem_handle $high_param_name]
+				set flash_size [expr $flash_end - $flash_start + 1]
+				set flash_start [format "0x%08x" $flash_start]
+				set flash_size [format "0x%08x" $flash_size]
+				if {$eram_base < $flash_start} {
+					puts $config_file "#define XILINX_FLASH_START\t$flash_start"
+					puts $config_file "#define XILINX_FLASH_SIZE\t$flash_size"
+				} else {
+					error "Flash base address must be on higher address than ram memory"
+				}
+			}
 		}
 	}
 	puts $config_file ""
@@ -542,9 +593,9 @@ proc uboot_intc {os_handle proc_handle config_file config_file2 system_bus} {
 	puts $config_file2 ""
 	if {$text_base == 0} {
 		if {[llength $eram_base] != 0 } {
-			set half [format "0x%08x" [expr $eram_high - 0xC0000 ]]
+			set half [format "0x%08x" [expr $eram_high - 0x100000 ]]
 			puts $config_file2 "TEXT_BASE = $half"
-			puts "WARNING automatic U-BOOT position = $half"
+			puts "INFO automatic U-BOOT position = $half"
 		} else {
 			error "Main memory is not defined"
 		}
