@@ -389,6 +389,7 @@ proc put_processor_cfg_ch {pkg fh hh} {
 				"xlboot" {
 					set defpre_hwproc ""
 					array set define {
+						CLK			XLB_MB_CLOCK_FREQ
 						FAMILY			XLB_MB_FAMILY
 						HW_VER			XLB_MB_HW_VER
 					}
@@ -725,6 +726,14 @@ proc put_timer_cfg_ch {pkg fh osh th} {
 				BASEADDR	CONFIG_XILINX_TIMER_0_BASEADDR
 			}
 		}
+		"xlboot" {
+			set defpre_hwproc ""
+			#	HIGHADDR	XLB_TIMER_0_HIGHADDR
+			#	Interrupt	XLB_TIMER_0_IRQ
+			array set define {
+				BASEADDR	XLB_TIMER_0_BASEADDR
+			}
+		}
 		"uboot" {
 			set defpre_hwproc ""
 			#	HIGHADDR	XILINX_TIMER_HIGHADDR
@@ -737,7 +746,6 @@ proc put_timer_cfg_ch {pkg fh osh th} {
 			set defpre_hwproc XILINX_TIMER_0
 			array set define {}
 		}
-		"xlboot" -
 		"linux-26" -
 		default {
 			set defpre_hwproc ""
