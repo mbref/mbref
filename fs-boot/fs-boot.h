@@ -22,10 +22,21 @@
  */
 #include "auto-config.h"
 
-#ifdef CONFIG_UARTLITE
+#if defined(CONFIG_UARTLITE)
 #include "xuartlite_l.h"
-#elif CONFIG_UART16550
+#if !defined(XUartLite_mReadReg)
+#define CONFIG_FS_NEED_XIL_MACROBACK
+#endif
+#elif defined(CONFIG_UART16550)
 #include "xuartns550_l.h"
+#if !defined(XUartNs550_mReadReg)
+#define CONFIG_FS_NEED_XIL_MACROBACK
+#endif
+#endif
+
+/* Test and bring back the removed _m macros. */
+#if defined(CONFIG_FS_NEED_XIL_MACROBACK)
+#include "xil_macroback.h"
 #endif
 
 #if DEBUG
@@ -33,7 +44,9 @@
 #endif
 
 /* FS-BOOT Configuration */
-#define CONFIG_FS_BOOT_DELAY	3
+#ifndef CONFIG_FS_BOOT_DELAY
+#define CONFIG_FS_BOOT_DELAY	3	/* Default to 3 seconds */
+#endif
 
 /*! Debug flag to turn on debug messages */
 #define DEBUG 0

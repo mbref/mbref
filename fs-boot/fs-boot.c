@@ -87,7 +87,7 @@ static void opb_timer_init(void)
  *
  * @return  None.
  */
-#ifdef CONFIG_UARTLITE
+#if defined(CONFIG_UARTLITE)
 static void uart_init(void)
 {
     /* All mode and baud setup is done in hardware level */
@@ -96,7 +96,7 @@ static void uart_init(void)
                                            XUL_CR_FIFO_RX_RESET  |
                                            XUL_CR_FIFO_TX_RESET));
 }
-#elif CONFIG_UART16550
+#elif defined(CONFIG_UART16550)
 static void uart_init(void)
 {
    XUartNs550_SetBaud(UART_BASEADDR, CONFIG_XILINX_UART16550_0_CLOCK_HZ, 115200);
@@ -153,13 +153,13 @@ void fs_memcpy(volatile char *dst, char *src, int len)
  *
  * @return  The character read.
  */
-#ifdef CONFIG_UARTLITE
+#if defined(CONFIG_UARTLITE)
 char get_ch(void)
 {
     while(XUartLite_mIsReceiveEmpty(UART_BASEADDR));
         return XUartLite_RecvByte(UART_BASEADDR);
 }
-#elif CONFIG_UART16550
+#elif defined(CONFIG_UART16550)
 char get_ch(void)
 {
     while (!XUartNs550_mIsReceiveData(UART_BASEADDR));
@@ -175,7 +175,7 @@ char get_ch(void)
  *
  * @return  The character read.
  */
-#ifdef CONFIG_UARTLITE
+#if defined(CONFIG_UARTLITE)
 char get_c(void)
 {
     if(XUartLite_mIsReceiveEmpty(UART_BASEADDR)) {
@@ -184,7 +184,7 @@ char get_c(void)
         return XUartLite_RecvByte(UART_BASEADDR);
     }
 }
-#elif CONFIG_UART16550
+#elif defined(CONFIG_UART16550)
 char get_c(void)
 {
 	if (!XUartNs550_mIsReceiveData(UART_BASEADDR)) {
@@ -203,7 +203,7 @@ char get_c(void)
  *
  * @return  None.
  */
-#ifdef CONFIG_UARTLITE
+#if defined(CONFIG_UARTLITE)
 void put_ch(unsigned char data)
 {
     while (XUartLite_mIsTransmitFull(UART_BASEADDR));
@@ -211,7 +211,7 @@ void put_ch(unsigned char data)
 
     return;
 }
-#elif CONFIG_UART16550
+#elif defined(CONFIG_UART16550)
 void put_ch (unsigned char data)
 {
     XUartNs550_SendByte(UART_BASEADDR, data);
@@ -439,6 +439,9 @@ void fsprint(char *s)
 
 /*---------------------------------------------------------------------------*/
 
+#define xstr(s) str(s)
+#define str(s)  #s
+
 int main()
 {
     unsigned long image_start = 0;   /* The address of the final boot image */
@@ -455,14 +458,9 @@ int main()
 #if defined(CONFIG_FS_KERNEL)
     int do_kernel = 0;
 #endif
-	int bootdelay;			/* number of seconds delay */
+    int bootdelay;		/* number of seconds delay */
 
-#if defined (CONFIG_FS_BOOT_DELAY)
     bootdelay = CONFIG_FS_BOOT_DELAY;
-#else
-    /* Default to 3 seconds */
-    bootdelay = 3;
-#endif	
  
     /* UART Initialisation - no printing before this */
     uart_init();
@@ -481,11 +479,12 @@ int main()
 	"K"
 #endif
 	"\n\rSerial console: "
-#ifdef CONFIG_UARTLITE
+#if defined(CONFIG_UARTLITE)
 	"Uartlite\n\r"
-#elif CONFIG_UART16550
+#elif defined(CONFIG_UART16550)
 	"Uart16550\n\r"
 #endif
+	"FS-BLOB at: " xstr(CONFIG_FS_BOOT_START) "\n\r"
 	"=================================================\n\r");
 
     /* Counter/Timer initialisation */
@@ -498,6 +497,7 @@ int main()
     fsprint("FS-BOOT: Booting bootloader. Press 'k' for booting kernel.\n\r");
     /* Delay x secs */
     for(i = 0; i < (bootdelay * 100); i++) {
+	if (!(i % 100)) put_ch('.');
         if(get_c() == 'k') {
             do_kernel = 1;
             break;
@@ -537,6 +537,7 @@ int main()
 		fsprint("FS-BOOT: Booting from FLASH. Press 's' for image download.\n\r");
 		/* x second loop */
 		for(i = 0; i < (bootdelay * 100); i++) {
+			if (!(i % 100)) put_ch('.');
 			if(get_c() == 's') {
 				do_srec = 1;
 				break;
@@ -571,6 +572,7 @@ int main()
             fsprint("FS-BOOT: Press 'n' to boot old image.\n\r");
             /* x second loop */
             for(i = 0; i < (bootdelay * 100); i++) {
+		if (!(i % 100)) put_ch('.');
                 if(get_c() == 'n') {
                     boot_new = 0;
                     break;
