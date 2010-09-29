@@ -10,6 +10,7 @@ SDK
 report
 blkdiagram
 fs-boot
+xl-boot
 __xps
 platgen.opt
 *.log
