@@ -1,9 +1,11 @@
 #
-# EDK BSP board generation for U-boot supporting Microblaze and PPC
+# EDK BSP generator for U-boot supporting Microblaze and PPC
 #
 # (C) Copyright 2007-2008 Michal Simek
-#
 # Michal SIMEK <monstr@monstr.eu>
+#
+# (C) Copyright 2010 Li-Pro.Net
+# Stephan Linz <linz@li-pro.net>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -23,55 +25,85 @@
 # Project description at http://www.monstr.eu/uboot/
 #
 
-# Globals variable
-set version "U-BOOT v4.00.c"
-set cpunumber 0
-set periphery_array ""
+#############################################################################
+#                                                                           #
+#       This version of EDK BSP generator for U-boot will be removed        #
+#       as soon as possible in the near future.   Please install and        #
+#       use the next version: v4.02.a                                       #
+#                                                                           #
+#############################################################################
 
+#############################################################################
+#   Exported variables
+#
+variable pkg_name
+variable pkg_version
+variable uboot_verstr
+
+#############################################################################
+#  Package meta
+#
+set pkg_name "uboot"
+set pkg_version "4.01.a"
+
+#############################################################################
+#   Globals functions
+#
+if { ![namespace exists ::sw_tpos_misclib] } {
+	namespace eval ::sw_tpos_misclib source "../../../lib/tpos_misclib.tcl"
+}
+namespace import ::sw_tpos_misclib::debug
+namespace import ::sw_tpos_misclib::get_version_string
+namespace import ::sw_tpos_misclib::direct_path
+namespace import ::sw_tpos_misclib::get_project_folder
+namespace import ::sw_tpos_misclib::open_project_file
+
+#############################################################################
+#   Global variables
+#
+set uboot_verstr [get_version_string ${pkg_name} ${pkg_version}]
+
+#############################################################################
+#   DRC			the name of the DRC given in the MLD file
+#			(DRC => Design Rule Check)
+#
 proc uboot_drc {os_handle} {
-	puts "\#--------------------------------------"
-	puts "\# uboot BSP DRC...!"
-	puts "\#--------------------------------------"
+	variable uboot_verstr
+	debug info "\#--------------------------------------"
+	debug info "\# ${uboot_verstr} BSP DRC...!"
+	debug info "\#--------------------------------------"
 }
 
+#############################################################################
+#   generate		Libgen defined procedure called after OS and library
+#			files are copied
+#
 proc generate {os_handle} {
+	variable uboot_verstr
+	debug info "\#--------------------------------------"
+	debug info "\# ${uboot_verstr} BSP generate..."
+	debug info "\#--------------------------------------"
 	generate_uboot $os_handle
 }
 
-# procedure post_generate
-# This generates the drivers directory for uboot
-# and runs the ltypes script
-
+#############################################################################
+#   post_generate	Libgen defined procedure called after generate has
+#			been called on all OSs, drivers, and libraries
+#
 proc post_generate {lib_handle} {
+	# This generates the drivers directory for uboot
+	# and runs the ltypes script
 }
 
-# Return the clock frequency attribute of the port of the given ip core.
-proc get_clock_frequency {ip_handle portname} {
-	set clk ""
-	set clkhandle [xget_hw_port_handle $ip_handle $portname]
-	if {[string compare -nocase $clkhandle ""] != 0} {
-		set clk [xget_hw_subproperty_value $clkhandle "CLK_FREQ_HZ"]
-	}
-	return $clk
-}
-
+#############################################################################
+#   Local functions
+#
 proc generate_uboot {os_handle} {
-	puts "\#--------------------------------------"
-	puts "\# uboot BSP generate..."
-	puts "\#--------------------------------------"
+	variable uboot_verstr
+	set config_file2  [open_project_file "config.mk" "U-Boot Configurations" ${uboot_verstr}]
+	set config_file  [open_project_file "xparameters.h" "U-Boot Configurations" ${uboot_verstr}]
 
-	# Open files and print GPL licence
-	set config_file2 [open "config.mk" w]
-	headerm $config_file2
-	set config_file [open "xparameters.h" w]
-	headerc $config_file
-
-	set folder "[exec pwd]"
-	set folder [string range $folder 0 [expr [string last "/" $folder] - 1]]
-	set folder [string range $folder 0 [expr [string last "/" $folder] - 1]]
-	set folder [string range $folder 0 [expr [string last "/" $folder] - 1]]
-	set folder [exec basename $folder]
-	puts $config_file "#define XILINX_BOARD_NAME\t$folder\n"
+	puts $config_file "#define XILINX_BOARD_NAME\t[file tail [get_project_folder]]\n"
 
 	# ******************************************************************************
 	# print system clock
@@ -219,6 +251,16 @@ proc generate_uboot {os_handle} {
 	}
 	close $config_file
 	close $config_file2
+}
+
+# Return the clock frequency attribute of the port of the given ip core.
+proc get_clock_frequency {ip_handle portname} {
+	set clk ""
+	set clkhandle [xget_hw_port_handle $ip_handle $portname]
+	if {[string compare -nocase $clkhandle ""] != 0} {
+		set clk [xget_hw_subproperty_value $clkhandle "CLK_FREQ_HZ"]
+	}
+	return $clk
 }
 
 #function for handling adress
@@ -619,11 +661,13 @@ proc uboot_intc {os_handle proc_handle config_file config_file2 system_bus} {
 }
 
 proc headerm {ufile} {
-	variable version
+	variable uboot_verstr
 	puts $ufile "\#"
 	puts $ufile "\# (C) Copyright 2007-2008 Michal Simek"
-	puts $ufile "\#"
 	puts $ufile "\# Michal SIMEK <monstr@monstr.eu>"
+	puts $ufile "\#"
+	puts $ufile "\# (C) Copyright 2010 Li-Pro.Net"
+	puts $ufile "\# Stephan Linz <linz@li-pro.net>"
 	puts $ufile "\#"
 	puts $ufile "\# This program is free software; you can redistribute it and/or"
 	puts $ufile "\# modify it under the terms of the GNU General Public License as"
@@ -642,18 +686,20 @@ proc headerm {ufile} {
 	puts $ufile "\#"
 	puts $ufile "\# CAUTION: This file is automatically generated by libgen."
 	puts $ufile "\# Version: [xget_swverandbld]"
-	puts $ufile "\# Generate by $version"
+	puts $ufile "\# Generate by ${uboot_verstr}"
 	puts $ufile "\# Project description at http://www.monstr.eu/uboot/"
 	puts $ufile "\#"
 	puts $ufile ""
 }
 
 proc headerc {ufile} {
-	variable version
+	variable uboot_verstr
 	puts $ufile "/*"
 	puts $ufile " * (C) Copyright 2007-2008 Michal Simek"
-	puts $ufile " *"
 	puts $ufile " * Michal SIMEK <monstr@monstr.eu>"
+	puts $ufile " *"
+	puts $ufile " * (C) Copyright 2010 Li-Pro.Net"
+	puts $ufile " * Stephan Linz <linz@li-pro.net>"
 	puts $ufile " *"
 	puts $ufile " * This program is free software; you can redistribute it and/or"
 	puts $ufile " * modify it under the terms of the GNU General Public License as"
@@ -672,7 +718,7 @@ proc headerc {ufile} {
 	puts $ufile " *"
 	puts $ufile " * CAUTION: This file is automatically generated by libgen."
 	puts $ufile " * Version: [xget_swverandbld]"
-	puts $ufile " * Generate by $version"
+	puts $ufile " * Generate by ${uboot_verstr}"
 	puts $ufile " * Project description at http://www.monstr.eu/uboot/"
 	puts $ufile " */"
 	puts $ufile ""
@@ -764,9 +810,4 @@ proc get_handle_to_intc {proc_handle port_name} {
 	#	set name [xget_hw_name $intc]
 	#	puts "$intc $name"
 	return $intc
-}
-
-
-proc debug {level message} {
-#	puts "$message"
 }
