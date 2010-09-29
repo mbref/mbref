@@ -2,10 +2,13 @@
 # EDK BSP board generation for device trees supporting Microblaze and PPC
 #
 # (C) Copyright 2007-2008 Xilinx, Inc.
+#
 # Based on original code:
 # (C) Copyright 2007-2009 Michal Simek
-#
 # Michal SIMEK <monstr@monstr.eu>
+#
+# (C) Copyright 2010 Li-Pro.Net
+# Stephan Linz <linz@li-pro.net>
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License as
@@ -21,33 +24,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston,
 # MA 02111-1307 USA
-
-# Debug mechanism.
-set debug_level {}
-# Uncomment the line below to get general progress messages.
-lappend debug_level [list "info"]
-# Uncomment the line below to get warnings about IP core usage.
-lappend debug_level [list "warning"]
-# Uncomment the line below to get a summary of clock analysis.
-lappend debug_level [list "clock"]
-# Uncomment the line below to get verbose IP information.
-lappend debug_level [list "ip"]
-# Uncomment the line below to get debugging information about EDK handles.
-# lappend debug_level [list "handles"]
-
-
-# Globals variable
-set device_tree_generator_version "1.1"
-set cpunumber 0
-set periphery_array ""
-set uartlite_count 0
-set mac_count 0
-set gpio_names {}
-set overrides {}
-
-set serial_count 0
-set ethernet_count 0
-set alias_node_list {}
+#
+# Project description at http://www.monstr.eu/fdt/
+#
 
 #
 # How to use generate_device_tree() from another MLD
@@ -83,22 +62,79 @@ set alias_node_list {}
 #     device_tree::generate_device_tree "linux/arch/powerpc/boot/dts/$dts_name" $kcmd_line
 #
 
+#############################################################################
+#   Exported variables
+#
+variable pkg_name
+variable pkg_version
+variable devtree_verstr
+variable cpunumber
+variable periphery_array
+variable serial_count
+variable uartlite_count
+variable ethernet_count
+variable mac_count
+
+#############################################################################
+#  Package meta
+#
+set pkg_name	"device-tree"
+set pkg_version	"1.02.a"
+
+#############################################################################
+#   Globals functions
+#
+if { ![namespace exists ::sw_tpos_misclib] } {
+	namespace eval ::sw_tpos_misclib source "../../../lib/tpos_misclib.tcl"
+}
+namespace import ::sw_tpos_misclib::debug
+namespace import ::sw_tpos_misclib::get_version_string
+namespace import ::sw_tpos_misclib::direct_path
+namespace import ::sw_tpos_misclib::get_project_folder
+
+#############################################################################
+#   Global variables
+#
+set devtree_verstr [get_version_string ${pkg_name} ${pkg_version}]
+
+# cpu parameters to generate the DTS (achieve in parts from the MLD file):
+set cpunumber 0
+set periphery_array ""
+set serial_count 0
+set uartlite_count 0
+set mac_count 0
+set ethernet_count 0
+set gpio_names {}
+set overrides {}
+
+# misc
+set alias_node_list {}
+
+#############################################################################
+#   DRC			the name of the DRC given in the MLD file
+#			(DRC => Design Rule Check)
+#
 proc device_tree_drc {os_handle} {
+	variable devtree_verstr
 	debug info "\#--------------------------------------"
-	debug info "\# device-tree BSP DRC...!"
+	debug info "\# ${devtree_verstr} BSP DRC...!"
 	debug info "\#--------------------------------------"
 }
 
+#############################################################################
+#   generate		Libgen defined procedure called after OS and library
+#			files are copied
+#
 proc generate {os_handle} {
-	variable  device_tree_generator_version
+	variable devtree_verstr
 
 	debug info "\#--------------------------------------"
-	debug info "\# device-tree BSP generate..."
+	debug info "\# ${devtree_verstr} BSP generate..."
 	debug info "\#--------------------------------------"
 
-	set bootargs [xget_sw_parameter_value $os_handle "bootargs"]
+	set bootargs [xget_sw_parameter_value $os_handle "linux_bootargs"]
 	set consoleip [xget_sw_parameter_value $os_handle "stdout"]
-	global overrides
+	variable overrides
 	set overrides [xget_sw_parameter_value $os_handle "periph_type_overrides"]
 	global main_memory
 	set main_memory [xget_sw_parameter_value $os_handle "main_memory"]
@@ -111,9 +147,20 @@ proc generate {os_handle} {
 	generate_device_tree "xilinx.dts" $bootargs $consoleip
 }
 
+#############################################################################
+#   post_generate	Libgen defined procedure called after generate has
+#			been called on all OSs, drivers, and libraries
+#
+proc post_generate {lib_handle} {
+	# nothing to do (perhaps not yet)
+}
+
+#############################################################################
+#   Local functions
+#
 proc generate_device_tree {filepath bootargs {consoleip ""}} {
-	variable  device_tree_generator_version
-	debug info "--- device tree generator version: v$device_tree_generator_version ---"
+	variable pkg_version
+	debug info "--- device tree generator version: v${pkg_version} ---"
 	debug info "generating $filepath"
 
 	set toplevel {}
@@ -121,7 +168,7 @@ proc generate_device_tree {filepath bootargs {consoleip ""}} {
 	set proc_handle [xget_libgen_proc_handle]
 	set hwproc_handle [xget_handle $proc_handle "IPINST"]
 
-# Clock port summary
+	# Clock port summary
 	debug clock "Clock Port Summary:"
 	set mhs_handle [xget_hw_parent_handle $hwproc_handle]
 	set ips [xget_hw_ipinst_handle $mhs_handle "*"]
@@ -282,15 +329,14 @@ proc generate_device_tree {filepath bootargs {consoleip ""}} {
 	}
 	lappend toplevel [list chosen tree $chosen]
 
-	#
 	# Add the alias section to toplevel
-	#
 	lappend toplevel [list aliases tree $alias_node_list]
 	
 	set toplevel [gen_memories $toplevel $hwproc_handle]
 
+	variable pkg_version
 	set toplevel_file [open $filepath w]
-	headerc $toplevel_file $device_tree_generator_version
+	headerc $toplevel_file ${pkg_version}
 	puts $toplevel_file "/dts-v1/;"
 	puts -nonewline $toplevel_file "/ "
 	write_tree 0 $toplevel_file $toplevel
@@ -298,27 +344,18 @@ proc generate_device_tree {filepath bootargs {consoleip ""}} {
 	close $toplevel_file
 }
 
-proc post_generate {lib_handle} {
-}
-
-
-proc prj_dir {} {
-    set old_cwd [pwd]
-    cd "../../.."
-    set _prj_dir [pwd]
-    cd $old_cwd
-
-    return [exec bash -c "basename $_prj_dir"]
-}
-
 proc headerc {ufile generator_version} {
 	puts $ufile "/*"
 	puts $ufile " * Device Tree Generator version: $generator_version"
 	puts $ufile " *"
 	puts $ufile " * (C) Copyright 2007-2008 Xilinx, Inc."
-	puts $ufile " * (C) Copyright 2007-2009 Michal Simek"
 	puts $ufile " *"
+	puts $ufile " * Based on original code:"
+	puts $ufile " * (C) Copyright 2007-2009 Michal Simek"
 	puts $ufile " * Michal SIMEK <monstr@monstr.eu>"
+	puts $ufile " *"
+	puts $ufile " * (C) Copyright 2010 Li-Pro.Net"
+	puts $ufile " * Stephan Linz <linz@li-pro.net>"
 	puts $ufile " *"
 	puts $ufile " * This program is free software; you can redistribute it and/or"
 	puts $ufile " * modify it under the terms of the GNU General Public License as"
@@ -338,7 +375,7 @@ proc headerc {ufile generator_version} {
 	puts $ufile " * CAUTION: This file is automatically generated by libgen."
 	puts $ufile " * Version: [xget_swverandbld]"
 	puts $ufile " *"
-	puts $ufile " * XPS project directory: [prj_dir]"
+	puts $ufile " * XPS project directory: [file tail [get_project_folder]]"
 	puts $ufile " */"
 	puts $ufile ""
 }
@@ -350,7 +387,7 @@ proc headerc {ufile generator_version} {
 #
 # PARAMETER periph_type_overrides = {hard-reset-gpios Reset_GPIO 1 1}
 proc reset_gpio {} {
-	global overrides
+	variable overrides
 	# ignore size parameter
 	set reset {}
 	foreach over $overrides {
@@ -381,7 +418,7 @@ proc reset_gpio {} {
 #
 # PARAMETER periph_type_overrides = {led heartbeat LEDs_8Bit 5 5} {led yellow LEDs_8Bit 7 2} {led green LEDs_8Bit 4 1}
 proc led_gpio {} {
-	global overrides
+	variable overrides
 	set tree {}
 	foreach over $overrides {
 		# parse hard-reset-gpio keyword
@@ -663,9 +700,7 @@ proc slave_ll_temac_port {slave intc index} {
 	set baseaddr [expr $baseaddr + $index * 0x40]
 	set highaddr [expr $baseaddr + 0x3f]
 
-	#
 	# Add this temac channel to the alias list
-	#
 	variable ethernet_count
 	variable alias_node_list
 	set alias_node [list ethernet$ethernet_count aliasref $name]
@@ -721,6 +756,7 @@ proc slave_ll_temac_port {slave intc index} {
 	}
 	return $ip_tree
 }
+
 proc slave_ll_temac {slave intc} {
 	set tree [compound_slave $slave]
 	set tree [tree_append $tree [slave_ll_temac_port $slave $intc 0] ]
@@ -730,6 +766,7 @@ proc slave_ll_temac {slave intc} {
 	}
 	return $tree
 }
+
 proc slave_mpmc {slave intc} {
 	set share_addresses [scan_int_parameter_value $slave "C_ALL_PIMS_SHARE_ADDRESSES"]
 	if {[catch {
@@ -782,9 +819,7 @@ proc slave_mpmc {slave intc} {
 	return [list $ip_name tree $mpmc_node]
 }
 
-#
 #get handle to interrupt controller from CPU handle
-#
 proc get_handle_to_intc {proc_handle port_name} {
 	#one CPU handle
 	set hwproc_handle [xget_handle $proc_handle "IPINST"]
@@ -845,9 +880,7 @@ proc gener_slave {node slave intc} {
 		}
 		"xps_uartlite" -
 		"opb_uartlite" {
-			#
 			# Add this uartlite device to the alias list
-			#
 			variable serial_count
 			variable alias_node_list
 			lappend alias_node_list [list serial$serial_count aliasref $name]
@@ -870,9 +903,7 @@ proc gener_slave {node slave intc} {
 		"xps_uart16550" -
 		"plb_uart16550" -
 		"opb_uart16550" {
-			#
 			# Add this uart device to the alias list
-			#
 			variable serial_count
 			variable alias_node_list
 			lappend alias_node_list [list serial$serial_count aliasref $name]
@@ -932,9 +963,7 @@ proc gener_slave {node slave intc} {
 		"opb_ethernetlite" -
 		"xps_ethernetlite" -
 		"plb_temac" {
-			#
 			# Add this temac channel to the alias list
-			#
 			variable ethernet_count
 			variable alias_node_list
 			lappend alias_node_list [list ethernet$ethernet_count aliasref $name]
@@ -1017,6 +1046,7 @@ proc gener_slave {node slave intc} {
 		"plb_bram_if_cntlr" -
 		"opb_bram_if_cntlr" -
 		"opb_cypress_usb" -
+		"plb_sdram" -
 		"plb_ddr" -
 		"plb_ddr2" -
 		"opb_sdram" -
@@ -1411,6 +1441,7 @@ proc gen_memories {tree hwproc_handle} {
 				# memory, and we can't currently handle non-contiguous memory
 				# regions.
 			}
+			"plb_sdram" -
 			"opb_sdram" {
 				# Handle bankless memories.
 				lappend tree [memory $slave "" ""]
@@ -1422,6 +1453,7 @@ proc gen_memories {tree hwproc_handle} {
 				set memory_count [expr $memory_count + 1]
 			}
 			"opb_cypress_usb" -
+			"plb_sdram" -
 			"plb_ddr" -
 			"plb_ddr2" -
 			"plb_emc" -
@@ -1524,7 +1556,7 @@ proc bus_bridge {slave intc_handle baseaddr face} {
 	set mhs_handle [xget_hw_parent_handle $slave]
 	set bus_handle [xget_hw_ipinst_handle $mhs_handle $bus_name]
 
-#FIXME remove compatible_list property and add simple-bus in  gen_compatible_property function
+	# FIXME: remove compatible_list property and add simple-bus in  gen_compatible_property function
 	set compatible_list {}
 	if {[llength $bus_handle] == 0} {
 		debug handles "Bus handle $face connected directly..."
@@ -2022,12 +2054,4 @@ proc get_pathname_for_label {tree label {path /}} {
 		}
 	}
 	return ""
-}
-
-# help function for debug purpose
-proc debug {level string} {
-	variable debug_level
-	if {[lsearch $debug_level $level] != -1} {
-		puts $string
-	}
 }
