@@ -1,0 +1,48 @@
+#Please do not modify this file by hand
+XmpVersion: 12.2
+VerMgmt: 12.2
+IntStyle: default
+ModuleSearchPath: ../../edk_user_repository/
+MHS File: system.mhs
+MSS File: system.mss
+Architecture: spartan3adsp
+Device: xc3sd1800a
+Package: fg676
+SpeedGrade: -4
+UserCmd1: 
+UserCmd1Type: 0
+UserCmd2: 
+UserCmd2Type: 0
+GenSimTB: 0
+SdkExportBmmBit: 1
+SdkExportDir: SDK/SDK_Export
+InsertNoPads: 0
+WarnForEAArch: 1
+HdlLang: VHDL
+SimModel: BEHAVIORAL
+UcfFile: data/system.ucf
+EnableParTimingError: 1
+ShowLicenseDialog: 0
+ICacheAddr: mpmc_0,
+DCacheAddr: mpmc_0,
+Processor: microblaze_0
+BootLoop: 0
+XmdStub: 0
+SwProj: xl-boot
+Processor: microblaze_0
+Executable: xl-boot/executable.elf
+Source: ../../edk_user_repository/ThirdParty/sw_apps/xl-boot/src/xl-boot.c
+DefaultInit: EXECUTABLE
+InitBram: 1
+Active: 1
+CompilerOptLevel: 2
+GlobPtrOpt: 0
+DebugSym: 1
+ProfileFlag: 0
+ProgStart: 
+StackSize: 
+HeapSize: 
+LinkerScript: 
+ProgCCFlags: -DXLB_LOCBLOB_OFFSET=0xF80000
+CompileInXps: 1
+NonXpsApp: 0

@@ -1,0 +1,23 @@
+# Template .gitignore file for project
+XpsGuiSessionLock
+ppc405_?
+microblaze_?
+implementation
+synthesis
+hdl
+CF
+SDK
+report
+blkdiagram
+fs-boot
+__xps
+platgen.opt
+*.log
+*.svf
+*.scr
+*.cmd
+*.bak
+*~
+*.elf
+*.ace
+*.make
