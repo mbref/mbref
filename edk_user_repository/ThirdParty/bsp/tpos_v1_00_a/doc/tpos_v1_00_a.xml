@@ -3,12 +3,16 @@
 "http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
 <book>
   <!--edited with XMLmind XML Editor Personal Edition 4.6.1
-more information: http://www.xmlmind.com/xmleditor/-->
+more information: http://www.xmlmind.com/xmleditor/
+[user@host]> /opt/xxe-perso-4_6_1/bin/xxe tpos_v1_00_a.xml-->
+
+  <!--compiled with Eric Bischoff DocBook and James CLarks Jade:
+[user@host]> docbook2pdf tpos_v1_00_a.xml-->
 
   <bookinfo>
     <title>TPOS</title>
 
-    <subtitle>Third Party Operating Systems</subtitle>
+    <subtitle>Third Party Operating Systems (pre-alpha)</subtitle>
 
     <authorgroup>
       <author>
@@ -50,7 +54,11 @@ more information: http://www.xmlmind.com/xmleditor/-->
       <para>This document is essentially a comprehensive tutorial about Third
       Party Operating Systems (TPOS for short). It also contains installation
       instructions and information about the contents of the
-      distribution.</para>
+      distribution.<note>
+          <para>This is an early pre-alpha release document without reality
+          content except of the legal notice. The legal notice is authentic
+          and mandatory.</para>
+        </note></para>
     </abstract>
 
     <legalnotice>
@@ -60,9 +68,11 @@ more information: http://www.xmlmind.com/xmleditor/-->
         <title>TPOS Copyright and Licensing</title>
 
         <para>The <emphasis>TPOS bundle of Xilinx EDK configuration
-        modules</emphasis> is copyright (C) 2010 by Li-Pro.Net. This program
-        is free software; you may redistribute and/or modify it under the
-        terms of the GNU General Public License as published by the Free
+        modules</emphasis> is copyright (C) 2010 by Li-Pro.Net. Some
+        components were merged in from other Open Source projects, see
+        <emphasis role="bold">Third-Party Software</emphasis> below. This
+        program is free software; you may redistribute and/or modify it under
+        the terms of the GNU General Public License as published by the Free
         Software Foundation; Version 2 with the clarifications and exceptions
         described below. This guarantees your right to use, modify, and
         redistribute this software under certain conditions.</para>
@@ -121,7 +131,7 @@ more information: http://www.xmlmind.com/xmleditor/-->
         <para>This <emphasis>TPOS Guide</emphasis> is copyright (C) 2010 by
         Li-Pro.Net. It is hereby placed under version 3.0 of the <ulink
         url="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative
-        Commons Attribution-NonCommercial-ShareAlike License</ulink>. This
+        Commons Attribution NonCommercial ShareAlike License</ulink>. This
         allows you redistribute and modify the work as you desire, as long as
         you credit the original source. Alternatively, you may choose to treat
         this document as falling under the same license as TPOS source code
@@ -178,8 +188,8 @@ more information: http://www.xmlmind.com/xmleditor/-->
       <formalpara>
         <title>Third-Party Software</title>
 
-        <para>This product includes software developed and copyrighted (C)
-        2007-2009 by Xilinx, Inc. and Michal Simek
+        <para>This product includes open source software developed and
+        copyrighted (C) 2007-2009 by Xilinx, Inc. and Michal Simek
         <email>monstr@monstr.eu</email>.</para>
       </formalpara>
     </legalnotice>
