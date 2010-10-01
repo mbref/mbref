@@ -6,7 +6,6 @@ implementation
 synthesis
 hdl
 CF
-SDK
 report
 blkdiagram
 fs-boot
