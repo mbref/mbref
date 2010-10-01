@@ -1,3 +1,19 @@
+commit a64b1226606ad9085b154e3f683d69d1926294ea
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Oct 1 16:21:35 2010 +0200
+
+    mbref: add basic project data
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit a6d6b001e6c680dd3209e047e63ca45ede546842
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Oct 1 16:18:28 2010 +0200
+
+    tpos: doc: hint to pre-alpha release
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit ec21425128d153ab08530eb68a9eeba0a74e9320
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Oct 1 15:08:58 2010 +0200
