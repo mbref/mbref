@@ -1,0 +1,5 @@
+#
+#Fri Oct 01 08:04:38 CEST 2010
+PROCESSOR=microblaze_0
+REPOSITORIES=-lp /store/devel/MICROBLAZE/hardware/edk_user_repository/ThirdParty
+HWSPEC=../hw_platform_0/system.xml
