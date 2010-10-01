@@ -1,0 +1,79 @@
+MB-References (MB-Ref)
+
+Microblaze References
+
+Stephan Linz
+Li-Pro.Net
+
+Haydnstr. 3
+07749 Jena
+Germany
+
+Copyright . 2010 by Li-Pro.Net, Stephan Linz
+
+
+Summary
+
+This directory contains Microblaze hardware reference designs for
+a fast startup phase of your own designs and as a base for further
+developments.
+
+The development of MB-Ref is closely to Xilinx EDK: some parts of
+the configuration modules are dependent on different version of
+Xilinx EDK and SDK.
+
+
+Status
+
+In general, all designes in directory "reference-designs" have been
+tested in a manner to the best knowledge and belief. Designs in
+directory "working-designs" are designs with working in progress.
+From time to time there are releases from "working-designs" in
+"reference-designs" by copying.
+
+where to get help
+t.b.d.
+
+where to get sources
+t.b.d.
+
+where we come from
+http://www.monstr.eu/wiki/doku.php
+
+
+Names and Spelling
+
+The "official" name of this project is "MB-References". The spelling
+"MB-Ref" shall be used in all written text (documentation, comments
+in source files etc.). Example:
+
+	This is the README file for the MB-Ref project.
+
+File names etc. shall be based on the string "mbref". Examples:
+
+	cd <anywhere>/mbref/working-designes
+
+Variable names, preprocessor constants etc. shall be either based on
+the string "mbref" or on "MBREF". Example:
+
+	set mbref_version "2010.10"
+
+	#define MBREF_VERSION "2010.10"
+
+
+Versioning
+
+MB-Ref uses a 2 level version number containing a major version, and
+a minor version: MB-Ref-2010.10" means major version "2010", minor
+version "10". Of course, the major version follows the current number
+of year and the minor version the current number of month.
+
+Optionally there is a third level named patchlevel. The patchlevel is
+used to indicate certain stages of development between released
+versions, i. e. officially released versions of MB-Ref will always
+have a patchlevel of "0" (blank/nothing).
+
+
+More documentation
+
+See README.designs and README.tpos.

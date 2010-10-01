@@ -1,0 +1,20 @@
+#
+#   Parts of the development effort for this project have been
+#   sponsored by JENOPTIK AG, Germany. Thanks to Jenoptik for
+#   supporting an Open Source project!
+#
+#
+#   This is at least a partial credits-file of individual people that
+#   have contributed to the MB-Ref project. It is sorted by name and
+#   formatted to allow easy grepping and beautification by scripts.
+#   The fields are: name (N), email (E), web-address (W), PGP key ID
+#   and fingerprint (P), description (D), and snail-mail address (S).
+#   Thanks,
+#
+#                       Stephan Linz
+#----------
+
+N: Stephan Linz
+E: linz@li-pro.net
+D: MB-Ref initial version, continuing maintenance, Xilinx evaluation boards
+E: http://www.li-pro.net/

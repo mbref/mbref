@@ -1,0 +1,308 @@
+commit ec21425128d153ab08530eb68a9eeba0a74e9320
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Oct 1 15:08:58 2010 +0200
+
+    Revert "working-designs: remove SDK from untracked files for EDK 12.x designes"
+
+    This reverts commit 696d52f850e0e87b559e370db37e172fe3ba9ddf.
+
+commit e4b21424b7742da5d7164072d517271e3b0c1324
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Oct 1 15:08:07 2010 +0200
+
+    Revert "Xilinx-SP3ADSP1800-MMU-lite-12.2: new SDK bundle"
+
+    This reverts commit 26bf305b5288f98c786d05f6e2b00e2cd826eb59.
+
+commit f20bb9ff42002c93ed105af9df22e09fc041a2f8
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Oct 1 15:03:47 2010 +0200
+
+    Revert "Xilinx-SP3ADSP1800-MMU-full-12.2: new SDK bundle"
+
+    This reverts commit 27a2555b746adc0807c37af901427359f8475fb7.
+
+commit 785471ab7b7e140535d752a215e7ffa891786e70
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Oct 1 11:56:17 2010 +0200
+
+    reference-designs: support Xilinx SP3ADSP1800
+
+     * Xilinx-SP3ADSP1800-MMU-lite-11.4
+     * Xilinx-SP3ADSP1800-MMU-full-11.4
+     * Xilinx-SP3ADSP1800-MMU-lite-12.2
+     * Xilinx-SP3ADSP1800-MMU-full-12.2
+
+     * MMU means:
+	- virtual, full register access
+	- 2 protection zones
+
+     * lite means:
+	- 2kB/2kB I/D-Cache
+	- MUL32, w/o DIV, w/o FPU
+	- XPS UART Lite, 115200 Baud (8N1)
+	- XPS Ethernet Lite, w/o second Rx/Tx buffer
+
+     * fulle means:
+	- 16k/16k I/D-Cache
+	- MUL32, DIV, FPU
+	- XPS 16550 UART
+	- XPS LL TEMAC, SDMA access
+
+     * 11.4 means: Xilinx EDK 11.4
+     * 12.2 means: Xilinx EDK 12.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 27a2555b746adc0807c37af901427359f8475fb7
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Oct 1 11:47:46 2010 +0200
+
+    Xilinx-SP3ADSP1800-MMU-full-12.2: new SDK bundle
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 26bf305b5288f98c786d05f6e2b00e2cd826eb59
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Oct 1 11:47:29 2010 +0200
+
+    Xilinx-SP3ADSP1800-MMU-lite-12.2: new SDK bundle
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 696d52f850e0e87b559e370db37e172fe3ba9ddf
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Oct 1 11:40:36 2010 +0200
+
+    working-designs: remove SDK from untracked files for EDK 12.x designes
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 8a8acf03655e8dddc4f700067ceae0b8cd5474bb
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Oct 1 11:31:13 2010 +0200
+
+    working-designs: remove unnecessary pre-build paths
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit ec0d9eca78f1a0158d4206302ee51c195489cc8d
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Sep 29 23:02:31 2010 +0200
+
+    xl-boot: adding autoboot counter (stop by key)
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 892e7c9337f6ce5c9fdb2366e83cca72ec6937fe
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Sep 29 21:00:14 2010 +0200
+
+    working-designs: ignore xl-boot binary path
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 050795b69b8a625d076f1f4be3c4049d440a239f
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Sep 29 19:40:03 2010 +0200
+
+    working-designs: support Xilinx SP3ADSP1800
+
+     * Xilinx-SP3ADSP1800-MMU-lite-11.4
+     * Xilinx-SP3ADSP1800-MMU-full-11.4
+     * Xilinx-SP3ADSP1800-MMU-lite-12.2
+     * Xilinx-SP3ADSP1800-MMU-full-12.2
+
+     * MMU means:
+	- virtual, full register access
+	- 2 protection zones
+
+     * lite means:
+	- 2kB/2kB I/D-Cache
+	- MUL32, w/o DIV, w/o FPU
+	- XPS UART Lite, 115200 Baud (8N1)
+	- XPS Ethernet Lite, w/o second Rx/Tx buffer
+
+     * fulle means:
+	- 16k/16k I/D-Cache
+	- MUL32, DIV, FPU
+	- XPS 16550 UART
+	- XPS LL TEMAC, SDMA access
+
+     * 11.4 means: Xilinx EDK 11.4
+     * 12.2 means: Xilinx EDK 12.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 68e39a672938d559f03da1b8895aa7a80646e324
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Sep 29 19:05:43 2010 +0200
+
+    ecos_v1_00_a: remove because non open source license
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 88a4fc0dbfe86873a1ee981fc9de1320632f1d31
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Sep 29 19:02:02 2010 +0200
+
+    uboot_v4_01_a: remove because obsolete
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit c96e8d767ab1322a03e7a0c8e7e2bf297e296948
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Sep 29 18:51:51 2010 +0200
+
+    tpos_v1_00_a: introduce ThirdParty OS
+
+    Introduce the new EDK user repository ThirdParty OS (TPOS).
+
+    TPOS supports U-Boot, Linux 2.6/2.4 and XL-Boot by a simple
+    but effective way of module handling. Any output for one of
+    this source projects will handled by a single and separated
+    TCL module. Each module of them resides in its own path,
+    which has the same naming like other EDK BSPs. All modules
+    together uses a central TCL library.
+
+    Note that the Linux 2.4 support til now is untested and
+    uncomplete! -- Work in progress.
+
+    XL-Boot is a pendant to the proprietary bootloader FS-Boot
+    developed by PetaLogix. FS-Boot is the important first stage
+    bootloader. But FS-Boot has a non conform license in terms
+    of open source software. XL-Boot will close this leak and
+    presents a free and GNU licensed first stage bootloader.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 328139d2a922194b1aec4d3123e7832d2110dc21
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Sep 29 18:50:22 2010 +0200
+
+    fs-boot: remove because non open source license
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 79613810e99f77fea268ed21d905d3a792c1df3b
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Sep 29 18:47:16 2010 +0200
+
+    fs-boot: support EDK 12.x
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 32680b9251c56feab000e0d55a117c53bc6c7494
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Sep 29 18:10:27 2010 +0200
+
+    device-tree_v1_02_a: prepare for the new TPOS module handling
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 47a9b9984a15c4a09a76049f303f1b22a5bf7aa5
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Sep 29 18:06:37 2010 +0200
+
+    uboot_v4_01_a: prepare for the new TPOS module handling
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit fbba2be7f97b1db200b05a808d75f612213c7e60
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Sep 29 18:00:50 2010 +0200
+
+    Reorganize edk repository to prepare ThirdParty OS module handling
+
+     * remove edk_user_repository/ThirdParty/bsp/top_v1_00_b (not free)
+     * rename edk_user_repository/ThirdParty/bsp/uboot_v4_00_c to uboot_v4_01_a
+     * rename edk_user_repository/ThirdParty/bsp/device-tree_v1_01_a to device-tree_v1_02_a
+     * remove MDL files because they are useless for the new TPOS module handling
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 4f4d2033e0412062bb3d5a98ead5bf086e33440e
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Aug 15 11:53:51 2010 +0200
+
+    Merge with GNU parts of PetaLinux v1.2 (2010.06)
+
+    * uboot_v4_00_c
+    * device-tree_v1_01_a
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 081258cd5dc82dee59be21a945e45622ac144610
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Aug 15 11:47:16 2010 +0200
+
+    Reorganize edk repository to prepare ThirdParty OS
+
+     * remove edk_user_repository/mONStR/bsp/fdt_v1_00_a (obsolete and unused)
+     * rename edk_user_repository/mONStR to edk_user_repository/ThirdParty
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 669815a6fb086e39911c4a70ad36f8b0ddb58e3d
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jun 10 13:16:36 2010 +0200
+
+    Merge with latest FS-BOOT code from tag PL-2009.08.19
+
+    $ git checkout PL-2009.08.19 fs-boot
+    $ git add .
+    $ git commit -s
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 0b6cd4027b54b511d78f6f5345f66fd0c9fd3840
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jun 10 12:01:21 2010 +0200
+
+    Merge with latest U-Boot BSP from tag MS-BSP_UBOOT-2009.08.20
+
+    $ git merge --no-commit MS-BSP_UBOOT-2009.08.20
+    $ git reset HEAD
+    $ mv bsp/uboot/data/uboot_v2_1_0.tcl \
+	 edk_user_repository/mONStR/bsp/uboot_v4_00_c/data/uboot_v2_1_0.tcl
+    $ rm -rf bsp
+    $ git add .
+    $ git commit -s
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit d9aaddc52cb9bc30961e4c59fe342c6b32279d14
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jun 10 11:05:09 2010 +0200
+
+    added latest device-tree BSP from http://www.monstr.eu/wiki/
+
+    * going to http://www.monstr.eu/wiki/doku.php?id=fdt:fdt
+    * downloading http://www.monstr.eu/wiki/lib/exe/fetch.php?media=fdt:fdt:logs:device-tree_latest.tar.gz
+    * extract, add, commit
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 52731bc4df903540e1af26dc4018e92723d29913
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jun 10 10:58:25 2010 +0200
+
+    added FDT BSP from http://www.monstr.eu/wiki/
+
+    * going to http://www.monstr.eu/wiki/doku.php?id=fdt:fdt
+    * downloading http://www.monstr.eu/wiki/lib/exe/fetch.php?media=fdt:fdt:logs:fdt-bsp.tar.gz
+    * extract, add, commit
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit afa1c880ea90948917d0c86d7e6b34ab265a8ec2
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jun 10 10:27:22 2010 +0200
+
+    created fresh copy from http://www.monstr.eu/wiki/
+
+    * going to http://www.monstr.eu/wiki/doku.php?id=uboot:uboot
+    * downloading http://www.monstr.eu/wiki/lib/exe/fetch.php?media=uboot:edk_user_repository.tar.gz
+    * extract, add, commit
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
