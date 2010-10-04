@@ -53,5 +53,5 @@ doc: $(MBREF_TPOS_DOC)
 
 .PHONY : CHANGELOG
 CHANGELOG:
-	git log --no-merges PL-2009.08.19.. | \
+	git log --no-merges master | \
 		unexpand -a | sed -e 's/\s\s*$$//' > $@
