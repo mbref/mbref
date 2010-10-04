@@ -1,3 +1,37 @@
+commit db5a64e1f092c38aa89f6fd4b96318e8992ea1c3
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Oct 5 00:54:15 2010 +0200
+
+    tpos: doc: add overview image
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 8132ba877812f9cf783f537892f2d0ad3f95c4b4
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Oct 5 00:51:16 2010 +0200
+
+    mbref: add overview image to tpos doc
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 3fd7d6a6301cf6c33e6d09251262a26b8482a432
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Oct 5 00:48:41 2010 +0200
+
+    tpos: doc: move xml file up to top doc path
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit c8475b5bc75a141c02f38a2b4e9b5599f11bf7a7
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Oct 4 18:24:02 2010 +0200
+
+    Prepare 2010.10-rc2
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit 7f51352ce36bd9d182f08d0ba447a193f9c2b76b
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Oct 4 18:20:41 2010 +0200
