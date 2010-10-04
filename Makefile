@@ -35,21 +35,9 @@ all configure install help:
 	@echo
 	@echo
 
-MBREF_EDKREPO = $(PWD)/edk-repository
-MBREF_EDKBSP = $(MBREF_EDKREPO)/ThirdParty/bsp
-MBREF_EDKLIB = $(MBREF_EDKREPO)/ThirdParty/lib
-MBREF_EDKSWA = $(MBREF_EDKREPO)/ThirdParty/sw_apps
-
-MBREF_TPOS_VER = v1.00.a
-MBREF_TPOS_XEV = $(subst .,_,$(MBREF_TPOS_VER))
-MBREF_TPOS_DIR = $(MBREF_EDKBSP)/tpos_$(MBREF_TPOS_XEV)
-MBREF_TPOS_DOC = $(MBREF_TPOS_DIR)/doc/tpos_$(MBREF_TPOS_XEV).pdf
-
 .PHONY : doc
-doc: $(MBREF_TPOS_DOC)
-
-%.pdf: %.xml
-	docbook2pdf -o $(dir $@) $<
+doc:
+	make -C $@
 
 .PHONY : CHANGELOG
 CHANGELOG:

@@ -206,5 +206,18 @@ more information: http://www.xmlmind.com/xmleditor/
       <para>TPOS is a bundle of Xilinx EDK configuration modules used to
       export processor and plattform specific setup informations.</para>
     </section>
+
+    <section>
+      <title>Overview</title>
+
+      <figure>
+        <title>Overview</title>
+
+        <graphic align="center" fileref="images/mbref-overview.png"
+                 format="PNG" revisionflag="added" scale="50" scalefit="1" />
+      </figure>
+
+      <para></para>
+    </section>
   </chapter>
 </book>
