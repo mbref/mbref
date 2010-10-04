@@ -2,7 +2,7 @@
 XmpVersion: 11.4
 VerMgmt: 11.4
 IntStyle: default
-ModuleSearchPath: ../../edk_user_repository/
+ModuleSearchPath: ../../edk-repository/
 MHS File: system.mhs
 MSS File: system.mss
 Architecture: spartan3adsp
@@ -31,7 +31,7 @@ XmdStub: 0
 SwProj: xl-boot
 Processor: microblaze_0
 Executable: xl-boot/executable.elf
-Source: ../../edk_user_repository/ThirdParty/sw_apps/xl-boot/src/xl-boot.c
+Source: ../../edk-repository/ThirdParty/sw_apps/xl-boot/src/xl-boot.c
 DefaultInit: EXECUTABLE
 InitBram: 1
 Active: 1

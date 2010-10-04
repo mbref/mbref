@@ -35,7 +35,7 @@ all configure install help:
 	@echo
 	@echo
 
-MBREF_EDKREPO = $(PWD)/edk_user_repository
+MBREF_EDKREPO = $(PWD)/edk-repository
 MBREF_EDKBSP = $(MBREF_EDKREPO)/ThirdParty/bsp
 MBREF_EDKLIB = $(MBREF_EDKREPO)/ThirdParty/lib
 MBREF_EDKSWA = $(MBREF_EDKREPO)/ThirdParty/sw_apps
