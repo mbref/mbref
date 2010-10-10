@@ -1,3 +1,45 @@
+commit b32d7e44b9fb629c530442086d2e6c7dace20c57
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Oct 10 16:55:15 2010 +0200
+
+    Xilinx-SP3ADSP1800-MMU-full-12.2 new pre-build images
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 5b587642379ce561b422d3340f400c2fa62efef3
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Oct 10 16:54:59 2010 +0200
+
+    Xilinx-SP3ADSP1800-MMU-lite-12.2 new pre-build images
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit ba1d0ccb3b86c46e5a5aecfac557d3c040092047
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Oct 10 16:54:20 2010 +0200
+
+    Xilinx-SP3ADSP1800-MMU-full-11.4 new pre-build images
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit c48b9e6e7a87aa9b52d0881cb088c6b6210c043d
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Oct 10 16:53:27 2010 +0200
+
+    Xilinx-SP3ADSP1800-MMU-lite-11.4 new pre-build images
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 383f0f7c4283060c8e7dad49cc7a34fb13c08b7b
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Oct 5 00:57:05 2010 +0200
+
+    Prepare 2010.10-rc3
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit db5a64e1f092c38aa89f6fd4b96318e8992ea1c3
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Oct 5 00:54:15 2010 +0200
