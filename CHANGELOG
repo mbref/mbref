@@ -1,3 +1,13 @@
+commit 8ed4bbca4950c5bd4ec2bfa59f3a08a99fd19276
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Oct 10 16:56:51 2010 +0200
+
+    Prepare 2010.10-rc4
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit b32d7e44b9fb629c530442086d2e6c7dace20c57
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Oct 10 16:55:15 2010 +0200
