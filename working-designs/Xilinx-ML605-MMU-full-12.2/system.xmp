@@ -23,8 +23,8 @@ SimModel: BEHAVIORAL
 UcfFile: data/system.ucf
 EnableParTimingError: 1
 ShowLicenseDialog: 0
-ICacheAddr: DDR3_SDRAM,
-DCacheAddr: DDR3_SDRAM,
+ICacheAddr: mpmc_0,
+DCacheAddr: mpmc_0,
 Processor: microblaze_0
 BootLoop: 0
 XmdStub: 0
