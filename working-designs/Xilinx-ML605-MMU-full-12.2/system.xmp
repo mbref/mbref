@@ -1,14 +1,14 @@
 #Please do not modify this file by hand
-XmpVersion: 11.4
-VerMgmt: 11.4
+XmpVersion: 12.2
+VerMgmt: 12.2
 IntStyle: default
 ModuleSearchPath: ../../edk-repository
 MHS File: system.mhs
 MSS File: system.mss
-Architecture: spartan3adsp
-Device: xc3sd1800a
-Package: fg676
-SpeedGrade: -4
+Architecture: virtex6
+Device: xc6vlx240t
+Package: ff1156
+SpeedGrade: -1
 UserCmd1: 
 UserCmd1Type: 0
 UserCmd2: 
@@ -22,7 +22,7 @@ HdlLang: VHDL
 SimModel: BEHAVIORAL
 UcfFile: data/system.ucf
 EnableParTimingError: 1
-ShowLicenseDialog: 1
+ShowLicenseDialog: 0
 ICacheAddr: mpmc_0,
 DCacheAddr: mpmc_0,
 Processor: microblaze_0
