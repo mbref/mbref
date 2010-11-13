@@ -43,6 +43,6 @@ ProgStart:
 StackSize: 
 HeapSize: 
 LinkerScript: 
-ProgCCFlags: -DXLB_LOCBLOB_OFFSET=0xF80000
+ProgCCFlags: 
 CompileInXps: 1
 NonXpsApp: 0
