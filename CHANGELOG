@@ -1,3 +1,121 @@
+commit 7dae5f631905662f956b9494236f7e871f20b7b7
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Nov 13 10:36:35 2010 +0100
+
+    working-designs: Xilinx ML605 with new sw params
+
+    Adapt the Xilinx ML605 working designs to the new
+    XL-Boot software parameters setup:
+      * Boot Counter := 3 (seconds)
+      * Locator Blob Offset := 0x1F80000 (points to U-Boot)
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit dd964e28d23211d726d69374387ee14e7e61fc5e
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Nov 13 10:36:06 2010 +0100
+
+    working-designs: Xilinx ML605: add .gitignore
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit fde51a5afb08b40ffcd2330fc7dcc0f76c3bbdd0
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Nov 13 10:24:14 2010 +0100
+
+    working-designs: Xilinx SP3ADSP1800 with new sw params
+
+    Adapt the Xilinx SP3ADSP1800 working designs to the new
+    XL-Boot software parameters setup:
+      * Boot Counter := 3 (seconds)
+      * Locator Blob Offset := 0xF80000 (points to U-Boot)
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 94de875c38c4b24151bb5dbf9d733e4b9594e369
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Nov 13 09:37:44 2010 +0100
+
+    tpos: xl-boot: add boot parameters
+
+    Add the both new software parameters "Boot Counter" and
+    "Locator Blob Offset". So you can setup or disable the
+    boot countdown on beginning of system startup or change
+    the blob position inside the flash in an easy and more
+    conform way to the EDK design flow.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit ce7c1889e87b50221aa498107b609a9077522a32
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Nov 6 16:04:57 2010 +0100
+
+    Add missing download.cmd files
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit bdb00bf7b95159bdbf94b4d06f08cf7da9e3765b
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Nov 6 16:00:32 2010 +0100
+
+    working-designs: support Xilinx ML605
+
+     * Xilinx-ML605-MMU-lite-12.2
+
+     * MMU means:
+	- virtual, full register access
+	- 2 protection zones
+
+     * lite means:
+	- 2k/2k I/D-Cache
+	- MUL32, w/o DIV, w/o FPU
+	- XPS UART Lite, 115200 Baud (8N1)
+	- XPS Ethernet Lite, w/o second Rx/Tx buffer
+
+     * 12.2 means: Xilinx EDK 12.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 6bc054ce16fbe4ed1d42fbdf026b56cf7f5abf7a
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Nov 6 15:58:47 2010 +0100
+
+    Xilinx-ML605-MMU-full-12.2: correct cache instances
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 399e55710cfe2c4eef0a4797782eb391fa594862
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Nov 1 00:55:27 2010 +0100
+
+    working-designs: support Xilinx ML605
+
+     * Xilinx-ML605-MMU-full-12.2
+
+     * MMU means:
+	- virtual, full register access
+	- 2 protection zones
+
+     * fulle means:
+	- 16k/16k I/D-Cache
+	- MUL32, DIV, FPU
+	- XPS 16550 UART
+	- XPS LL TEMAC, SDMA access
+
+     * 12.2 means: Xilinx EDK 12.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit ba1f10817df090bc0916d5ec60b7d473a3eff858
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Oct 30 21:30:13 2010 +0200
+
+    Prepare 2010.10
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit 8ed4bbca4950c5bd4ec2bfa59f3a08a99fd19276
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Oct 10 16:56:51 2010 +0200
