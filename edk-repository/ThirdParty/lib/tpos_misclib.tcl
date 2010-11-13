@@ -40,6 +40,7 @@ set put_cfg_procs(fsboot) {
 }
 set put_cfg_procs(xlboot) {
 	put_timer_cfg	put_sysmem_cfg	put_normem_cfg	put_uart_cfg
+	put_xlboot_cfg
 }
 set put_cfg_procs(uboot) {
 	put_timer_cfg	put_sysmem_cfg	put_normem_cfg	put_uart_cfg
@@ -352,6 +353,60 @@ proc put_pkg_cfg {pkg fh osh} {
 	} else {
 		error "ERROR: Wrong TPOS library configuration for module: ${pkg}"
 	}
+}
+
+#
+# XL-Boot setup
+#
+namespace export put_xlboot_cfg
+proc put_xlboot_cfg {pkg fh osh} {
+	set ft [get_file_type ${fh}]
+	switch ${ft} {
+		"ch" {
+			array set define {
+				BootCount		XLB_BOOT_COUNTER
+				_d_BootCount		"autoboot counter value (zero means of)"
+				LocblobOffset		XLB_LOCBLOB_OFFSET
+				_d_LocblobOffset	"image locator blob position offset in flash memory"
+			}
+		}
+		default {
+			array set define {}
+			error "ERROR: This type of file is not supported yet: ${ft}"
+		}
+	}
+
+	# fast exit without any error if define array is empty 
+	if {![array size define]} { return 1 }
+
+	put_info ${fh} "XL-Boot setup"
+
+	# Boot Counter (if need)
+	set bootcounter [xget_sw_parameter_value ${osh} "xlboot_boot_counter"]
+	set arg_name BootCount
+	if {[array name define ${arg_name}] == ${arg_name}} {
+		set des_name [format "_d_${arg_name}"]
+		if {[array name define ${des_name}] == ${des_name}} {
+			put_cfg_int ${fh} $define($arg_name) ${bootcounter} $define($des_name)
+		} else {
+			put_cfg_int ${fh} $define($arg_name) ${bootcounter}
+		}
+	}
+
+	# Locator Blob Offset (if need)
+	set locbloboffs [xget_sw_parameter_value ${osh} "xlboot_locblob_offset"]
+	set arg_name LocblobOffset
+	if {[array name define ${arg_name}] == ${arg_name}} {
+		set des_name [format "_d_${arg_name}"]
+		if {[array name define ${des_name}] == ${des_name}} {
+			put_cfg_int ${fh} $define($arg_name) ${locbloboffs} $define($des_name)
+		} else {
+			put_cfg_int ${fh} $define($arg_name) ${locbloboffs}
+		}
+	}
+
+	put_blank_line ${fh}
+	return 1
 }
 
 #
