@@ -94,6 +94,7 @@ BEGIN OS tpos
     PARAM NAME = bootloader, DESC = "TPOS: bootloader specifics", TYPE = bool, DEFAULT = true, PERMIT = none, GUI_PERMIT = none;
     PARAM NAME = xlboot_boot_counter, DESC = "XL-Boot autoboot counter value (zero means of)", TYPE = integer, DEFAULT = 10;
     PARAM NAME = xlboot_locblob_offset, DESC = "XL-Boot image locator blob position offset in flash memory", TYPE = integer, DEFAULT = 0;
+    PARAM NAME = uboot_version, DESC = "U-Boot version you want to support", TYPE = enum, VALUES = ("v2010.12" = UB_2010_12, "older than v2010.12" = UB_2010_12_PRE), DEFAULT = UB_2010_12;
     PARAM NAME = uboot_position, DESC = "U-Boot position in memory", TYPE = integer, DEFAULT = 0;
   END CATEGORY
 

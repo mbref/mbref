@@ -998,6 +998,16 @@ proc put_sysmem_cfg_mk {pkg fh osh sh} {
 		}
 	}
 
+	# set U-Boot version dependencies
+	set uboot_version [xget_sw_parameter_value ${osh} "uboot_version"]
+	switch ${uboot_version} {
+		"UB_2010_12" {
+			set cfg_pfx "CONFIG_SYS_"
+		}
+		"UB_2010_12_PRE" -
+		default { set cfg_pfx "" }
+	}
+
 	# Naming different memory controller differently
 	set sysmem_bank [xget_sw_parameter_value ${osh} "main_memory_bank"]
 	if {[xget_hw_value ${sh}] == "mpmc"} {
@@ -1010,6 +1020,7 @@ proc put_sysmem_cfg_mk {pkg fh osh sh} {
 	set eram_base [get_addr_hex ${sh} [format C_%s_BASEADDR ${parapre}]]
 	set eram_end [get_addr_hex ${sh} [format C_%s_HIGHADDR ${parapre}]]
 
+	# .text section position
 	set text_base [get_addr_hex ${osh} "uboot_position"]
 	if {${text_base} == 0} {
 		if {[llength ${eram_end}]} {
@@ -1017,14 +1028,14 @@ proc put_sysmem_cfg_mk {pkg fh osh sh} {
 			set eram_boot [expr ${eram_end} - 0x100000 + 1]
 			set eram_boot [format "0x%08x" ${eram_boot}]
 			put_info ${fh} "Automatic U-Boot position at ${eram_boot}"
-			put_cfg ${fh} "TEXT_BASE" ${eram_boot}
+			put_cfg ${fh} "${cfg_pfx}TEXT_BASE" ${eram_boot}
 		} else {
 			error "ERROR: Main memory is not defined."
 		}
 	} else {
 		if {${eram_base} < ${text_base} && ${eram_end} > ${text_base}} {
 			put_info ${fh} "U-Boot position at ${text_base}"
-			put_cfg ${fh} "TEXT_BASE" ${text_base}
+			put_cfg ${fh} "${cfg_pfx}TEXT_BASE" ${text_base}
 		} else {
 			error "ERROR: U-Boot position is out of range: ${eram_base} - ${eram_end}"
 		}
