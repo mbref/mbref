@@ -15,6 +15,8 @@
  PARAMETER VERSION = 2.1.0
 
 
+ PORT fpga_0_xps_iic_0_Sda_pin = fpga_0_xps_iic_0_Sda_pin, DIR = IO
+ PORT fpga_0_xps_iic_0_Scl_pin = fpga_0_xps_iic_0_Scl_pin, DIR = IO
  PORT fpga_0_xps_gpio_3_GPIO_IO_pin = fpga_0_xps_gpio_3_GPIO_IO_pin, DIR = IO, VEC = [0:7]
  PORT fpga_0_xps_gpio_4_GPIO_IO_pin = fpga_0_xps_gpio_4_GPIO_IO_pin, DIR = IO, VEC = [0:4]
  PORT fpga_0_xps_gpio_1_GPIO_IO_pin = fpga_0_xps_gpio_1_GPIO_IO_pin, DIR = IO, VEC = [0:4]
@@ -507,7 +509,7 @@ BEGIN xps_intc
  PARAMETER C_BASEADDR = 0x8AFF0000
  PARAMETER C_HIGHADDR = 0x8AFFFFFF
  BUS_INTERFACE SPLB = mb_plb
- PORT Intr = PCIe_Bridge_IP2INTC_Irpt & xps_sysace_0_SysACE_IRQ & xps_ether_0_TemacIntc0_Irpt & xps_timer_0_Interrupt & xps_uart_0_IP2INTC_Irpt & xps_central_dma_0_IP2INTC_Irpt & mpmc_0_SDMA3_Rx_IntOut & mpmc_0_SDMA3_Tx_IntOut
+ PORT Intr = xps_iic_0_IIC2INTC_Irpt & PCIe_Bridge_IP2INTC_Irpt & xps_sysace_0_SysACE_IRQ & xps_ether_0_TemacIntc0_Irpt & xps_timer_0_Interrupt & xps_uart_0_IP2INTC_Irpt & xps_central_dma_0_IP2INTC_Irpt & mpmc_0_SDMA3_Rx_IntOut & mpmc_0_SDMA3_Tx_IntOut
  PORT Irq = microblaze_0_Interrupt
 END
 
@@ -519,5 +521,16 @@ BEGIN xps_gpio
  PARAMETER C_GPIO_WIDTH = 1
  BUS_INTERFACE SPLB = mb_plb
  PORT GPIO_IO_O = internal_reset_request
+END
+
+BEGIN xps_iic
+ PARAMETER INSTANCE = xps_iic_0
+ PARAMETER HW_VER = 2.03.a
+ PARAMETER C_BASEADDR = 0x80EF0000
+ PARAMETER C_HIGHADDR = 0x80EFFFFF
+ BUS_INTERFACE SPLB = mb_plb
+ PORT IIC2INTC_Irpt = xps_iic_0_IIC2INTC_Irpt
+ PORT Sda = fpga_0_xps_iic_0_Sda_pin
+ PORT Scl = fpga_0_xps_iic_0_Scl_pin
 END
 

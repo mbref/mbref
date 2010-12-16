@@ -1,6 +1,8 @@
 #  Virtex 6 ML605 Evaluation Platform
 Net fpga_0_xps_uart_0_RX_pin LOC = J24  |  IOSTANDARD=LVCMOS25;
 Net fpga_0_xps_uart_0_TX_pin LOC = J25  |  IOSTANDARD=LVCMOS25;
+Net fpga_0_xps_iic_0_Sda_pin LOC=AE9  |  IOSTANDARD=LVCMOS25  |  DRIVE = 6  |  SLEW = SLOW;
+Net fpga_0_xps_iic_0_Scl_pin LOC=AK9  |  IOSTANDARD=LVCMOS25  |  DRIVE = 6  |  SLEW = SLOW;
 Net fpga_0_xps_gpio_3_GPIO_IO_pin<0> LOC = AC22  |  IOSTANDARD=LVCMOS25;
 Net fpga_0_xps_gpio_3_GPIO_IO_pin<1> LOC = AC24  |  IOSTANDARD=LVCMOS25;
 Net fpga_0_xps_gpio_3_GPIO_IO_pin<2> LOC = AE22  |  IOSTANDARD=LVCMOS25;
