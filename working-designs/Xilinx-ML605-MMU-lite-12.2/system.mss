@@ -21,6 +21,7 @@ BEGIN OS
  PARAMETER board_name = ml605
  PARAMETER xlboot_boot_counter = 3
  PARAMETER xlboot_locblob_offset = 0x1F80000
+ PARAMETER iic = xps_iic_0
  PARAMETER microblaze_exception_vectors = ((XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0))
 END
 
@@ -164,6 +165,12 @@ BEGIN DRIVER
  PARAMETER DRIVER_NAME = gpio
  PARAMETER DRIVER_VER = 3.00.a
  PARAMETER HW_INSTANCE = xps_gpio_0
+END
+
+BEGIN DRIVER
+ PARAMETER DRIVER_NAME = iic
+ PARAMETER DRIVER_VER = 2.01.a
+ PARAMETER HW_INSTANCE = xps_iic_0
 END
 
 

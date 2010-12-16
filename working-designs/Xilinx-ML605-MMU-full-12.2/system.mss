@@ -21,6 +21,7 @@ BEGIN OS
  PARAMETER periph_type_overrides = {hard-reset-gpios xps_gpio_0 0 1} {led heartbeat xps_gpio_3 0 1} {led green-1 xps_gpio_3 1 1} {led green-2 xps_gpio_3 2 1} {led green-3 xps_gpio_3 3 1} {led green-4 xps_gpio_3 4 1} {led green-5 xps_gpio_3 5 1} {led green-6 xps_gpio_3 6 1} {led green-7 xps_gpio_3 7 1}
  PARAMETER xlboot_boot_counter = 3
  PARAMETER xlboot_locblob_offset = 0x1F80000
+ PARAMETER iic = xps_iic_0
  PARAMETER microblaze_exception_vectors = ((XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0))
 END
 
@@ -165,6 +166,12 @@ BEGIN DRIVER
  PARAMETER DRIVER_NAME = gpio
  PARAMETER DRIVER_VER = 3.00.a
  PARAMETER HW_INSTANCE = xps_gpio_0
+END
+
+BEGIN DRIVER
+ PARAMETER DRIVER_NAME = iic
+ PARAMETER DRIVER_VER = 2.01.a
+ PARAMETER HW_INSTANCE = xps_iic_0
 END
 
 
