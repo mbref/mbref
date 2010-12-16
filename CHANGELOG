@@ -1,3 +1,36 @@
+commit 3394f5ec8abe239bfa5e8351b29ea957a3c254d8
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Dec 16 22:55:22 2010 +0100
+
+    working-designs: Xilinx ML605 with system I2C support
+
+    Insert the primary system (on-board) I2C bus controller (xps_iic_0)
+    to enable EEPROM access.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 7eebef94c3be0ff281e02cb66ef45428750b8e7b
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Nov 19 20:15:58 2010 +0100
+
+    tpos: u-boot: add version parameter
+
+    Adding a new software parameter to generate version specific
+    configuration files. Thus, we distinguish whether we have to
+    use in config.mk a prefix for TEXT_BASE or not.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit f42abc8c3e8b5db47549a74d54dffd9d4c454f51
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Nov 14 14:27:49 2010 +0100
+
+    Prepare 2010.11-rc2
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit aae2f6246bc62f04cb69cc3aa08fdfb07871a48b
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Nov 14 10:37:46 2010 +0100
