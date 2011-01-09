@@ -1,3 +1,56 @@
+commit cf02189b2b83275d362d9899e502525c939ce0e3
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jan 9 14:57:17 2011 +0100
+
+    Prepare 2010.12
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 2e2861c755b70c10937a6aa2e2174e0c69c82fca
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jan 9 14:53:28 2011 +0100
+
+    working-designs: add Xilinx-ML605-MMU-lite-12.4
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 6ef4d562cd9ea153d195f631db57fa2baf7ece09
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jan 9 14:52:55 2011 +0100
+
+    working-designs: add Xilinx-ML605-MMU-full-12.4
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit b2f566eb9beee21b71375d9faa349f96abb2d6a3
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jan 9 14:45:45 2011 +0100
+
+    working-designs: add Xilinx-ML605-MMU-lite-12.3
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 910f18a36fb2e9bca32728aeb10b810d93803e2f
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jan 9 14:44:46 2011 +0100
+
+    working-designs: add Xilinx-ML605-MMU-full-12.3
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 1ca149dc4c73d93743852e816e9f73fa842c7de4
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jan 9 14:22:28 2011 +0100
+
+    Merge with GNU parts of PetaLinux v1.3 (2010.12)
+
+      * device-tree_v1_01_a: AXI support, more compatibility
+      * uboot_v4_00_c: AXI support
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit 07a50f4497094cec93d9cf41511d3a121b1f9a59
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Dec 16 23:27:28 2010 +0100
