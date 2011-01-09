@@ -273,10 +273,12 @@ proc tpos_check_design {osh} {
 		set normem_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] ${normem}]
 		set flash_type [xget_hw_value ${normem_handle}]
 		switch -exact ${flash_type} {
-			"xps_spi" {
+			"xps_spi" -
+			"axi_spi" {
 				debug info "INFO: Serial SPI Flash memory specified."
 			}
-			default {
+			"xps_mch_emc" -
+			"axi_emc" {
 				debug info "INFO: Parallel NOR Flash memory specified."
 				set parapre [format C_MEM%i ${normem_bank}]
 				set flash_base [get_addr_hex ${normem_handle} [format %s_BASEADDR ${parapre}]]
@@ -289,6 +291,9 @@ proc tpos_check_design {osh} {
 				} else {
 					debug info "      ${eram_base} < ${flash_base}"
 				}
+			}
+			default {
+				error "ERROR: Unknown flash memory interface type ${flash_type}"
 			}
 		}
 	}
@@ -1123,10 +1128,15 @@ proc put_normem_cfg_ch {pkg fh osh nh} {
 	set normem_bank [xget_sw_parameter_value ${osh} "flash_memory_bank"]
 	set flash_type [xget_hw_value ${nh}]
 	switch -exact ${flash_type} {
-		"xps_spi" {
+		"xps_spi" -
+		"axi_spi" {
 			# Serial SPI Flash
 			set flash_base [get_addr_hex ${nh} C_BASEADDR]
-			set flash_sys_clk [get_clock_frequency ${nh} SPLB_CLK]
+			if { ${flash_type} == "axi_spi" } {
+				set flash_sys_clk [get_clock_frequency ${nh} S_AXI_ACLK]
+			} else {
+				set flash_sys_clk [get_clock_frequency ${nh} SPLB_CLK]
+			}
 			set flash_sck_ratio [xget_sw_parameter_value ${nh} C_SCK_RATIO]
 			set flash_clk [expr { ${flash_sys_clk} / ${flash_sck_ratio} }]
 
@@ -1159,9 +1169,14 @@ proc put_normem_cfg_ch {pkg fh osh nh} {
 				}
 			}
 		}
-		default {
+		"xps_mch_emc" -
+		"axi_emc" {
 			# Parallel Flash
-			set parapre [format C_MEM%i ${normem_bank}]
+			if { ${flash_type} == "axi_emc" } {
+				set parapre [format C_S_AXI_MEM%i ${normem_bank}]
+			} else {
+				set parapre [format C_MEM%i ${normem_bank}]
+			}
 			set flash_base [get_addr_hex ${nh} [format %s_BASEADDR ${parapre}]]
 			set flash_end [get_addr_hex ${nh} [format %s_HIGHADDR ${parapre}]]
 			set flash_size [format "0x%08x" [expr ${flash_end} - ${flash_base} + 1]]
@@ -1240,12 +1255,19 @@ proc put_uart_cfg_ch {pkg fh osh uh} {
 	switch -exact ${uart_type} {
 		"opb_uartlite" -
 		"xps_uartlite" -
+		"axi_uartlite" -
 		"opb_mdm" -
 		"xps_mdm" {
 			return [put_uartlite_cfg ${pkg} ${fh} ${uh}]
 		}
 		"opb_uart16550" -
 		"xps_uart16550" {
+			# FIXME: clarify if we realy need this ugly
+			# register offset --> endianess problem ????
+			# return [put_uart16550_cfg ${pkg} ${fh} ${uh} 3]
+			return [put_uart16550_cfg ${pkg} ${fh} ${uh} 0]
+		}
+		"axi_uart16550" {
 			return [put_uart16550_cfg ${pkg} ${fh} ${uh}]
 		}
 		default {
@@ -1326,7 +1348,7 @@ proc put_uartlite_cfg {pkg fh uh} {
 	return 1
 }
 
-proc put_uart16550_cfg {pkg fh uh} {
+proc put_uart16550_cfg {pkg fh uh {regoffs 0}} {
 	switch ${pkg} {
 		"fsboot" {
 			#	HIGHADDR	CONFIG_STDINOUT_HIGHADDR
@@ -1374,6 +1396,9 @@ proc put_uart16550_cfg {pkg fh uh} {
 		set arg_name [string_trimleft_pat ${arg_name} C_]
 		set arg_value [xget_value ${arg} "VALUE"]
 		if {[array name define ${arg_name}] == ${arg_name}} {
+			if {[string match -nocase "BASEADDR" ${arg_name}]} {
+				set arg_value [format "0x%08x" [expr ${arg_value} + ${regoffs}]]
+			}
 			put_cfg ${fh} $define($arg_name) ${arg_value}
 		}
 	}
@@ -1430,13 +1455,13 @@ proc put_iic_cfg_ch {pkg fh osh ih} {
 			#	HIGHADDR	CONFIG_XILINX_IIC_HIGHADDR
 			#	IIC_FREQ	CONFIG_XILINX_IIC_FREQ
 			#	TEN_BIT_ADR	CONFIG_XILINX_IIC_BIT
-			#	Interrupt	CONFIG_XILINX_IIC_IRQ
+			#	IIC2INTC_Irpt	CONFIG_XILINX_IIC_IRQ
 			array set define {
 			}
 		}
 		"uboot" {
 			#	HIGHADDR	XILINX_IIC_0_HIGHADDR
-			#	Interrupt	XILINX_IIC_0_IRQ
+			#	IIC2INTC_Irpt	XILINX_IIC_0_IRQ
 			array set define {
 				BASEADDR	XILINX_IIC_0_BASEADDR
 				IIC_FREQ	XILINX_IIC_0_FREQ
@@ -1463,7 +1488,7 @@ proc put_iic_cfg_ch {pkg fh osh ih} {
 	}
 
 	# Interrupt source number
-	set arg_name Interrupt
+	set arg_name IIC2INTC_Irpt
 	set arg_value [get_intr ${ih} ${arg_name}]
 	if { ${arg_value} >= 0 } {
 		if {[array name define ${arg_name}] == ${arg_name}} {
@@ -1595,13 +1620,13 @@ proc put_sysace_cfg_ch {pkg fh osh sh} {
 			#	BASEADDR	CONFIG_XILINX_SYSACE_BASEADDR
 			#	HIGHADDR	CONFIG_XILINX_SYSACE_HIGHADDR
 			#	MEM_WIDTH	CONFIG_XILINX_SYSACE_MEM_WIDTH
-			#	Interrupt	CONFIG_XILINX_SYSACE_IRQ
+			#	SysACE_IRQ	CONFIG_XILINX_SYSACE_IRQ
 			array set define {
 			}
 		}
 		"uboot" {
 			#	HIGHADDR	XILINX_SYSACE_HIGHADDR
-			#	Interrupt	XILINX_SYSACE_IRQ
+			#	SysACE_IRQ	XILINX_SYSACE_IRQ
 			array set define {
 				BASEADDR	XILINX_SYSACE_BASEADDR
 				MEM_WIDTH	XILINX_SYSACE_MEM_WIDTH
@@ -1627,7 +1652,7 @@ proc put_sysace_cfg_ch {pkg fh osh sh} {
 	}
 
 	# Interrupt source number
-	set arg_name Interrupt
+	set arg_name SysACE_IRQ
 	set arg_value [get_intr ${sh} ${arg_name}]
 	if { ${arg_value} >= 0 } {
 		if {[array name define ${arg_name}] == ${arg_name}} {
@@ -1680,8 +1705,12 @@ proc put_ethmac_cfg_ch {pkg fh osh eh} {
 		"xps_ethernet" {
 			return [put_ethernet_cfg ${pkg} ${fh} ${eh}]
 		}
+		"axi_ethernet" {
+			debug warning "WARNING: stubbed support for AXI ethernet"
+		}
 		"opb_ethernetlite" -
-		"xps_ethernetlite" {
+		"xps_ethernetlite" -
+		"axi_ethernetlite" {
 			return [put_ethernetlite_cfg ${pkg} ${fh} ${eh}]
 		}
 		"xps_ll_temac" {
@@ -2013,6 +2042,10 @@ proc get_hwproc_handle {} {
 	return [xget_handle [xget_libgen_proc_handle] "IPINST"]
 }
 
+# FIXME: expand get_intc_handle() for PPC with a PORT name decision switch
+#	"microblaze"			--> "Interrupt"
+#	"ppc405" | "ppc405_virtex4"	--> "EICC405EXTINPUTIRQ"
+#	"ppc440_virtex5"		--> "EICC440EXTIRQ"
 proc get_intc_handle {} {
 	# hangle to mhs file and get handle to interrupt port on CPU
 	set hwproc_handle [get_hwproc_handle]
