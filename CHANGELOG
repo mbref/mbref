@@ -1,3 +1,45 @@
+commit 976500d707852cf2f4de2bcf2a58cc01808b3a40
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Jan 12 17:54:23 2011 +0100
+
+    working-designs: add Xilinx-SP3ADSP1800-MMU-lite-12.4
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 03cb769a3d774164b6fec6cd3fd21328122c00e1
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Jan 12 17:53:07 2011 +0100
+
+    working-designs: add Xilinx-SP3ADSP1800-MMU-full-12.4
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 6309012393c802414f6141f915479f605ab86393
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Jan 12 17:52:12 2011 +0100
+
+    working-designs: add Xilinx-SP3ADSP1800-MMU-lite-12.3
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 49da3dbe16b0e724a5230c081161092b7948bd48
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Jan 12 17:51:11 2011 +0100
+
+    working-designs: add Xilinx-SP3ADSP1800-MMU-full-12.3
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit f56563b9a751a54a53c153565e8929773c9b9546
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jan 9 14:59:41 2011 +0100
+
+    Prepare 2011.01-rc1
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit cf02189b2b83275d362d9899e502525c939ce0e3
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jan 9 14:57:17 2011 +0100
