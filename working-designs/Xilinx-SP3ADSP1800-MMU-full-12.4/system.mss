@@ -20,6 +20,7 @@ BEGIN OS
  PARAMETER linux_bootargs = console=ttyS0,115200 debug
  PARAMETER xlboot_boot_counter = 3
  PARAMETER xlboot_locblob_offset = 0xF80000
+ PARAMETER generic_uio = mbref_reg_0
  PARAMETER microblaze_exception_vectors = ((XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0))
 END
 
@@ -128,6 +129,12 @@ BEGIN DRIVER
  PARAMETER DRIVER_NAME = gpio
  PARAMETER DRIVER_VER = 2.13.a
  PARAMETER HW_INSTANCE = xps_gpio_0
+END
+
+BEGIN DRIVER
+ PARAMETER DRIVER_NAME = plbv46_mbref_reg
+ PARAMETER DRIVER_VER = 1.00.a
+ PARAMETER HW_INSTANCE = mbref_reg_0
 END
 
 
