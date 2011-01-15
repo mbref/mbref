@@ -1,0 +1,12 @@
+-batch 
+-create plbv46_mbref_reg 
+-ver 1.00.a 
+-dir "/store/devel/MICROBLAZE/mbref/edk-repository/ThirdParty" 
+-lang vhdl 
+-bus plbv46 s 
+-rst 
+-isc 3 
+-intrn 32 1 
+-reg 32 
+-xps 
+-driver 

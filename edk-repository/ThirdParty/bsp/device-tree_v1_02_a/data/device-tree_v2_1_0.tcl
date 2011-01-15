@@ -147,6 +147,8 @@ proc generate {os_handle} {
 	set flash_memory_bank [xget_sw_parameter_value $os_handle "flash_memory_bank"]
 	global timer
 	set timer [xget_sw_parameter_value $os_handle "timer"]
+	global generic_uio
+	set generic_uio [xget_sw_parameter_value $os_handle "generic_uio"]
 	generate_device_tree "xilinx.dts" $bootargs $consoleip
 }
 
@@ -1365,8 +1367,18 @@ proc gener_slave {node slave intc} {
 			lappend node $tree
 		}
 		default {
+			global generic_uio
+			if {[string match $name $generic_uio]} {
+				# We should handle this specially, to make it compatible to generic-uio.
+				#lappend node [slaveip_intr $slave $intc [interrupt_list $slave] "uio" [default_parameters $slave] "" "" "generic-uio"]
+				set dtype "uio"
+				set compat "generic-uio"
+			} else {
+				set dtype ""
+				set compat ""
+			}
 			# *Most* IP should be handled by this default case.
-			if {[catch {lappend node [slaveip_intr $slave $intc [interrupt_list $slave] "" [default_parameters $slave] "" ]} {error}]} {
+			if {[catch {lappend node [slaveip_intr $slave $intc [interrupt_list $slave] $dtype [default_parameters $slave] "" "" $compat]} {error}]} {
 				debug warning "Warning: Default slave handling for unknown IP $name ($type) Failed...  It won't show up in the device tree."
 				debug warning $error
 			}
