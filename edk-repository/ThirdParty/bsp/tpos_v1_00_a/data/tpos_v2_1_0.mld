@@ -55,25 +55,25 @@ BEGIN OS tpos
   BEGIN CATEGORY syscore
     PARAM NAME = syscore, DESC = "TPOS: systems core components", TYPE = bool, DEFAULT = true, PERMIT = none, GUI_PERMIT = none;
     # communication peripherals (UART) on OPB or PLB
-    PARAM NAME = stdin, DESC = "stdin peripheral", TYPE = peripheral_instance, REQUIRES_INTERFACE = stdin, RANGE = (opb_mdm, opb_uartlite, xps_uartlite, opb_uart16550, plb_uart16550, xps_uart16550), DEFAULT = none;
+    PARAM NAME = stdin, DESC = "stdin peripheral", TYPE = peripheral_instance, REQUIRES_INTERFACE = stdin, RANGE = (opb_mdm, opb_uartlite, xps_uartlite, axi_uartlite, opb_uart16550, plb_uart16550, xps_uart16550, axi_uart16550), DEFAULT = none;
     PARAM NAME = stdout, DESC = "stdout peripheral", TYPE = peripheral_instance, REQUIRES_INTERFACE = stdout, RANGE = (opb_mdm, opb_uartlite, xps_uartlite, opb_uart16550, plb_uart16550, xps_uart16550), DEFAULT = none;
     # core peripherals
-    PARAM NAME = intc, DESC = "system interrupt controller", TYPE = peripheral_instance, RANGE = (opb_intc, plb_intc, xps_intc), DEFAULT = none;
-    PARAM NAME = timer, DESC = "system timer", TYPE = peripheral_instance, RANGE = (opb_timer, plb_timer, xps_timer), DEFAULT = none;
+    PARAM NAME = intc, DESC = "system interrupt controller", TYPE = peripheral_instance, RANGE = (opb_intc, plb_intc, xps_intc, axi_intc), DEFAULT = none;
+    PARAM NAME = timer, DESC = "system timer", TYPE = peripheral_instance, RANGE = (opb_timer, plb_timer, xps_timer, axi_timer), DEFAULT = none;
   END CATEGORY
 
   BEGIN CATEGORY sysmem
     PARAM NAME = sysmem, DESC = "TPOS: systems memory components", TYPE = bool, DEFAULT = true, PERMIT = none, GUI_PERMIT = none;
     # local peripherals (BRAM), Xilinx BRAM Interface on LMB
-    PARAM NAME = lmb_memory, DESC = "local memory (mainly BRAM)", TYPE = peripheral_instance, RANGE = (lmb_bram_if_cntlr, opb_bram_if_cntlr), DEFAULT = none;
+    PARAM NAME = lmb_memory, DESC = "local memory (mainly BRAM)", TYPE = peripheral_instance, RANGE = (lmb_bram_if_cntlr, opb_bram_if_cntlr, axi_bram_ctrl), DEFAULT = none;
     # memory peripherals (RAM), Xilinx (Multi-Port/Multi-Channel) (External) Memory Controller on OPB or PLB
-    PARAM NAME = main_memory, DESC = "main memory (mainly SDRAM/SRAM)", TYPE = peripheral_instance, RANGE = (ppc440mc_ddr2, opb_sdram, opb_ddr, opb_emc, plb_sdram, plb_ddr, plb_ddr2, plb_emc, mch_opb_sdram, mch_opb_ddr, mch_opb_ddr2, mch_opb_emc, mpmc, xps_mch_emc), DEFAULT = none;
+    PARAM NAME = main_memory, DESC = "main memory (mainly SDRAM/SRAM)", TYPE = peripheral_instance, RANGE = (ppc440mc_ddr2, opb_sdram, opb_ddr, opb_emc, plb_sdram, plb_ddr, plb_ddr2, plb_emc, mch_opb_sdram, mch_opb_ddr, mch_opb_ddr2, mch_opb_emc, mpmc, xps_mch_emc, axi_s6_ddrx, axi_v6_ddrx), DEFAULT = none;
     PARAM NAME = main_memory_bank, DESC = "bank within memory controller of main memory", TYPE = integer, DEFAULT = 0;
     PARAM NAME = main_memory_start, DESC = "manual override of main memory start address", TYPE = integer, DEFAULT = -1;
     PARAM NAME = main_memory_size, DESC = "manual override of main memory size", TYPE = integer, DEFAULT = 0;
     PARAM NAME = main_memory_offset, DESC = "manual override of main memory start offset", TYPE = integer, DEFAULT = 0;
     # flash peripherals (ROM), Xilinx (Multi-Channel) External Memory Controller on OPB or PLB
-    PARAM NAME = flash_memory, DESC = "flash memory (mainly NOR)", TYPE = peripheral_instance, RANGE = (opb_emc, plb_emc, mch_opb_emc, xps_mch_emc), DEFAULT = none;
+    PARAM NAME = flash_memory, DESC = "flash memory (mainly NOR)", TYPE = peripheral_instance, RANGE = (opb_emc, plb_emc, mch_opb_emc, xps_mch_emc, axi_emc), DEFAULT = none;
     PARAM NAME = flash_memory_bank, DESC = "bank within memory controller of flash memory", TYPE = integer, DEFAULT = 0;
     PARAM NAME = flash_memory_start, DESC = "manual override of flash memory start address", TYPE = integer, DEFAULT = -1;
     PARAM NAME = flash_memory_size, DESC = "manual override of flash memory size", TYPE = integer, DEFAULT = 0;
@@ -83,11 +83,11 @@ BEGIN OS tpos
   BEGIN CATEGORY sysio
     PARAM NAME = sysio, DESC = "TPOS: systems i/o components", TYPE = bool, DEFAULT = true, PERMIT = none, GUI_PERMIT = none;
     # standard peripherals
-    PARAM NAME = sysace, DESC = "sysace interface for CF", TYPE = peripheral_instance, RANGE = (opb_sysace, xps_sysace), DEFAULT = none;
-    PARAM NAME = ethernet, DESC = "ethernet controller", TYPE = peripheral_instance, RANGE = (opb_ethernet, opb_ethernetlite, xps_ethernetlite, xps_ethernet, xps_ll_temac), DEFAULT = none;
-    PARAM NAME = gpio, DESC = "LED interface controller", TYPE = peripheral_instance, RANGE = (opb_gpio, plb_gpio, xps_gpio), DEFAULT = none;
-    PARAM NAME = iic, DESC = "I2C interface controller", TYPE = peripheral_instance, RANGE = (opb_iic, xps_iic), DEFAULT = none;
-    PARAM NAME = spi, DESC = "SPI interface controller", TYPE = peripheral_instance, RANGE = (xps_spi), DEFAULT = none;
+    PARAM NAME = sysace, DESC = "sysace interface for CF", TYPE = peripheral_instance, RANGE = (opb_sysace, xps_sysace, axi_sysace), DEFAULT = none;
+    PARAM NAME = ethernet, DESC = "ethernet controller", TYPE = peripheral_instance, RANGE = (opb_ethernet, opb_ethernetlite, xps_ethernetlite, axi_ethernetlite, xps_ethernet, xps_ll_temac), DEFAULT = none;
+    PARAM NAME = gpio, DESC = "LED interface controller", TYPE = peripheral_instance, RANGE = (opb_gpio, plb_gpio, xps_gpio, axi_gpio), DEFAULT = none;
+    PARAM NAME = iic, DESC = "I2C interface controller", TYPE = peripheral_instance, RANGE = (opb_iic, xps_iic, axi_iic), DEFAULT = none;
+    PARAM NAME = spi, DESC = "SPI interface controller", TYPE = peripheral_instance, RANGE = (xps_spi, axi_spi), DEFAULT = none;
   END CATEGORY
 
   BEGIN CATEGORY bootloader
