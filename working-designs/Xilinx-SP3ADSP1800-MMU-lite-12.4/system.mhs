@@ -345,7 +345,7 @@ BEGIN xps_intc
  PARAMETER C_BASEADDR = 0x8AFF0000
  PARAMETER C_HIGHADDR = 0x8AFFFFFF
  BUS_INTERFACE SPLB = mb_plb
- PORT Intr = xps_uart_0_Interrupt & xps_ether_0_IP2INTC_Irpt & xps_timer_0_Interrupt
+ PORT Intr = mbref_reg_0_IP2INTC_Irpt & xps_uart_0_Interrupt & xps_ether_0_IP2INTC_Irpt & xps_timer_0_Interrupt
  PORT Irq = microblaze_0_Interrupt
 END
 
@@ -357,5 +357,14 @@ BEGIN xps_gpio
  PARAMETER C_GPIO_WIDTH = 1
  BUS_INTERFACE SPLB = mb_plb
  PORT GPIO_IO_O = internal_reset_request
+END
+
+BEGIN plbv46_mbref_reg
+ PARAMETER INSTANCE = mbref_reg_0
+ PARAMETER HW_VER = 1.00.a
+ PARAMETER C_BASEADDR = 0x80800000
+ PARAMETER C_HIGHADDR = 0x8080FFFF
+ BUS_INTERFACE SPLB = mb_plb
+ PORT IP2INTC_Irpt = mbref_reg_0_IP2INTC_Irpt
 END
 
