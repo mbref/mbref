@@ -1,3 +1,95 @@
+commit 8bbb0ad36ccdc3299ca99f99452e522154baef70
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jan 15 20:58:26 2011 +0100
+
+    Xilinx-ML605-MMU-lite-12.4: add plbv46_mbref_reg
+
+    Add the mbref simple register bank plbv46_mbref_reg to
+    design, named as mbref_reg_0.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 15e0cc1f59e5885d2e3bfde26b8a9134dd438ead
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jan 15 20:57:51 2011 +0100
+
+    Xilinx-ML605-MMU-full-12.4: add plbv46_mbref_reg
+
+    Add the mbref simple register bank plbv46_mbref_reg to
+    design, named as mbref_reg_0.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 5dbae3e458d5eab133eb1cd84a7a24216d887c17
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jan 15 20:03:27 2011 +0100
+
+    Xilinx-SP3ADSP1800-MMU-lite-12.4: add plbv46_mbref_reg
+
+    Add the mbref simple register bank plbv46_mbref_reg to
+    design, named as mbref_reg_0.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 7f72854c4bd22b54101175e700f19749bc15bcab
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jan 15 19:45:36 2011 +0100
+
+    Xilinx-SP3ADSP1800-MMU-full-12.4: add plbv46_mbref_reg
+
+    Add the mbref simple register bank plbv46_mbref_reg to
+    design, named as mbref_reg_0.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit b8bb5ff32a9b86797c8deabcce4df2429f395e03
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jan 15 19:41:41 2011 +0100
+
+    tpos: plbv46_mbref_reg: new IP core
+
+    MicroBlaze References simple register bank for PLB v4.6.
+    This belongs to MicroBlaze References project.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit e94d5d7d0b57f82231177aee9dd3a9393d18e7bc
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jan 15 18:40:35 2011 +0100
+
+    tpos: device-tree: generic uio support
+
+    A lot of hardware out there does not fit into one of any
+    standard sybsytems. Custom specific register or memory
+    banks in FPGAs are one of these examples for such hardware.
+
+    However, to support such hardware in an general and common
+    way we can use the Universal I/O (UIO) subsystem.
+
+    The so-called generic-uio Linux driver can bind to any
+    device tree node with with entry "generic-uio" inside the
+    compatibility list.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit ba4c77ac46c4daebc6885f1d0fce4262b1fe5b67
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jan 15 18:20:46 2011 +0100
+
+    tpos: AXI support in MLD file
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit a7bf75c103aac053aedfb985665c8db645327fa9
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Jan 12 18:36:33 2011 +0100
+
+    Prepare 2011.01-rc2
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit 976500d707852cf2f4de2bcf2a58cc01808b3a40
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Wed Jan 12 17:54:23 2011 +0100
