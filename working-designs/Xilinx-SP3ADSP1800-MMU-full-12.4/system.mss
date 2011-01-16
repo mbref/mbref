@@ -17,7 +17,7 @@ BEGIN OS
  PARAMETER ethernet = xps_ether_0
  PARAMETER periph_type_overrides = {hard-reset-gpios xps_gpio_0 0 1} {led heartbeat xps_gpio_3 0 1} {led green-1 xps_gpio_3 1 1} {led green-2 xps_gpio_3 2 1} {led green-3 xps_gpio_3 3 1} {led green-4 xps_gpio_3 4 1} {led green-5 xps_gpio_3 5 1} {led green-6 xps_gpio_3 6 1} {led green-7 xps_gpio_3 7 1}
  PARAMETER board_name = sp3adsp1800
- PARAMETER linux_bootargs = console=ttyS0,115200 debug
+ PARAMETER linux_bootargs = console=ttyS0,115200 mtdparts=af000000.flash:2048k(bpi),13824k(simpleimage),384k(u-boot-fs)ro,128k(env) debug
  PARAMETER xlboot_boot_counter = 3
  PARAMETER xlboot_locblob_offset = 0xF80000
  PARAMETER generic_uio = mbref_reg_0
