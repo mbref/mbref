@@ -1,3 +1,21 @@
+commit 5bb62dfc17e50794bac08851da602c16ca5d5678
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jan 16 14:39:55 2011 +0100
+
+    working-designs: 12.4: add mtdparts to linux_bootargs
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 30331afd7e82c6df72f3c15a1a791cc98f65993e
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jan 15 21:00:19 2011 +0100
+
+    Prepare 2011.01-rc3
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit 8bbb0ad36ccdc3299ca99f99452e522154baef70
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Jan 15 20:58:26 2011 +0100
