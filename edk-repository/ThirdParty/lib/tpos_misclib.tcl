@@ -303,7 +303,7 @@ proc tpos_check_design {osh} {
 	# If so check bus connection.
 	#
 	set ethmac [xget_sw_parameter_value ${osh} "ethernet"]
-	if {[string match "" ${normem}] || [string match -nocase "none" ${normem}]} {
+	if {[string match "" ${ethmac}] || [string match -nocase "none" ${ethmac}]} {
 		debug info "INFO: Ethernet not specified."
 	} else {
 		set ethmac_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] ${ethmac}]
