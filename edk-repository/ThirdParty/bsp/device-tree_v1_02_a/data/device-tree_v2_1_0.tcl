@@ -149,6 +149,10 @@ proc generate {os_handle} {
 	set timer [xget_sw_parameter_value $os_handle "timer"]
 	global generic_uio
 	set generic_uio [xget_sw_parameter_value $os_handle "generic_uio"]
+	global s2imac
+	set s2imac [xget_sw_parameter_value $os_handle "s2imac"]
+	global s2imac_epc
+	set s2imac_epc [xget_sw_parameter_value $os_handle "s2imac_epc"]
 	generate_device_tree "xilinx.dts" $bootargs $consoleip
 }
 
@@ -735,6 +739,25 @@ proc slaveip_in_compound_intr {slave intc interrupt_port_list devicetype paramet
 	set ip_tree [slaveip_basic $slave $intc $parameter_list [format_ip_name $devicetype $baseaddr]]
 	set ip_tree [tree_append $ip_tree [gen_reg_property $name $baseaddr $highaddr]]
 	set ip_tree [gen_interrupt_property $ip_tree $slave $intc $interrupt_port_list]
+	return $ip_tree
+}
+
+proc slave_s2imac_epc_port {slave intc index} {
+	set name [xget_hw_name $slave]
+
+	# Add this temac channel to the alias list
+	variable ethernet_count
+	variable alias_node_list
+	lappend alias_node_list [list ethernet$ethernet_count aliasref "${name}_p${index}"]
+	incr ethernet_count
+
+	# 'network' type
+	set ip_tree [slaveip_intr $slave $intc [interrupt_list $slave] "ethernet" "" [format "PRH%i_" $index] "" "s2i,s2imac-epc"]
+	set ip_tree [tree_append $ip_tree [list "device_type" string "network"]]
+	variable mac_count
+	set ip_tree [tree_append $ip_tree [list "local-mac-address" bytesequence [list 0x00 0x0a 0x35 0x00 0x00 $mac_count]]]
+	set mac_count [expr $mac_count + 1]
+
 	return $ip_tree
 }
 
@@ -1360,7 +1383,13 @@ proc gener_slave {node slave intc} {
 
 			set epc_peripheral_num [xget_hw_parameter_value $slave "C_NUM_PERIPHERALS"]
 			for {set x 0} {$x < ${epc_peripheral_num}} {incr x} {
-				set subnode [slaveip_intr $slave $intc [interrupt_list $slave] "" "" "PRH${x}_" ]
+				global s2imac
+				global s2imac_epc
+				if {[string match $name $s2imac] && [string match $x $s2imac_epc]} {
+					set subnode [slave_s2imac_epc_port $slave $intc $x]
+				} else {
+					set subnode [slaveip_intr $slave $intc [interrupt_list $slave] "" "" [format "PRH%i_" $x]]
+				}
 				set subnode [change_nodename $subnode $name "${name}_p${x}"]
 				set tree [tree_append $tree $subnode]
 			}

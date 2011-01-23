@@ -96,6 +96,13 @@ BEGIN OS tpos
     PARAM NAME = generic_uio, DESC = "Peripheral interface for generic uio access", TYPE = peripheral_instance, DEFAULT = none;
   END CATEGORY
 
+  BEGIN CATEGORY s2i
+    PARAM NAME = s2i, DESC = "Sensor to Image peripherals", TYPE = bool, DEFAULT = true, PERMIT = none, GUI_PERMIT = none;
+    # s2imac peripherals
+    PARAM NAME = s2imac, DESC = "GigE Vision ethernet controller", TYPE = peripheral_instance, RANGE = (xps_epc), DEFAULT = none;
+    PARAM NAME = s2imac_epc, DESC = "EPC external peripheral device number", TYPE = int, RANGE = (0, 1, 2, 3), DEFAULT = 0;
+  END CATEGORY
+
   BEGIN CATEGORY bootloader
     PARAM NAME = bootloader, DESC = "TPOS: bootloader specifics", TYPE = bool, DEFAULT = true, PERMIT = none, GUI_PERMIT = none;
     PARAM NAME = xlboot_boot_counter, DESC = "XL-Boot autoboot counter value (zero means of)", TYPE = int, DEFAULT = 10;
