@@ -1,0 +1,12 @@
+-batch 
+-create plbv46_mbref_mio 
+-ver 1.00.a 
+-lang vhdl 
+-bus plbv46 s 
+-rst 
+-isc 3 
+-intrn 32 1 
+-mem 4 
+-xps 
+#-ise 
+-driver 
