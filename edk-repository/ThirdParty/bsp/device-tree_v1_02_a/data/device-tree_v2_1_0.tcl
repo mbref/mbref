@@ -110,6 +110,7 @@ set overrides {}
 
 # misc
 set alias_node_list {}
+set generic_uio_list {}
 
 #############################################################################
 #   DRC			the name of the DRC given in the MLD file
@@ -147,12 +148,20 @@ proc generate {os_handle} {
 	set flash_memory_bank [xget_sw_parameter_value $os_handle "flash_memory_bank"]
 	global timer
 	set timer [xget_sw_parameter_value $os_handle "timer"]
-	global generic_uio
-	set generic_uio [xget_sw_parameter_value $os_handle "generic_uio"]
+
+	global generic_uio_list
+	set generic_uio_handle [xget_handle $os_handle "ARRAY" "generic_uio_list"]
+	set generic_uio_elements [xget_handle $generic_uio_handle "ELEMENTS" "*"]
+	foreach ele $generic_uio_elements {
+		set generic_uio  [xget_value $ele "PARAMETER" "generic_uio"]
+		lappend generic_uio_list $generic_uio
+	}
+
 	global s2imac
 	set s2imac [xget_sw_parameter_value $os_handle "s2imac"]
 	global s2imac_epc
 	set s2imac_epc [xget_sw_parameter_value $os_handle "s2imac_epc"]
+
 	generate_device_tree "xilinx.dts" $bootargs $consoleip
 }
 
@@ -1396,14 +1405,15 @@ proc gener_slave {node slave intc} {
 			lappend node $tree
 		}
 		default {
-			global generic_uio
-			if {[string match $name $generic_uio]} {
-				# We should handle this specially, to make it compatible to generic-uio.
-				set dtype "uio"
-				set compat "generic-uio"
-			} else {
-				set dtype ""
-				set compat ""
+			set dtype ""
+			set compat ""
+			global generic_uio_list
+			foreach generic_uio $generic_uio_list {
+				if {[string match $name $generic_uio]} {
+					# We should handle this specially, to make it compatible to generic-uio.
+					set dtype "uio"
+					set compat "generic-uio"
+				}
 			}
 			# *Most* IP with or w/o MBARS should be handled by this default case.
 			if {[parameter_exists $slave "C_BASEADDR"] && [parameter_exists $slave "C_MEM0_BASEADDR"]} {
