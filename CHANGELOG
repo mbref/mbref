@@ -1,3 +1,127 @@
+commit 1b114f9a5f76ace501f034edd6f946d32027ab8a
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Jan 25 21:38:55 2011 +0100
+
+    Xilinx-ML605-MMU-lite-12.4: add plbv46_mbref_mio
+
+    Add the mbref simple memory bank plbv46_mbref_mio to
+    design, named as mbref_mio_0.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 4fee873d709b4ef51c147fcfa4121fd46c2bd923
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Jan 25 21:38:29 2011 +0100
+
+    Xilinx-ML605-MMU-full-12.4: add plbv46_mbref_mio
+
+    Add the mbref simple memory bank plbv46_mbref_mio to
+    design, named as mbref_mio_0.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit e5fff3ff38a439e9e75a52f9f6d06ff728f735c6
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Jan 25 21:38:13 2011 +0100
+
+    Xilinx-SP3ADSP1800-MMU-lite-12.4: add plbv46_mbref_mio
+
+    Add the mbref simple memory bank plbv46_mbref_mio to
+    design, named as mbref_mio_0.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 7d0f62b9727a78a91c53f68b9ca75c49fa67eefe
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Jan 25 21:37:38 2011 +0100
+
+    Xilinx-SP3ADSP1800-MMU-full-12.4: add plbv46_mbref_mio
+
+    Add the mbref simple memory bank plbv46_mbref_mio to
+    design, named as mbref_mio_0.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 19f7fce9f26d5bd6374a6641e32a5882b5e1b3e6
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Jan 25 21:34:51 2011 +0100
+
+    tpos: device-tree: change over to a generic uio list
+
+      * device-tree: remove generic_uio
+      * device-tree: introduce generic_uio_list
+      * tpos: mld: introduce ARRAY generic_uio_list
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 633875a88b9155743a9dffebde7d0209ff8cf8d8
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Jan 25 16:50:56 2011 +0100
+
+    tpos: device-tree: generic uio for multiple mbars
+
+    A lot of hardware out there does not fit into the standard
+    scheme of one and only one memory mapped io slot. It is a
+    common case have more than one address slots in on entity.
+
+    With Xilinx tool creatip you can generate IPIF designs with
+    one or up to eight local memory slots. We will handle all
+    parameters beginning with C_MEM and expand the reg entry.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit baeee0f8d1a746ac02fcdacf5aa5ed012cfa6873
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Jan 24 21:14:03 2011 +0100
+
+    tpos: plbv46_mbref_mio: new IP core
+
+    MicroBlaze References simple memory bank for PLB v4.6.
+    This belongs to MicroBlaze References project.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit e7e52a27462acedeec670db51404d83b907e58eb
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jan 23 19:36:01 2011 +0100
+
+    tpos: Add S2I GigE Vision MAC support
+
+    Add Sensor to Image (S2I) GigE Vision Ethernet MAC support
+    to tpos-lib tpos-mld and device-tree. It is the first stage
+    of design.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 9c58fd6b2912d94d5239a0a67f771a3a0494c0b4
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jan 23 19:31:44 2011 +0100
+
+    tpos: mld: fixe type mismatch for integer
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 3f63cdbef770079132dcb7a5310ccf1df7b6965a
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jan 20 15:42:55 2011 +0100
+
+    tpos: lib: fix NULL pointer exception
+
+    Correct typo in DRC code for LL_TEMAC, rename normem to ethmac,
+    copy-past mistake.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 0031978f9729e422555e442d36de2759ce9b027e
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jan 16 23:04:45 2011 +0100
+
+    Prepare 2011.01-rc4
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit 5bb62dfc17e50794bac08851da602c16ca5d5678
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jan 16 14:39:55 2011 +0100
