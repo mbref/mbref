@@ -1399,15 +1399,37 @@ proc gener_slave {node slave intc} {
 			global generic_uio
 			if {[string match $name $generic_uio]} {
 				# We should handle this specially, to make it compatible to generic-uio.
-				#lappend node [slaveip_intr $slave $intc [interrupt_list $slave] "uio" [default_parameters $slave] "" "" "generic-uio"]
 				set dtype "uio"
 				set compat "generic-uio"
 			} else {
 				set dtype ""
 				set compat ""
 			}
-			# *Most* IP should be handled by this default case.
-			if {[catch {lappend node [slaveip_intr $slave $intc [interrupt_list $slave] $dtype [default_parameters $slave] "" "" $compat]} {error}]} {
+			# *Most* IP with or w/o MBARS should be handled by this default case.
+			if {[parameter_exists $slave "C_BASEADDR"] && [parameter_exists $slave "C_MEM0_BASEADDR"]} {
+				set baseaddr [scan_int_parameter_value $slave "C_BASEADDR"]
+				set highaddr [scan_int_parameter_value $slave "C_HIGHADDR"]
+				if {[catch {set tree [slaveip_basic $slave $intc [default_parameters $slave] [format_ip_name $dtype $baseaddr $name] $compat]} {error}]} {
+					debug warning "Warning: Default slave handling for unknown IP $name ($type) Failed...  It won't show up in the device tree."
+					debug warning $error
+				} else {
+					set subnode [gen_reg_property $name $baseaddr $highaddr]
+					for {set x 0} {$x < 7} {incr x} {
+						if {[parameter_exists $slave [format "C_MEM%i_BASEADDR" $x]]} {
+							set baseaddr [scan_int_parameter_value $slave [format "C_MEM%i_BASEADDR" $x]]
+							set highaddr [scan_int_parameter_value $slave [format "C_MEM%i_HIGHADDR" $x]]
+							if {[catch {set subnode [reg_property_append $subnode [gen_reg_property $name $baseaddr $highaddr]]} {error}]} {
+								debug warning "Warning: Default MBAR handling for unknown IP $name ($type) MEM$x Failed...  It won't show up in the device tree."
+								debug warning $error
+							}
+						}
+					}
+					set tree [tree_append $tree $subnode]
+					# TODO: gen_interrupt_property $tree $slave $intc [interrupt_list $slave]
+					set tree [gen_interrupt_property $tree $slave $intc [interrupt_list $slave]]
+				}
+				lappend node $tree
+			} elseif {[catch {lappend node [slaveip_intr $slave $intc [interrupt_list $slave] $dtype [default_parameters $slave] "" "" $compat]} {error}]} {
 				debug warning "Warning: Default slave handling for unknown IP $name ($type) Failed...  It won't show up in the device tree."
 				debug warning $error
 			}
@@ -2188,6 +2210,16 @@ proc gen_reg_property {nodename baseaddr highaddr {name "reg"}} {
 		error "Bad highaddr for $nodename"
 	}
 	return [list $name hexinttuple [list $baseaddr $size]]
+}
+
+proc reg_property_append {old new} {
+	if {[lindex $old 0] != "reg"} {
+		error {"reg_property_append called on $old, which is not a reg property."}
+	}
+	set name [lindex $old 0]
+	set value [lindex $old 2]
+	lappend value [lindex $new 2]
+	return [list $name hexinttuple [join $value]]
 }
 
 proc write_value {file indent type value} {
