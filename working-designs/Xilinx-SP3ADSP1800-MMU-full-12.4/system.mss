@@ -20,8 +20,8 @@ BEGIN OS
  PARAMETER linux_bootargs = console=ttyS0,115200 mtdparts=af000000.flash:2048k(bpi),13824k(simpleimage),384k(u-boot-fs)ro,128k(env) debug
  PARAMETER xlboot_boot_counter = 3
  PARAMETER xlboot_locblob_offset = 0xF80000
- PARAMETER generic_uio = mbref_reg_0
  PARAMETER microblaze_exception_vectors = ((XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0))
+ PARAMETER generic_uio_list = (mbref_mio_0,mbref_reg_0)
 END
 
 
@@ -135,6 +135,12 @@ BEGIN DRIVER
  PARAMETER DRIVER_NAME = plbv46_mbref_reg
  PARAMETER DRIVER_VER = 1.00.a
  PARAMETER HW_INSTANCE = mbref_reg_0
+END
+
+BEGIN DRIVER
+ PARAMETER DRIVER_NAME = plbv46_mbref_mio
+ PARAMETER DRIVER_VER = 1.00.a
+ PARAMETER HW_INSTANCE = mbref_mio_0
 END
 
 
