@@ -68,16 +68,16 @@ BEGIN OS tpos
     PARAM NAME = lmb_memory, DESC = "local memory (mainly BRAM)", TYPE = peripheral_instance, RANGE = (lmb_bram_if_cntlr, opb_bram_if_cntlr, axi_bram_ctrl), DEFAULT = none;
     # memory peripherals (RAM), Xilinx (Multi-Port/Multi-Channel) (External) Memory Controller on OPB or PLB
     PARAM NAME = main_memory, DESC = "main memory (mainly SDRAM/SRAM)", TYPE = peripheral_instance, RANGE = (ppc440mc_ddr2, opb_sdram, opb_ddr, opb_emc, plb_sdram, plb_ddr, plb_ddr2, plb_emc, mch_opb_sdram, mch_opb_ddr, mch_opb_ddr2, mch_opb_emc, mpmc, xps_mch_emc, axi_s6_ddrx, axi_v6_ddrx), DEFAULT = none;
-    PARAM NAME = main_memory_bank, DESC = "bank within memory controller of main memory", TYPE = integer, DEFAULT = 0;
-    PARAM NAME = main_memory_start, DESC = "manual override of main memory start address", TYPE = integer, DEFAULT = -1;
-    PARAM NAME = main_memory_size, DESC = "manual override of main memory size", TYPE = integer, DEFAULT = 0;
-    PARAM NAME = main_memory_offset, DESC = "manual override of main memory start offset", TYPE = integer, DEFAULT = 0;
+    PARAM NAME = main_memory_bank, DESC = "bank within memory controller of main memory", TYPE = int, DEFAULT = 0;
+    PARAM NAME = main_memory_start, DESC = "manual override of main memory start address", TYPE = int, DEFAULT = -1;
+    PARAM NAME = main_memory_size, DESC = "manual override of main memory size", TYPE = int, DEFAULT = 0;
+    PARAM NAME = main_memory_offset, DESC = "manual override of main memory start offset", TYPE = int, DEFAULT = 0;
     # flash peripherals (ROM), Xilinx (Multi-Channel) External Memory Controller on OPB or PLB
     PARAM NAME = flash_memory, DESC = "flash memory (mainly NOR)", TYPE = peripheral_instance, RANGE = (opb_emc, plb_emc, mch_opb_emc, xps_mch_emc, axi_emc), DEFAULT = none;
-    PARAM NAME = flash_memory_bank, DESC = "bank within memory controller of flash memory", TYPE = integer, DEFAULT = 0;
-    PARAM NAME = flash_memory_start, DESC = "manual override of flash memory start address", TYPE = integer, DEFAULT = -1;
-    PARAM NAME = flash_memory_size, DESC = "manual override of flash memory size", TYPE = integer, DEFAULT = 0;
-    PARAM NAME = flash_memory_offset, DESC = "manual override of flash memory start offset", TYPE = integer, DEFAULT = 0;
+    PARAM NAME = flash_memory_bank, DESC = "bank within memory controller of flash memory", TYPE = int, DEFAULT = 0;
+    PARAM NAME = flash_memory_start, DESC = "manual override of flash memory start address", TYPE = int, DEFAULT = -1;
+    PARAM NAME = flash_memory_size, DESC = "manual override of flash memory size", TYPE = int, DEFAULT = 0;
+    PARAM NAME = flash_memory_offset, DESC = "manual override of flash memory start offset", TYPE = int, DEFAULT = 0;
   END CATEGORY
 
   BEGIN CATEGORY sysio
@@ -93,15 +93,25 @@ BEGIN OS tpos
   BEGIN CATEGORY customio
     PARAM NAME = customio, DESC = "TPOS: users i/o components (customized)", TYPE = bool, DEFAULT = true, PERMIT = none, GUI_PERMIT = none;
     # customized peripherals
-    PARAM NAME = generic_uio, DESC = "Peripheral interface for generic uio access", TYPE = peripheral_instance, DEFAULT = none;
+    BEGIN ARRAY generic_uio_list
+      PROPERTY DESC = "List of peripheral interfaces for generic uio access";
+      PARAM NAME = generic_uio, DESC = "Peripheral interface for generic uio access", TYPE = peripheral_instance, DEFAULT = none;
+    END ARRAY
+  END CATEGORY
+
+  BEGIN CATEGORY s2i
+    PARAM NAME = s2i, DESC = "Sensor to Image peripherals", TYPE = bool, DEFAULT = true, PERMIT = none, GUI_PERMIT = none;
+    # s2imac peripherals
+    PARAM NAME = s2imac, DESC = "GigE Vision ethernet controller", TYPE = peripheral_instance, RANGE = (xps_epc), DEFAULT = none;
+    PARAM NAME = s2imac_epc, DESC = "EPC external peripheral device number", TYPE = int, RANGE = (0, 1, 2, 3), DEFAULT = 0;
   END CATEGORY
 
   BEGIN CATEGORY bootloader
     PARAM NAME = bootloader, DESC = "TPOS: bootloader specifics", TYPE = bool, DEFAULT = true, PERMIT = none, GUI_PERMIT = none;
-    PARAM NAME = xlboot_boot_counter, DESC = "XL-Boot autoboot counter value (zero means of)", TYPE = integer, DEFAULT = 10;
-    PARAM NAME = xlboot_locblob_offset, DESC = "XL-Boot image locator blob position offset in flash memory", TYPE = integer, DEFAULT = 0;
+    PARAM NAME = xlboot_boot_counter, DESC = "XL-Boot autoboot counter value (zero means of)", TYPE = int, DEFAULT = 10;
+    PARAM NAME = xlboot_locblob_offset, DESC = "XL-Boot image locator blob position offset in flash memory", TYPE = int, DEFAULT = 0;
     PARAM NAME = uboot_version, DESC = "U-Boot version you want to support", TYPE = enum, VALUES = ("v2010.12" = UB_2010_12, "older than v2010.12" = UB_2010_12_PRE), DEFAULT = UB_2010_12;
-    PARAM NAME = uboot_position, DESC = "U-Boot position in memory", TYPE = integer, DEFAULT = 0;
+    PARAM NAME = uboot_position, DESC = "U-Boot position in memory", TYPE = int, DEFAULT = 0;
   END CATEGORY
 
   BEGIN CATEGORY linux

@@ -480,7 +480,7 @@ BEGIN xps_intc
  PARAMETER C_BASEADDR = 0x8AFF0000
  PARAMETER C_HIGHADDR = 0x8AFFFFFF
  BUS_INTERFACE SPLB = mb_plb
- PORT Intr = mbref_reg_0_IP2INTC_Irpt & xps_iic_0_IIC2INTC_Irpt & xps_uart_0_Interrupt & PCIe_Bridge_IP2INTC_Irpt & xps_ether_0_IP2INTC_Irpt & xps_sysace_0_SysACE_IRQ & xps_timer_0_Interrupt & xps_central_dma_1_IP2INTC_Irpt & fpga_0_xps_ether_0_MDINT_pin
+ PORT Intr = mbref_mio_0_IP2INTC_Irpt & mbref_reg_0_IP2INTC_Irpt & xps_iic_0_IIC2INTC_Irpt & xps_uart_0_Interrupt & PCIe_Bridge_IP2INTC_Irpt & xps_ether_0_IP2INTC_Irpt & xps_sysace_0_SysACE_IRQ & xps_timer_0_Interrupt & xps_central_dma_1_IP2INTC_Irpt & fpga_0_xps_ether_0_MDINT_pin
  PORT Irq = microblaze_0_Interrupt
 END
 
@@ -513,5 +513,22 @@ BEGIN plbv46_mbref_reg
  PARAMETER C_HIGHADDR = 0x8080FFFF
  BUS_INTERFACE SPLB = mb_plb
  PORT IP2INTC_Irpt = mbref_reg_0_IP2INTC_Irpt
+END
+
+BEGIN plbv46_mbref_mio
+ PARAMETER INSTANCE = mbref_mio_0
+ PARAMETER HW_VER = 1.00.a
+ PARAMETER C_BASEADDR = 0x80400000
+ PARAMETER C_HIGHADDR = 0x8040FFFF
+ PARAMETER C_MEM0_BASEADDR = 0x80410000
+ PARAMETER C_MEM0_HIGHADDR = 0x804101FF
+ PARAMETER C_MEM1_BASEADDR = 0x80411000
+ PARAMETER C_MEM1_HIGHADDR = 0x804111FF
+ PARAMETER C_MEM2_BASEADDR = 0x80412000
+ PARAMETER C_MEM2_HIGHADDR = 0x804121FF
+ PARAMETER C_MEM3_BASEADDR = 0x80413000
+ PARAMETER C_MEM3_HIGHADDR = 0x804131FF
+ BUS_INTERFACE SPLB = mb_plb
+ PORT IP2INTC_Irpt = mbref_mio_0_IP2INTC_Irpt
 END
 
