@@ -350,16 +350,12 @@ proc tpos_check_design {osh} {
 		switch -exact ${s2imac_type} {
 			"xps_epc" {
 				debug info "INFO: S2I GigE Vision Ethernet at EPC specified."
-				set epc_pmax [xget_sw_parameter_value ${s2imac_handle} C_NUM_PERIPHERALS]
-				set epc_pnum [xget_sw_parameter_value ${osh} "s2imac_epc"]
-				if {$epc_pnum >= $epc_pmax} {
-					error "ERROR: peripheral number to use must be lower than epc maximum peripherals"
+				set epc_pnum [xget_sw_parameter_value ${s2imac_handle} C_NUM_PERIPHERALS]
+				if {$epc_pnum < 2} {
+					error "ERROR: not enoughth peripherals"
 				} else {
-					debug info "      ${epc_pnum} < ${epc_pmax}"
+					debug info "      ${epc_pnum} peripherals"
 				}
-				set parapre [format C_PRH%i ${epc_pnum}]
-				set s2imac_base [get_addr_hex ${s2imac_handle} [format %s_BASEADDR ${parapre}]]
-				debug info "      s2imac_base := ${s2imac_base}"
 			}
 			default {
 				error "ERROR: Unknown S2I GigE Vision Ethernet interface type ${s2imac_type}"
@@ -1733,7 +1729,7 @@ proc put_s2imac_cfg_ch {pkg fh osh mh} {
 	set s2imac_type [xget_hw_value ${mh}]
 	switch -exact ${s2imac_type} {
 		"xps_epc" {
-			set epc_p [xget_sw_parameter_value ${osh} "s2imac_epc"]
+			set epc_p 0
 			return [put_s2imac_epc_cfg ${pkg} ${fh} ${mh} ${epc_p}]
 		}
 		default {

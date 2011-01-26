@@ -751,23 +751,41 @@ proc slaveip_in_compound_intr {slave intc interrupt_port_list devicetype paramet
 	return $ip_tree
 }
 
-proc slave_s2imac_epc_port {slave intc index} {
+proc slave_s2imac_epc {slave intc} {
 	set name [xget_hw_name $slave]
+	set baseaddr [scan_int_parameter_value $slave "C_PRH0_BASEADDR"]
+	set highaddr [scan_int_parameter_value $slave "C_PRH0_HIGHADDR"]
 
 	# Add this temac channel to the alias list
 	variable ethernet_count
 	variable alias_node_list
-	lappend alias_node_list [list ethernet$ethernet_count aliasref "${name}_p${index}"]
+	lappend alias_node_list [list ethernet$ethernet_count aliasref $name]
 	incr ethernet_count
 
 	# 'network' type
-	set ip_tree [slaveip_intr $slave $intc [interrupt_list $slave] "ethernet" "" [format "PRH%i_" $index] "" "s2i,s2imac-epc"]
-	set ip_tree [tree_append $ip_tree [list "device_type" string "network"]]
+	set tree [slaveip_basic $slave $intc [default_parameters $slave] [format_ip_name "ethernet" $baseaddr $name] "s2i,s2imac-epc"]
+	set tree [tree_append $tree [list "device_type" string "network"]]
 	variable mac_count
-	set ip_tree [tree_append $ip_tree [list "local-mac-address" bytesequence [list 0x00 0x0a 0x35 0x00 0x00 $mac_count]]]
+	set tree [tree_append $tree [list "local-mac-address" bytesequence [list 0x00 0x0a 0x35 0x00 0x00 $mac_count]]]
 	set mac_count [expr $mac_count + 1]
 
-	return $ip_tree
+	# epc slot 0..3
+	set subnode [gen_reg_property $name $baseaddr $highaddr]
+	for {set x 1} {$x < 5} {incr x} {
+		if {[parameter_exists $slave [format "C_PRH%i_BASEADDR" $x]]} {
+			set baseaddr [scan_int_parameter_value $slave [format "C_PRH%i_BASEADDR" $x]]
+			set highaddr [scan_int_parameter_value $slave [format "C_PRH%i_HIGHADDR" $x]]
+			if {![string match "0x[format %x $baseaddr]" "0xffffffff"]} {
+				set subnode [reg_property_append $subnode [gen_reg_property $name $baseaddr $highaddr]]
+			}
+		}
+	}
+	set tree [tree_append $tree $subnode]
+
+	set tree [gen_interrupt_property $tree $slave $intc [interrupt_list $slave]]
+	set tree [tree_append $tree [list ranges empty empty]]
+
+	return $tree
 }
 
 proc slave_ll_temac_port {slave intc index} {
@@ -1387,22 +1405,23 @@ proc gener_slave {node slave intc} {
 			lappend node [gen_ppc405 $slave [default_parameters $slave]]
 		}
 		"xps_epc" {
-			set tree [compound_slave $slave "C_PRH0_BASEADDR"]
-			set tree [tree_append $tree [list ranges empty empty]]
+			global s2imac
+			if {[string match $name $s2imac]} {
+				# We need to handle this specially, to notify the driver
+				# about the connected S2IMAC connection, and the dual cores.
+				lappend node [slave_s2imac_epc $slave $intc]
+			} else {
+				set tree [compound_slave $slave "C_PRH0_BASEADDR"]
+				set tree [tree_append $tree [list ranges empty empty]]
 
-			set epc_peripheral_num [xget_hw_parameter_value $slave "C_NUM_PERIPHERALS"]
-			for {set x 0} {$x < ${epc_peripheral_num}} {incr x} {
-				global s2imac
-				global s2imac_epc
-				if {[string match $name $s2imac] && [string match $x $s2imac_epc]} {
-					set subnode [slave_s2imac_epc_port $slave $intc $x]
-				} else {
-					set subnode [slaveip_intr $slave $intc [interrupt_list $slave] "" "" [format "PRH%i_" $x]]
+				set epc_peripheral_num [xget_hw_parameter_value $slave "C_NUM_PERIPHERALS"]
+				for {set x 0} {$x < ${epc_peripheral_num}} {incr x} {
+					set subnode [slaveip_intr $slave $intc [interrupt_list $slave] "" [default_parameters $slave] [format "PRH%i_" $x]]
+					set subnode [change_nodename $subnode $name "${name}_p${x}"]
+					set tree [tree_append $tree $subnode]
 				}
-				set subnode [change_nodename $subnode $name "${name}_p${x}"]
-				set tree [tree_append $tree $subnode]
+				lappend node $tree
 			}
-			lappend node $tree
 		}
 		default {
 			set dtype ""
