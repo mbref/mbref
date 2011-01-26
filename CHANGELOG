@@ -1,3 +1,36 @@
+commit 5b9b32b9b9de75f5a4328f1000a95d609fef36be
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Jan 26 22:16:06 2011 +0100
+
+    tpos: device-tree: special filter for S2IMAC
+
+    Introduce a special dts filter for S2I GigE Vision Ethernet
+    controllers connected on generic xps_epc. This removes the
+    "near" generic approach.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 109141d0995952f59878b73a9bf5eec7bd5a2a9c
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Jan 26 22:11:49 2011 +0100
+
+    tpos: device-tree: fix generic uio handling
+
+     * protect array extraction if there is no data
+     * fetch up to eight memory slots
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 5f44050ad8812f8943e97b3b0d9093cf0a4da358
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Jan 25 21:41:33 2011 +0100
+
+    Prepare 2011.01-rc5
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit 1b114f9a5f76ace501f034edd6f946d32027ab8a
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Jan 25 21:38:55 2011 +0100
