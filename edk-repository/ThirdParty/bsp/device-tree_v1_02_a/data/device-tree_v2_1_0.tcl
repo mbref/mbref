@@ -151,16 +151,16 @@ proc generate {os_handle} {
 
 	global generic_uio_list
 	set generic_uio_handle [xget_handle $os_handle "ARRAY" "generic_uio_list"]
-	set generic_uio_elements [xget_handle $generic_uio_handle "ELEMENTS" "*"]
-	foreach ele $generic_uio_elements {
-		set generic_uio  [xget_value $ele "PARAMETER" "generic_uio"]
-		lappend generic_uio_list $generic_uio
+        if {![string match "" ${generic_uio_handle}] && ![string match -nocase "none" ${generic_uio_handle}]} {
+		set generic_uio_elements [xget_handle $generic_uio_handle "ELEMENTS" "*"]
+		foreach ele $generic_uio_elements {
+			set generic_uio  [xget_value $ele "PARAMETER" "generic_uio"]
+			lappend generic_uio_list $generic_uio
+		}
 	}
 
 	global s2imac
 	set s2imac [xget_sw_parameter_value $os_handle "s2imac"]
-	global s2imac_epc
-	set s2imac_epc [xget_sw_parameter_value $os_handle "s2imac_epc"]
 
 	generate_device_tree "xilinx.dts" $bootargs $consoleip
 }
@@ -1424,7 +1424,7 @@ proc gener_slave {node slave intc} {
 					debug warning $error
 				} else {
 					set subnode [gen_reg_property $name $baseaddr $highaddr]
-					for {set x 0} {$x < 7} {incr x} {
+					for {set x 0} {$x < 8} {incr x} {
 						if {[parameter_exists $slave [format "C_MEM%i_BASEADDR" $x]]} {
 							set baseaddr [scan_int_parameter_value $slave [format "C_MEM%i_BASEADDR" $x]]
 							set highaddr [scan_int_parameter_value $slave [format "C_MEM%i_HIGHADDR" $x]]
