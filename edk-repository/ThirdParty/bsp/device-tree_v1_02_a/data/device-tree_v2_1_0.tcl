@@ -142,6 +142,8 @@ proc generate {os_handle} {
 	set main_memory [xget_sw_parameter_value $os_handle "main_memory"]
 	global main_memory_bank
 	set main_memory_bank [xget_sw_parameter_value $os_handle "main_memory_bank"]
+	global main_memory_size
+	set main_memory_size [xget_sw_parameter_value $os_handle "main_memory_size"]
 	global flash_memory
 	set flash_memory [xget_sw_parameter_value $os_handle "flash_memory"]
 	global flash_memory_bank
@@ -1501,6 +1503,13 @@ proc memory {slave baseaddr_prefix params} {
 	set baseaddr [scan_int_parameter_value $slave [format "C_%sBASEADDR" $baseaddr_prefix]]
 	set highaddr [scan_int_parameter_value $slave [format "C_%sHIGHADDR" $baseaddr_prefix]]
 
+	global main_memory main_memory_size
+	if { [string match $name $main_memory] && $main_memory_size != 0 } {
+		if { $main_memory_size < $highaddr - $baseaddr + 1 } {
+			set highaddr [expr $baseaddr + $main_memory_size - 1]
+		}
+	}
+
 	lappend ip_node [gen_reg_property $name $baseaddr $highaddr]
 	lappend ip_node [list "device_type" string "memory"]
 	set ip_node [gen_params $ip_node $slave $params]
@@ -1634,6 +1643,16 @@ proc gen_microblaze {tree hwproc_handle params} {
 	set icache_line_size [expr 4*[scan_int_parameter_value $hwproc_handle "C_ICACHE_LINE_LEN"]]
 	set dcache_line_size [expr 4*[scan_int_parameter_value $hwproc_handle "C_DCACHE_LINE_LEN"]]
 	set hw_ver [xget_hw_parameter_value $hwproc_handle "HW_VER"]
+
+	global main_memory_size
+	if { $main_memory_size != 0 } {
+		if { $main_memory_size < $icache_high - $icache_base + 1 } {
+			set icache_high [expr $icache_base + $main_memory_size - 1]
+		}
+		if { $main_memory_size < $dcache_high - $dcache_base + 1 } {
+			set dcache_high [expr $dcache_base + $main_memory_size - 1]
+		}
+	}
 
 	set cpus_node {}
 	set proc_node {}
