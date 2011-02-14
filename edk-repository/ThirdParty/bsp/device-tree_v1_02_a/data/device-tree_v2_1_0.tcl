@@ -785,7 +785,6 @@ proc slave_s2imac_epc {slave intc} {
 	set tree [tree_append $tree $subnode]
 
 	set tree [gen_interrupt_property $tree $slave $intc [interrupt_list $slave]]
-	set tree [tree_append $tree [list ranges empty empty]]
 
 	return $tree
 }
