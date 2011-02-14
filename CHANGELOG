@@ -1,3 +1,62 @@
+commit fc282d0045d17d560dd8459e447fb1137a71a9fe
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Feb 14 09:27:28 2011 +0100
+
+    tpos: device-tree: remove empty ranges for s2imac
+
+    The ranges property can be used to translate from parent
+    IP-core to the registers of each child node. That is true
+    for IP cores actually implement 2 or more logical devices.
+
+    For the S2IMAC that ist wrong and we have to remove the
+    empty generated ranges property.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 67ea7c26ff15a45b65aedacca58c328375e27c8e
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Jan 28 16:58:53 2011 +0100
+
+    tpos: extract and use main_memory_size
+
+    Both in the device-tree module and the tpos misclib
+    where are no support to reduce the main memory size
+    as needed for special hardware purpose we now reseize
+    the memory size to given value in software setup.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit d09f1f7c1213f996d27b9f1085bb116bf0d804d0
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Jan 28 16:57:08 2011 +0100
+
+    tpos: linux: add PTXdist section key
+
+    Add PTXdist section key to Kconfig.auto.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 104e4e51529845c5417070aa6be3c6d7ccbaacda
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jan 27 09:51:02 2011 +0100
+
+    tpos: device-tree: generic uio for multiple mbars
+
+    Expansion of the existing implementation for instances
+    without register access.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit bbf27af3452562f45f94c7fd0e8bc77ba0cfc70a
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Jan 26 22:20:00 2011 +0100
+
+    Prepare 2011.01-rc6
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit 5b9b32b9b9de75f5a4328f1000a95d609fef36be
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Wed Jan 26 22:16:06 2011 +0100
