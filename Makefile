@@ -24,7 +24,12 @@
 VERSION = 2011
 SUBVERSION = 01
 EXTRAVERSION = -rc1
+
+MBREF_NAME = mbref
 MBREF_VERSION = $(VERSION).$(SUBVERSION)$(EXTRAVERSION)
+
+MBREF_PKGNAME = $(MBREF_NAME)-$(MBREF_VERSION)
+MBREF_PKGRTAG = v$(MBREF_VERSION)
 
 all configure install help:
 	@echo
@@ -35,11 +40,14 @@ all configure install help:
 	@echo
 	@echo
 
-.PHONY : doc
+.PHONY : doc dist CHANGELOG
 doc:
 	make -C $@
 
-.PHONY : CHANGELOG
+dist:
+	git archive --format=tar --prefix=$(MBREF_PKGNAME)/ \
+		$(MBREF_PKGRTAG) | bzip2 -9 >$(MBREF_PKGNAME).tar.bz2
+
 CHANGELOG:
 	git log --no-merges master | \
 		unexpand -a | sed -e 's/\s\s*$$//' > $@
