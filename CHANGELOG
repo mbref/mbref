@@ -1,3 +1,46 @@
+commit 251d90ca8fb6155cdbd3df81fe3063a7e95f265a
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Feb 17 12:07:57 2011 +0100
+
+    mbref: correct version for development
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 98f5756a2ce52a3e0d19605d20bb7ffed9595953
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Feb 17 12:01:14 2011 +0100
+
+    mbref: make distribution
+
+    Use 'git archive' to producing a tarball directly from the
+    git master branch. If you do this however, you end up with
+    the entire contents of the git branch, including potentially
+    undesirable files like: .gitignore, doc/ or the big stuff
+    in reference-designs/
+
+    So we use the .gitattributes file to exclude the most
+    unnecessary files and directories.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 2f0d555cbe115a09923d07a90400fbfd0d012616
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Feb 17 10:46:55 2011 +0100
+
+    expand copyright strings to 2011
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit ae4f0eeb3b840095077764cf5fbf6e7ad9eb0065
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Feb 14 09:32:53 2011 +0100
+
+    Prepare 2011.01
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit fc282d0045d17d560dd8459e447fb1137a71a9fe
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Feb 14 09:27:28 2011 +0100
