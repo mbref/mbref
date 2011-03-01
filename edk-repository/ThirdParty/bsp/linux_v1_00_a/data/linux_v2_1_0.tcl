@@ -97,11 +97,11 @@ proc generate_linux {os_handle} {
 
 	puts ${cfg_file_kc} "\# PTXdist section key: this is part of the Xilinx BSP for a SoftCPU"
 	puts ${cfg_file_kc} "\#\# SECTION=xlbsp_softcpu\n"
-	puts ${cfg_file_kc} "\# Project name"
-	puts ${cfg_file_kc} "comment \"Project name\"\n"
-	puts ${cfg_file_kc} "config PROJECT_NAME"
-	puts ${cfg_file_kc} "\tstring \"Project name\""
-	puts ${cfg_file_kc} "\tdefault \"[file tail [get_project_folder]]\"\n\n"
+#	puts ${cfg_file_kc} "\# Project name"
+#	puts ${cfg_file_kc} "comment \"Project name\"\n"
+#	puts ${cfg_file_kc} "config PROJECT_NAME"
+#	puts ${cfg_file_kc} "\tstring \"Project name\""
+#	puts ${cfg_file_kc} "\tdefault \"[file tail [get_project_folder]]\"\n\n"
 
 	variable pkg_name
 	put_pkg_cfg ${pkg_name} ${cfg_file_ac} ${os_handle}
