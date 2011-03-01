@@ -348,7 +348,8 @@ proc tpos_check_design {osh} {
 		set s2imac_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] ${s2imac}]
 		set s2imac_type [xget_hw_value ${s2imac_handle}]
 		switch -exact ${s2imac_type} {
-			"xps_epc" {
+			"xps_epc" -
+			"s2imac_epc" {
 				debug info "INFO: S2I GigE Vision Ethernet at EPC specified."
 				set epc_pnum [xget_sw_parameter_value ${s2imac_handle} C_NUM_PERIPHERALS]
 				if {$epc_pnum < 2} {
@@ -1734,7 +1735,8 @@ proc put_s2imac_cfg_ch {pkg fh osh mh} {
 	# Handle different MACs differently
 	set s2imac_type [xget_hw_value ${mh}]
 	switch -exact ${s2imac_type} {
-		"xps_epc" {
+		"xps_epc" -
+		"s2imac_epc" {
 			set epc_p 0
 			return [put_s2imac_epc_cfg ${pkg} ${fh} ${mh} ${epc_p}]
 		}

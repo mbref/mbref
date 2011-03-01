@@ -97,7 +97,7 @@ BEGIN OS tpos
       PROPERTY DESC = "List of peripheral interfaces for generic uio access";
       PARAM NAME = generic_uio, DESC = "Peripheral interface for generic uio access", TYPE = peripheral_instance, DEFAULT = none;
     END ARRAY
-    PARAM NAME = s2imac, DESC = "GigE Vision ethernet controller", TYPE = peripheral_instance, RANGE = (xps_epc), DEFAULT = none;
+    PARAM NAME = s2imac, DESC = "S2I GigE Vision ethernet controller", TYPE = peripheral_instance, RANGE = (xps_epc, s2imac_epc), DEFAULT = none;
   END CATEGORY
 
   BEGIN CATEGORY bootloader

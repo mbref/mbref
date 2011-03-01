@@ -1411,7 +1411,8 @@ proc gener_slave {node slave intc} {
 			debug ip "Other PowerPC405 CPU $name=$type"
 			lappend node [gen_ppc405 $slave [default_parameters $slave]]
 		}
-		"xps_epc" {
+		"xps_epc" -
+		"s2imac_epc" {
 			global s2imac
 			if {[string match $name $s2imac]} {
 				# We need to handle this specially, to notify the driver
