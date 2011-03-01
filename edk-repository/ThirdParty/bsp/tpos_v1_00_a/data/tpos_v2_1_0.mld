@@ -110,13 +110,13 @@ BEGIN OS tpos
 
   BEGIN CATEGORY linux
     PARAM NAME = linux, DESC = "TPOS: Linux specifics", TYPE = bool, DEFAULT = true, PERMIT = none, GUI_PERMIT = none;
-    PARAM NAME = linux_bootargs, DESC = "Booting arguments", TYPE = string, default = "";
+    PARAM NAME = linux_bootargs, DESC = "Booting arguments", TYPE = string, DEFAULT = "";
     PARAM NAME = periph_type_overrides, DESC = "list of peripheral type overrides", TYPE = string, DEFAULT = "";
   END CATEGORY
 
   BEGIN CATEGORY ecos
     PARAM NAME = ecos, DESC = "TPOS: eCos specifics", TYPE = bool, DEFAULT = true, PERMIT = none, GUI_PERMIT = none;
-    PARAM NAME = board_name, DESC = "name of the board", TYPE = string, default = "";
+    PARAM NAME = board_name, DESC = "name of the board", TYPE = string, DEFAULT = "";
   END CATEGORY
 
   BEGIN CATEGORY microblaze_exceptions
