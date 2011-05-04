@@ -84,7 +84,7 @@ BEGIN OS tpos
     PARAM NAME = sysio, DESC = "TPOS: systems i/o components", TYPE = bool, DEFAULT = true, PERMIT = none, GUI_PERMIT = none;
     # standard peripherals
     PARAM NAME = sysace, DESC = "sysace interface for CF", TYPE = peripheral_instance, RANGE = (opb_sysace, xps_sysace, axi_sysace), DEFAULT = none;
-    PARAM NAME = ethernet, DESC = "ethernet controller", TYPE = peripheral_instance, RANGE = (opb_ethernet, opb_ethernetlite, xps_ethernetlite, axi_ethernetlite, xps_ethernet, xps_ll_temac), DEFAULT = none;
+    PARAM NAME = ethernet, DESC = "ethernet controller", TYPE = peripheral_instance, RANGE = (opb_ethernet, opb_ethernetlite, xps_ethernetlite, axi_ethernetlite, xps_ethernet, xps_ll_temac, s2imac_epc), DEFAULT = none;
     PARAM NAME = gpio, DESC = "LED interface controller", TYPE = peripheral_instance, RANGE = (opb_gpio, plb_gpio, xps_gpio, axi_gpio), DEFAULT = none;
     PARAM NAME = iic, DESC = "I2C interface controller", TYPE = peripheral_instance, RANGE = (opb_iic, xps_iic, axi_iic), DEFAULT = none;
     PARAM NAME = spi, DESC = "SPI interface controller", TYPE = peripheral_instance, RANGE = (xps_spi, axi_spi), DEFAULT = none;
@@ -97,7 +97,6 @@ BEGIN OS tpos
       PROPERTY DESC = "List of peripheral interfaces for generic uio access";
       PARAM NAME = generic_uio, DESC = "Peripheral interface for generic uio access", TYPE = peripheral_instance, DEFAULT = none;
     END ARRAY
-    PARAM NAME = s2imac, DESC = "GigE Vision ethernet controller", TYPE = peripheral_instance, RANGE = (xps_epc), DEFAULT = none;
   END CATEGORY
 
   BEGIN CATEGORY bootloader
@@ -110,13 +109,13 @@ BEGIN OS tpos
 
   BEGIN CATEGORY linux
     PARAM NAME = linux, DESC = "TPOS: Linux specifics", TYPE = bool, DEFAULT = true, PERMIT = none, GUI_PERMIT = none;
-    PARAM NAME = linux_bootargs, DESC = "Booting arguments", TYPE = string, default = "";
+    PARAM NAME = linux_bootargs, DESC = "Booting arguments", TYPE = string, DEFAULT = "";
     PARAM NAME = periph_type_overrides, DESC = "list of peripheral type overrides", TYPE = string, DEFAULT = "";
   END CATEGORY
 
   BEGIN CATEGORY ecos
     PARAM NAME = ecos, DESC = "TPOS: eCos specifics", TYPE = bool, DEFAULT = true, PERMIT = none, GUI_PERMIT = none;
-    PARAM NAME = board_name, DESC = "name of the board", TYPE = string, default = "";
+    PARAM NAME = board_name, DESC = "name of the board", TYPE = string, DEFAULT = "";
   END CATEGORY
 
   BEGIN CATEGORY microblaze_exceptions

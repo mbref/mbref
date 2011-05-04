@@ -1,0 +1,989 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+###  ************************************************************************
+###  ** DISCLAIMER OF LIABILITY                                            **
+###  **                                                                    **
+###  ** This file contains proprietary and confidential information of     **
+###  ** Xilinx, Inc. ("Xilinx"), that is distributed under a license       **
+###  ** from Xilinx, and may be used, copied and/or disclosed only         **
+###  ** pursuant to the terms of a valid license agreement with Xilinx.    **
+###  **                                                                    **
+###  ** XILINX IS PROVIDING THIS DESIGN, CODE, OR INFORMATION              **
+###  ** ("MATERIALS") "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER         **
+###  ** EXPRESSED, IMPLIED, OR STATUTORY, INCLUDING WITHOUT                **
+###  ** LIMITATION, ANY WARRANTY WITH RESPECT TO NONINFRINGEMENT,          **
+###  ** MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE. Xilinx      **
+###  ** does not warrant that functions included in the Materials will     **
+###  ** meet the requirements of Licensee, or that the operation of the    **
+###  ** Materials will be uninterrupted or error-free, or that defects     **
+###  ** in the Materials will be corrected. Furthermore, Xilinx does       **
+###  ** not warrant or make any representations regarding use, or the      **
+###  ** results of the use, of the Materials in terms of correctness,      **
+###  ** accuracy, reliability or otherwise.                                **
+###  **                                                                    **
+###  ** Xilinx products are not designed or intended to be fail-safe,      **
+###  ** or for use in any application requiring fail-safe performance,     **
+###  ** such as life-support or safety devices or systems, Class III       **
+###  ** medical devices, nuclear facilities, applications related to       **
+###  ** the deployment of airbags, or any other applications that could    **
+###  ** lead to death, personal injury or severe property or               **
+###  ** environmental damage (individually and collectively, "critical     **
+###  ** applications"). Customer assumes the sole risk and liability       **
+###  ** of any use of Xilinx products in critical applications,            **
+###  ** subject only to applicable laws and regulations governing          **
+###  ** limitations on product liability.                                  **
+###  **                                                                    **
+###  ** Copyright 2005, 2006, 2008, 2009 Xilinx, Inc.                      **
+###  ** All rights reserved.                                               **
+###  **                                                                    **
+###  ** This disclaimer and copyright notice must be retained as part      **
+###  ** of this file at all times.                                         **
+###  ************************************************************************
+-->
+
+<!DOCTYPE doc SYSTEM "../../ipdialog.dtd" [
+        <!ENTITY C_OPB_CLOCK_PERIOD_PS '
+        <widget id="C_OPB_CLOCK_PERIOD_PS">
+                <key>C_OPB_CLOCK_PERIOD_PS</key>
+                <label><![CDATA[<qt>OPB Clock Period</qt>]]></label>
+                <tip><![CDATA[]]></tip>
+        <unit>ps</unit>
+        </widget>
+        '>
+        <!ENTITY C_PRH_CLK_PERIOD_PS '
+        <widget id="C_PRH_CLK_PERIOD_PS">
+                <key>C_PRH_CLK_PERIOD_PS</key>
+                <label><![CDATA[<qt>Peripheral Clock Period</qt>]]></label>
+                <tip><![CDATA[]]></tip>
+        <unit>ps</unit>
+        </widget>
+        '>
+        <!ENTITY C_INTERRUPT_PRESENT '
+        <widget id="C_INTERRUPT_PRESENT">
+                <key>C_INTERRUPT_PRESENT</key>
+                <label><![CDATA[<qt>Peripheral Interrupt</qt>]]></label>
+                <tip></tip>
+        </widget>
+        '>
+        <!ENTITY C_NUM_PERIPHERALS '
+        <widget id="C_NUM_PERIPHERALS">
+                <key>C_NUM_PERIPHERALS</key>
+                <label><![CDATA[<qt>Number of External Peripherals</qt>]]></label>
+                <tip><![CDATA[]]></tip>
+        </widget>
+        '>
+        <!ENTITY C_PRH_MAX_AWIDTH '
+        <widget id="C_PRH_MAX_AWIDTH">
+                <key>C_PRH_MAX_AWIDTH</key>
+                <label><![CDATA[<qt>Maximum Address Bus Width of All External Peripherals</qt>]]></label>
+                <tip><![CDATA[]]></tip>
+        </widget>
+        '>
+        <!ENTITY C_PRH_MAX_DWIDTH '
+        <widget id="C_PRH_MAX_DWIDTH">
+                <key>C_PRH_MAX_DWIDTH</key>
+                <label><![CDATA[<qt>Maximum Data Bus Width of All External Peripherals</qt>]]></label>
+                <tip><![CDATA[]]></tip>
+        </widget>
+        '>
+        <!ENTITY C_PRH_MAX_ADWIDTH '
+        <widget id="C_PRH_MAX_ADWIDTH">
+                <key>C_PRH_MAX_ADWIDTH</key>
+                <label><![CDATA[<qt>Maximum Data Bus Width and Address/Data-Multiplexed Address Bus Width of All External Peripherals</qt>]]></label>
+                <tip><![CDATA[]]></tip>
+        </widget>
+        '>
+        <!ENTITY C_PRH_CLK_SUPPORT '
+        <widget id="C_PRH_CLK_SUPPORT">
+                <key>C_PRH_CLK_SUPPORT</key>
+                <label><![CDATA[<qt>Peripheral Clock Speed</qt>]]></label>
+                <tip><![CDATA[0: Peripheral interface operates at OPB clock in synchronous mode, 1: In synchronous mode, peripheral interface operates at a local clock whose frequency is less than or equal to that of OPB clock]]></tip>
+        </widget>
+        '>
+        <!ENTITY C_PRH_BURST_SUPPORT '
+        <widget id="C_PRH_BURST_SUPPORT">
+                <key>C_PRH_BURST_SUPPORT</key>
+                <label><![CDATA[<qt>Enable Burst Support in External Peripherals</qt>]]></label>
+                <tip><![CDATA[]]></tip>
+        </widget>
+        '>
+        <!ENTITY C_PRH0_BASEADDR '
+                <widget id="C_PRH0_BASEADDR">
+                        <key>C_PRH0_BASEADDR</key>
+                        <label><![CDATA[<qt>Base Address of Exteral Peripheral 0</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_HIGHADDR '
+                <widget id="C_PRH0_HIGHADDR">
+                        <key>C_PRH0_HIGHADDR</key>
+                        <label><![CDATA[<qt>High Address of External Peripheral 0</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_FIFO_ACCESS '
+                <widget id="C_PRH0_FIFO_ACCESS">
+                        <key>C_PRH0_FIFO_ACCESS</key>
+                        <label><![CDATA[<qt>Support FIFO Access in External Peripheral</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_FIFO_OFFSET '
+                <widget id="C_PRH0_FIFO_OFFSET">
+                        <key>C_PRH0_FIFO_OFFSET</key>
+                        <label><![CDATA[<qt>FIFO Offset from Base Address</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_AWIDTH '
+                <widget id="C_PRH0_AWIDTH">
+                        <key>C_PRH0_AWIDTH</key>
+                        <label><![CDATA[<qt>Address Bus Width of External Peripheral</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_DWIDTH '
+                <widget id="C_PRH0_DWIDTH">
+                        <key>C_PRH0_DWIDTH</key>
+                        <label><![CDATA[<qt>Data Bus Width of External Peripheral</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_DWIDTH_MATCH '
+                <widget id="C_PRH0_DWIDTH_MATCH">
+                        <key>C_PRH0_DWIDTH_MATCH</key>
+                        <label><![CDATA[<qt>Support Multiple Access Cycle in Peripheral to Match an OPB Cycle</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_SYNC '
+                <widget id="C_PRH0_SYNC">
+                        <key>C_PRH0_SYNC</key>
+                        <label><![CDATA[<qt>Peripheral Access Mode</qt>]]></label>
+                        <tip><![CDATA[0:External device is asynchronous, 1:External device is synchronous]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_BUS_MULTIPLEX '
+                <widget id="C_PRH0_BUS_MULTIPLEX">
+                        <key>C_PRH0_BUS_MULTIPLEX</key>
+                        <label><![CDATA[<qt>Peripheral Bus Type</qt>]]></label>
+                        <tip><![CDATA[0:External device has separate address and data bus, 1:External device has multiplexed address and data bus]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_ADDR_TSU '
+                <widget id="C_PRH0_ADDR_TSU">
+                        <key>C_PRH0_ADDR_TSU</key>
+                        <label><![CDATA[<qt>Address bus (PRH_Addr) setup with respect to falling edge of address strobe (PRH_ADS) or falling edge of read/write (PRH_Rd_n/ PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_ADDR_TH '
+                <widget id="C_PRH0_ADDR_TH">
+                        <key>C_PRH0_ADDR_TH</key>
+                        <label><![CDATA[<qt>Address bus (PRH_Addr) hold with respect to falling edge of address strobe (PRH_ADS) or rising edge of read/write (PRH_Rd_n/PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_ADS_WIDTH '
+                <widget id="C_PRH0_ADS_WIDTH">
+                        <key>C_PRH0_ADS_WIDTH</key>
+                        <label><![CDATA[<qt>Minimum pulse width of address strobe (PRH_ADS)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_CSN_TSU '
+                <widget id="C_PRH0_CSN_TSU">
+                        <key>C_PRH0_CSN_TSU</key>
+                        <label><![CDATA[<qt>Chip select (PRH_CS_n) setup with respect to falling edge of read/write (PRH_Rd_n/PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_CSN_TH '
+                <widget id="C_PRH0_CSN_TH">
+                        <key>C_PRH0_CSN_TH</key>
+                        <label><![CDATA[<qt>Chip select (PRH_CS_n) setup with respect to rising edge of read/write (PRH_Rd_n/PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_WRN_WIDTH '
+                <widget id="C_PRH0_WRN_WIDTH">
+                        <key>C_PRH0_WRN_WIDTH</key>
+                        <label><![CDATA[<qt>Minimum pulse width of write signal (PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_WR_CYCLE '
+                <widget id="C_PRH0_WR_CYCLE">
+                        <key>C_PRH0_WR_CYCLE</key>
+                        <label><![CDATA[<qt>Cycle time of write signal (PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_DATA_TSU '
+                <widget id="C_PRH0_DATA_TSU">
+                        <key>C_PRH0_DATA_TSU</key>
+                        <label><![CDATA[<qt>Data bus (PRH_Data) setup with respect to rising edge of write signal (PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_DATA_TH '
+                <widget id="C_PRH0_DATA_TH">
+                        <key>C_PRH0_DATA_TH</key>
+                        <label><![CDATA[<qt>Data bus (PRH_Data) hold with respect to rising edge of write signal (PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_RDN_WIDTH '
+                <widget id="C_PRH0_RDN_WIDTH">
+                        <key>C_PRH0_RDN_WIDTH</key>
+                        <label><![CDATA[<qt>Minimum pulse width of read signal (PRH_Rd_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_RD_CYCLE '
+                <widget id="C_PRH0_RD_CYCLE">
+                        <key>C_PRH0_RD_CYCLE</key>
+                        <label><![CDATA[<qt>Cycle time of read signal (PRH_Rd_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_DATA_TOUT '
+                <widget id="C_PRH0_DATA_TOUT">
+                        <key>C_PRH0_DATA_TOUT</key>
+                        <label><![CDATA[<qt>Data bus (PRH_Data) validity from falling edge of read signal (PRH_Rd_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_DATA_TINV '
+                <widget id="C_PRH0_DATA_TINV">
+                        <key>C_PRH0_DATA_TINV</key>
+                        <label><![CDATA[<qt>Data bus (PRH_Data) high impedance from rising edge of read (PRH_Rd_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_RDY_TOUT '
+                <widget id="C_PRH0_RDY_TOUT">
+                        <key>C_PRH0_RDY_TOUT</key>
+                        <label><![CDATA[<qt>Device ready (PRH_Rdy) validity from the falling edge of read or write (PRH_Rd_n/ PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH0_RDY_WIDTH '
+                <widget id="C_PRH0_RDY_WIDTH">
+                        <key>C_PRH0_RDY_WIDTH</key>
+                        <label><![CDATA[<qt>Maximum width of device ready signal (PRH_Rdy) to wait before device timeout</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_BASEADDR '
+                <widget id="C_PRH1_BASEADDR">
+                        <key>C_PRH1_BASEADDR</key>
+                        <label><![CDATA[<qt>Base Address of Exteral Peripheral 1</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_HIGHADDR '
+                <widget id="C_PRH1_HIGHADDR">
+                        <key>C_PRH1_HIGHADDR</key>
+                        <label><![CDATA[<qt>High Address of External Peripheral 1</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_FIFO_ACCESS '
+                <widget id="C_PRH1_FIFO_ACCESS">
+                        <key>C_PRH1_FIFO_ACCESS</key>
+                        <label><![CDATA[<qt>Support FIFO Access in External Peripheral</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_FIFO_OFFSET '
+                <widget id="C_PRH1_FIFO_OFFSET">
+                        <key>C_PRH1_FIFO_OFFSET</key>
+                        <label><![CDATA[<qt>FIFO Offset from Base Address</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_AWIDTH '
+                <widget id="C_PRH1_AWIDTH">
+                        <key>C_PRH1_AWIDTH</key>
+                        <label><![CDATA[<qt>Address Bus Width of External Peripheral</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_DWIDTH '
+                <widget id="C_PRH1_DWIDTH">
+                        <key>C_PRH1_DWIDTH</key>
+                        <label><![CDATA[<qt>Data Bus Width of External Peripheral</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_DWIDTH_MATCH '
+                <widget id="C_PRH1_DWIDTH_MATCH">
+                        <key>C_PRH1_DWIDTH_MATCH</key>
+                        <label><![CDATA[<qt>Support Multiple Access Cycle in Peripheral to Match an OPB Cycle</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_SYNC '
+                <widget id="C_PRH1_SYNC">
+                        <key>C_PRH1_SYNC</key>
+                        <label><![CDATA[<qt>Peripheral Access Mode</qt>]]></label>
+                        <tip><![CDATA[0:External device is asynchronous, 1:External device is synchronous]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_BUS_MULTIPLEX '
+                <widget id="C_PRH1_BUS_MULTIPLEX">
+                        <key>C_PRH1_BUS_MULTIPLEX</key>
+                        <label><![CDATA[<qt>Peripheral Bus Type</qt>]]></label>
+                        <tip><![CDATA[0:External device has separate address and data bus, 1:External device has multiplexed address and data bus]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_ADDR_TSU '
+                <widget id="C_PRH1_ADDR_TSU">
+                        <key>C_PRH1_ADDR_TSU</key>
+                        <label><![CDATA[<qt>Address bus (PRH_Addr) setup with respect to falling edge of address strobe (PRH_ADS) or falling edge of read/write (PRH_Rd_n/ PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_ADDR_TH '
+                <widget id="C_PRH1_ADDR_TH">
+                        <key>C_PRH1_ADDR_TH</key>
+                        <label><![CDATA[<qt>Address bus (PRH_Addr) hold with respect to falling edge of address strobe (PRH_ADS) or rising edge of read/write (PRH_Rd_n/PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_ADS_WIDTH '
+                <widget id="C_PRH1_ADS_WIDTH">
+                        <key>C_PRH1_ADS_WIDTH</key>
+                        <label><![CDATA[<qt>Minimum pulse width of address strobe (PRH_ADS)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_CSN_TSU '
+                <widget id="C_PRH1_CSN_TSU">
+                        <key>C_PRH1_CSN_TSU</key>
+                        <label><![CDATA[<qt>Chip select (PRH_CS_n) setup with respect to falling edge of read/write (PRH_Rd_n/PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_CSN_TH '
+                <widget id="C_PRH1_CSN_TH">
+                        <key>C_PRH1_CSN_TH</key>
+                        <label><![CDATA[<qt>Chip select (PRH_CS_n) setup with respect to rising edge of read/write (PRH_Rd_n/PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_WRN_WIDTH '
+                <widget id="C_PRH1_WRN_WIDTH">
+                        <key>C_PRH1_WRN_WIDTH</key>
+                        <label><![CDATA[<qt>Minimum pulse width of write signal (PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_WR_CYCLE '
+                <widget id="C_PRH1_WR_CYCLE">
+                        <key>C_PRH1_WR_CYCLE</key>
+                        <label><![CDATA[<qt>Cycle time of write signal (PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_DATA_TSU '
+                <widget id="C_PRH1_DATA_TSU">
+                        <key>C_PRH1_DATA_TSU</key>
+                        <label><![CDATA[<qt>Data bus (PRH_Data) setup with respect to rising edge of write signal (PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_DATA_TH '
+                <widget id="C_PRH1_DATA_TH">
+                        <key>C_PRH1_DATA_TH</key>
+                        <label><![CDATA[<qt>Data bus (PRH_Data) hold with respect to rising edge of write signal (PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_RDN_WIDTH '
+                <widget id="C_PRH1_RDN_WIDTH">
+                        <key>C_PRH1_RDN_WIDTH</key>
+                        <label><![CDATA[<qt>Minimum pulse width of read signal (PRH_Rd_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_RD_CYCLE '
+                <widget id="C_PRH1_RD_CYCLE">
+                        <key>C_PRH1_RD_CYCLE</key>
+                        <label><![CDATA[<qt>Cycle time of read signal (PRH_Rd_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_DATA_TOUT '
+                <widget id="C_PRH1_DATA_TOUT">
+                        <key>C_PRH1_DATA_TOUT</key>
+                        <label><![CDATA[<qt>Data bus (PRH_Data) validity from falling edge of read signal (PRH_Rd_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_DATA_TINV '
+                <widget id="C_PRH1_DATA_TINV">
+                        <key>C_PRH1_DATA_TINV</key>
+                        <label><![CDATA[<qt>Data bus (PRH_Data) high impedance from rising edge of read (PRH_Rd_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_RDY_TOUT '
+                <widget id="C_PRH1_RDY_TOUT">
+                        <key>C_PRH1_RDY_TOUT</key>
+                        <label><![CDATA[<qt>Device ready (PRH_Rdy) validity from the falling edge of read or write (PRH_Rd_n/ PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH1_RDY_WIDTH '
+                <widget id="C_PRH1_RDY_WIDTH">
+                        <key>C_PRH1_RDY_WIDTH</key>
+                        <label><![CDATA[<qt>Maximum width of device ready signal (PRH_Rdy) to wait before device timeout</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_BASEADDR '
+                <widget id="C_PRH2_BASEADDR">
+                        <key>C_PRH2_BASEADDR</key>
+                        <label><![CDATA[<qt>Base Address of Exteral Peripheral 2</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_HIGHADDR '
+                <widget id="C_PRH2_HIGHADDR">
+                        <key>C_PRH2_HIGHADDR</key>
+                        <label><![CDATA[<qt>High Address of External Peripheral 2</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_FIFO_ACCESS '
+                <widget id="C_PRH2_FIFO_ACCESS">
+                        <key>C_PRH2_FIFO_ACCESS</key>
+                        <label><![CDATA[<qt>Support FIFO Access in External Peripheral</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_FIFO_OFFSET '
+                <widget id="C_PRH2_FIFO_OFFSET">
+                        <key>C_PRH2_FIFO_OFFSET</key>
+                        <label><![CDATA[<qt>FIFO Offset from Base Address</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_AWIDTH '
+                <widget id="C_PRH2_AWIDTH">
+                        <key>C_PRH2_AWIDTH</key>
+                        <label><![CDATA[<qt>Address Bus Width of External Peripheral</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_DWIDTH '
+                <widget id="C_PRH2_DWIDTH">
+                        <key>C_PRH2_DWIDTH</key>
+                        <label><![CDATA[<qt>Data Bus Width of External Peripheral</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_DWIDTH_MATCH '
+                <widget id="C_PRH2_DWIDTH_MATCH">
+                        <key>C_PRH2_DWIDTH_MATCH</key>
+                        <label><![CDATA[<qt>Support Multiple Access Cycle in Peripheral to Match an OPB Cycle</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_SYNC '
+                <widget id="C_PRH2_SYNC">
+                        <key>C_PRH2_SYNC</key>
+                        <label><![CDATA[<qt>Peripheral Access Mode</qt>]]></label>
+                        <tip><![CDATA[0:External device is asynchronous, 1:External device is synchronous]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_BUS_MULTIPLEX '
+                <widget id="C_PRH2_BUS_MULTIPLEX">
+                        <key>C_PRH2_BUS_MULTIPLEX</key>
+                        <label><![CDATA[<qt>Peripheral Bus Type</qt>]]></label>
+                        <tip><![CDATA[0:External device has separate address and data bus, 1:External device has multiplexed address and data bus]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_ADDR_TSU '
+                <widget id="C_PRH2_ADDR_TSU">
+                        <key>C_PRH2_ADDR_TSU</key>
+                        <label><![CDATA[<qt>Address bus (PRH_Addr) setup with respect to falling edge of address strobe (PRH_ADS) or falling edge of read/write (PRH_Rd_n/ PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_ADDR_TH '
+                <widget id="C_PRH2_ADDR_TH">
+                        <key>C_PRH2_ADDR_TH</key>
+                        <label><![CDATA[<qt>Address bus (PRH_Addr) hold with respect to falling edge of address strobe (PRH_ADS) or rising edge of read/write (PRH_Rd_n/PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_ADS_WIDTH '
+                <widget id="C_PRH2_ADS_WIDTH">
+                        <key>C_PRH2_ADS_WIDTH</key>
+                        <label><![CDATA[<qt>Minimum pulse width of address strobe (PRH_ADS)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_CSN_TSU '
+                <widget id="C_PRH2_CSN_TSU">
+                        <key>C_PRH2_CSN_TSU</key>
+                        <label><![CDATA[<qt>Chip select (PRH_CS_n) setup with respect to falling edge of read/write (PRH_Rd_n/PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_CSN_TH '
+                <widget id="C_PRH2_CSN_TH">
+                        <key>C_PRH2_CSN_TH</key>
+                        <label><![CDATA[<qt>Chip select (PRH_CS_n) setup with respect to rising edge of read/write (PRH_Rd_n/PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_WRN_WIDTH '
+                <widget id="C_PRH2_WRN_WIDTH">
+                        <key>C_PRH2_WRN_WIDTH</key>
+                        <label><![CDATA[<qt>Minimum pulse width of write signal (PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_WR_CYCLE '
+                <widget id="C_PRH2_WR_CYCLE">
+                        <key>C_PRH2_WR_CYCLE</key>
+                        <label><![CDATA[<qt>Cycle time of write signal (PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_DATA_TSU '
+                <widget id="C_PRH2_DATA_TSU">
+                        <key>C_PRH2_DATA_TSU</key>
+                        <label><![CDATA[<qt>Data bus (PRH_Data) setup with respect to rising edge of write signal (PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_DATA_TH '
+                <widget id="C_PRH2_DATA_TH">
+                        <key>C_PRH2_DATA_TH</key>
+                        <label><![CDATA[<qt>Data bus (PRH_Data) hold with respect to rising edge of write signal (PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_RDN_WIDTH '
+                <widget id="C_PRH2_RDN_WIDTH">
+                        <key>C_PRH2_RDN_WIDTH</key>
+                        <label><![CDATA[<qt>Minimum pulse width of read signal (PRH_Rd_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_RD_CYCLE '
+                <widget id="C_PRH2_RD_CYCLE">
+                        <key>C_PRH2_RD_CYCLE</key>
+                        <label><![CDATA[<qt>Cycle time of read signal (PRH_Rd_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_DATA_TOUT '
+                <widget id="C_PRH2_DATA_TOUT">
+                        <key>C_PRH2_DATA_TOUT</key>
+                        <label><![CDATA[<qt>Data bus (PRH_Data) validity from falling edge of read signal (PRH_Rd_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_DATA_TINV '
+                <widget id="C_PRH2_DATA_TINV">
+                        <key>C_PRH2_DATA_TINV</key>
+                        <label><![CDATA[<qt>Data bus (PRH_Data) high impedance from rising edge of read (PRH_Rd_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_RDY_TOUT '
+                <widget id="C_PRH2_RDY_TOUT">
+                        <key>C_PRH2_RDY_TOUT</key>
+                        <label><![CDATA[<qt>Device ready (PRH_Rdy) validity from the falling edge of read or write (PRH_Rd_n/ PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH2_RDY_WIDTH '
+                <widget id="C_PRH2_RDY_WIDTH">
+                        <key>C_PRH2_RDY_WIDTH</key>
+                        <label><![CDATA[<qt>Maximum width of device ready signal (PRH_Rdy) to wait before device timeout</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_BASEADDR '
+                <widget id="C_PRH3_BASEADDR">
+                        <key>C_PRH3_BASEADDR</key>
+                        <label><![CDATA[<qt>Base Address of Exteral Peripheral 3</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_HIGHADDR '
+                <widget id="C_PRH3_HIGHADDR">
+                        <key>C_PRH3_HIGHADDR</key>
+                        <label><![CDATA[<qt>High Address of External Peripheral 3</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_FIFO_ACCESS '
+                <widget id="C_PRH3_FIFO_ACCESS">
+                        <key>C_PRH3_FIFO_ACCESS</key>
+                        <label><![CDATA[<qt>Support FIFO Access in External Peripheral</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_FIFO_OFFSET '
+                <widget id="C_PRH3_FIFO_OFFSET">
+                        <key>C_PRH3_FIFO_OFFSET</key>
+                        <label><![CDATA[<qt>FIFO Offset from Base Address</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_AWIDTH '
+                <widget id="C_PRH3_AWIDTH">
+                        <key>C_PRH3_AWIDTH</key>
+                        <label><![CDATA[<qt>Address Bus Width of External Peripheral</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_DWIDTH '
+                <widget id="C_PRH3_DWIDTH">
+                        <key>C_PRH3_DWIDTH</key>
+                        <label><![CDATA[<qt>Data Bus Width of External Peripheral</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_DWIDTH_MATCH '
+                <widget id="C_PRH3_DWIDTH_MATCH">
+                        <key>C_PRH3_DWIDTH_MATCH</key>
+                        <label><![CDATA[<qt>Support Multiple Access Cycle in Peripheral to Match an OPB Cycle</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_SYNC '
+                <widget id="C_PRH3_SYNC">
+                        <key>C_PRH3_SYNC</key>
+                        <label><![CDATA[<qt>Peripheral Access Mode</qt>]]></label>
+                        <tip><![CDATA[0:External device is asynchronous, 1:External device is synchronous]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_BUS_MULTIPLEX '
+                <widget id="C_PRH3_BUS_MULTIPLEX">
+                        <key>C_PRH3_BUS_MULTIPLEX</key>
+                        <label><![CDATA[<qt>Peripheral Bus Type</qt>]]></label>
+                        <tip><![CDATA[0:External device has separate address and data bus, 1:External device has multiplexed address and data bus]]></tip>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_ADDR_TSU '
+                <widget id="C_PRH3_ADDR_TSU">
+                        <key>C_PRH3_ADDR_TSU</key>
+                        <label><![CDATA[<qt>Address bus (PRH_Addr) setup with respect to falling edge of address strobe (PRH_ADS) or falling edge of read/write (PRH_Rd_n/ PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_ADDR_TH '
+                <widget id="C_PRH3_ADDR_TH">
+                        <key>C_PRH3_ADDR_TH</key>
+                        <label><![CDATA[<qt>Address bus (PRH_Addr) hold with respect to falling edge of address strobe (PRH_ADS) or rising edge of read/write (PRH_Rd_n/PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_ADS_WIDTH '
+                <widget id="C_PRH3_ADS_WIDTH">
+                        <key>C_PRH3_ADS_WIDTH</key>
+                        <label><![CDATA[<qt>Minimum pulse width of address strobe (PRH_ADS)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_CSN_TSU '
+                <widget id="C_PRH3_CSN_TSU">
+                        <key>C_PRH3_CSN_TSU</key>
+                        <label><![CDATA[<qt>Chip select (PRH_CS_n) setup with respect to falling edge of read/write (PRH_Rd_n/PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_CSN_TH '
+                <widget id="C_PRH3_CSN_TH">
+                        <key>C_PRH3_CSN_TH</key>
+                        <label><![CDATA[<qt>Chip select (PRH_CS_n) setup with respect to rising edge of read/write (PRH_Rd_n/PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_WRN_WIDTH '
+                <widget id="C_PRH3_WRN_WIDTH">
+                        <key>C_PRH3_WRN_WIDTH</key>
+                        <label><![CDATA[<qt>Minimum pulse width of write signal (PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_WR_CYCLE '
+                <widget id="C_PRH3_WR_CYCLE">
+                        <key>C_PRH3_WR_CYCLE</key>
+                        <label><![CDATA[<qt>Cycle time of write signal (PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_DATA_TSU '
+                <widget id="C_PRH3_DATA_TSU">
+                        <key>C_PRH3_DATA_TSU</key>
+                        <label><![CDATA[<qt>Data bus (PRH_Data) setup with respect to rising edge of write signal (PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_DATA_TH '
+                <widget id="C_PRH3_DATA_TH">
+                        <key>C_PRH3_DATA_TH</key>
+                        <label><![CDATA[<qt>Data bus (PRH_Data) hold with respect to rising edge of write signal (PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_RDN_WIDTH '
+                <widget id="C_PRH3_RDN_WIDTH">
+                        <key>C_PRH3_RDN_WIDTH</key>
+                        <label><![CDATA[<qt>Minimum pulse width of read signal (PRH_Rd_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_RD_CYCLE '
+                <widget id="C_PRH3_RD_CYCLE">
+                        <key>C_PRH3_RD_CYCLE</key>
+                        <label><![CDATA[<qt>Cycle time of read signal (PRH_Rd_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_DATA_TOUT '
+                <widget id="C_PRH3_DATA_TOUT">
+                        <key>C_PRH3_DATA_TOUT</key>
+                        <label><![CDATA[<qt>Data bus (PRH_Data) validity from falling edge of read signal (PRH_Rd_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_DATA_TINV '
+                <widget id="C_PRH3_DATA_TINV">
+                        <key>C_PRH3_DATA_TINV</key>
+                        <label><![CDATA[<qt>Data bus (PRH_Data) high impedance from rising edge of read (PRH_Rd_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_RDY_TOUT '
+                <widget id="C_PRH3_RDY_TOUT">
+                        <key>C_PRH3_RDY_TOUT</key>
+                        <label><![CDATA[<qt>Device ready (PRH_Rdy) validity from the falling edge of read or write (PRH_Rd_n/ PRH_Wr_n)</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+        <!ENTITY C_PRH3_RDY_WIDTH '
+                <widget id="C_PRH3_RDY_WIDTH">
+                        <key>C_PRH3_RDY_WIDTH</key>
+                        <label><![CDATA[<qt>Maximum width of device ready signal (PRH_Rdy) to wait before device timeout</qt>]]></label>
+                        <tip><![CDATA[]]></tip>
+            <unit>ps</unit>
+                </widget>
+        '>
+]>
+
+<doc>
+        <view id="User">
+                <display>User</display>
+                <group id="Common">
+                        <display>Common</display>
+                        <item>&C_PRH_CLK_PERIOD_PS;</item>
+                        <item>&C_INTERRUPT_PRESENT;</item>
+                        <item>&C_NUM_PERIPHERALS;</item>
+                        <item>&C_PRH_MAX_AWIDTH;</item>
+                        <item>&C_PRH_MAX_DWIDTH;</item>
+                        <item>&C_PRH_MAX_ADWIDTH;</item>
+                        <item>&C_PRH_CLK_SUPPORT;</item>
+                        <item>&C_PRH_BURST_SUPPORT;</item>
+                </group>
+                <group id="PRH0">
+                    <display>PRH0</display>
+                        <item>&C_PRH0_FIFO_ACCESS;</item>
+                        <item>&C_PRH0_FIFO_OFFSET;</item>
+                        <item>&C_PRH0_AWIDTH;</item>
+                        <item>&C_PRH0_DWIDTH;</item>
+                        <item>&C_PRH0_DWIDTH_MATCH;</item>
+                        <item>&C_PRH0_SYNC;</item>
+                        <item>&C_PRH0_BUS_MULTIPLEX;</item>
+                        <item>&C_PRH0_ADDR_TSU;</item>
+                        <item>&C_PRH0_ADDR_TH;</item>
+                        <item>&C_PRH0_ADS_WIDTH;</item>
+                        <item>&C_PRH0_CSN_TSU;</item>
+                        <item>&C_PRH0_CSN_TH;</item>
+                        <item>&C_PRH0_WRN_WIDTH;</item>
+                        <item>&C_PRH0_WR_CYCLE;</item>
+                        <item>&C_PRH0_DATA_TSU;</item>
+                        <item>&C_PRH0_DATA_TH;</item>
+                        <item>&C_PRH0_RDN_WIDTH;</item>
+                        <item>&C_PRH0_RD_CYCLE;</item>
+                        <item>&C_PRH0_DATA_TOUT;</item>
+                        <item>&C_PRH0_DATA_TINV;</item>
+                        <item>&C_PRH0_RDY_TOUT;</item>
+                        <item>&C_PRH0_RDY_WIDTH;</item>
+                </group>
+                <group id="PRH1">
+                    <display>PRH1</display>
+                        <item>&C_PRH1_FIFO_ACCESS;</item>
+                        <item>&C_PRH1_FIFO_OFFSET;</item>
+                        <item>&C_PRH1_AWIDTH;</item>
+                        <item>&C_PRH1_DWIDTH;</item>
+                        <item>&C_PRH1_DWIDTH_MATCH;</item>
+                        <item>&C_PRH1_SYNC;</item>
+                        <item>&C_PRH1_BUS_MULTIPLEX;</item>
+                        <item>&C_PRH1_ADDR_TSU;</item>
+                        <item>&C_PRH1_ADDR_TH;</item>
+                        <item>&C_PRH1_ADS_WIDTH;</item>
+                        <item>&C_PRH1_CSN_TSU;</item>
+                        <item>&C_PRH1_CSN_TH;</item>
+                        <item>&C_PRH1_WRN_WIDTH;</item>
+                        <item>&C_PRH1_WR_CYCLE;</item>
+                        <item>&C_PRH1_DATA_TSU;</item>
+                        <item>&C_PRH1_DATA_TH;</item>
+                        <item>&C_PRH1_RDN_WIDTH;</item>
+                        <item>&C_PRH1_RD_CYCLE;</item>
+                        <item>&C_PRH1_DATA_TOUT;</item>
+                        <item>&C_PRH1_DATA_TINV;</item>
+                        <item>&C_PRH1_RDY_TOUT;</item>
+                        <item>&C_PRH1_RDY_WIDTH;</item>
+                </group>
+                <group id="PRH2">
+                    <display>PRH2</display>
+                        <item>&C_PRH2_FIFO_ACCESS;</item>
+                        <item>&C_PRH2_FIFO_OFFSET;</item>
+                        <item>&C_PRH2_AWIDTH;</item>
+                        <item>&C_PRH2_DWIDTH;</item>
+                        <item>&C_PRH2_DWIDTH_MATCH;</item>
+                        <item>&C_PRH2_SYNC;</item>
+                        <item>&C_PRH2_BUS_MULTIPLEX;</item>
+                        <item>&C_PRH2_ADDR_TSU;</item>
+                        <item>&C_PRH2_ADDR_TH;</item>
+                        <item>&C_PRH2_ADS_WIDTH;</item>
+                        <item>&C_PRH2_CSN_TSU;</item>
+                        <item>&C_PRH2_CSN_TH;</item>
+                        <item>&C_PRH2_WRN_WIDTH;</item>
+                        <item>&C_PRH2_WR_CYCLE;</item>
+                        <item>&C_PRH2_DATA_TSU;</item>
+                        <item>&C_PRH2_DATA_TH;</item>
+                        <item>&C_PRH2_RDN_WIDTH;</item>
+                        <item>&C_PRH2_RD_CYCLE;</item>
+                        <item>&C_PRH2_DATA_TOUT;</item>
+                        <item>&C_PRH2_DATA_TINV;</item>
+                        <item>&C_PRH2_RDY_TOUT;</item>
+                        <item>&C_PRH2_RDY_WIDTH;</item>
+                </group>
+                <group id="PRH3">
+                    <display>PRH3</display>
+                        <item>&C_PRH3_FIFO_ACCESS;</item>
+                        <item>&C_PRH3_FIFO_OFFSET;</item>
+                        <item>&C_PRH3_AWIDTH;</item>
+                        <item>&C_PRH3_DWIDTH;</item>
+                        <item>&C_PRH3_DWIDTH_MATCH;</item>
+                        <item>&C_PRH3_SYNC;</item>
+                        <item>&C_PRH3_BUS_MULTIPLEX;</item>
+                        <item>&C_PRH3_ADDR_TSU;</item>
+                        <item>&C_PRH3_ADDR_TH;</item>
+                        <item>&C_PRH3_ADS_WIDTH;</item>
+                        <item>&C_PRH3_CSN_TSU;</item>
+                        <item>&C_PRH3_CSN_TH;</item>
+                        <item>&C_PRH3_WRN_WIDTH;</item>
+                        <item>&C_PRH3_WR_CYCLE;</item>
+                        <item>&C_PRH3_DATA_TSU;</item>
+                        <item>&C_PRH3_DATA_TH;</item>
+                        <item>&C_PRH3_RDN_WIDTH;</item>
+                        <item>&C_PRH3_RD_CYCLE;</item>
+                        <item>&C_PRH3_DATA_TOUT;</item>
+                        <item>&C_PRH3_DATA_TINV;</item>
+                        <item>&C_PRH3_RDY_TOUT;</item>
+                        <item>&C_PRH3_RDY_WIDTH;</item>
+                </group>
+        </view>
+        <view id="System">
+                <display>System</display>
+                <group id="Addresses">
+                        <display>Addresses</display>
+                        <item>&C_PRH0_BASEADDR;</item>
+                        <item>&C_PRH0_HIGHADDR;</item>
+                        <item>&C_PRH1_BASEADDR;</item>
+                        <item>&C_PRH1_HIGHADDR;</item>
+                        <item>&C_PRH2_BASEADDR;</item>
+                        <item>&C_PRH2_HIGHADDR;</item>
+                        <item>&C_PRH3_BASEADDR;</item>
+                        <item>&C_PRH3_HIGHADDR;</item>
+                </group>
+                <group id="PLB">
+                        <display>PLB</display>
+                        <item>&C_SPLB_NUM_MASTERS;</item>
+                        <item>&C_SPLB_MID_WIDTH;</item>
+                        <item>&C_SPLB_AWIDTH;</item>
+                        <item>&C_SPLB_DWIDTH;</item>
+                        <item>&C_SPLB_P2P;</item>
+                        <item>&C_SPLB_SUPPORT_BURSTS;</item>
+                        <item>&C_SPLB_NATIVE_DWIDTH;</item>
+                        <item>&C_SPLB_CLK_PERIOD_PS;</item>
+                </group>
+                <group id="Hidden">
+                        <display>Hidden</display>
+                        <item>&C_FAMILY;</item>
+                </group>
+        </view>
+</doc>

@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# add watermark and merge together
+pdftk xps_epc.pdf background s2imac_wm.pdf output stage1.pdf verbose dont_ask
+pdftk A=s2imac_epc_ext.pdf B=stage1.pdf cat A B output stage2.pdf verbose dont_ask
+rm -f stage1.pdf
+
+# get over bookmarks
+echo "S2IMAC External Peripheral Controller (EPC) v1.02a/1,Black,notBold,notItalic,open,TopLeftZoom,25,485,0.0" >s2imac_epc_ext.bm
+jpdfbookmarks_cli s2imac_epc_ext.pdf --dump | sed -e 's/^/	/' >>s2imac_epc_ext.bm
+cat xps_epc.bm >>s2imac_epc_ext.bm
+jpdfbookmarks_cli stage2.pdf --apply s2imac_epc_ext.bm --force --out stage3.pdf
+rm -f stage2.pdf s2imac_epc_ext.bm
+
+# get over meta informations
+pdftk s2imac_epc_ext.pdf dump_data | pdftk stage3.pdf update_info - output ../s2imac_epc.pdf verbose dont_ask
+rm -f stage3.pdf

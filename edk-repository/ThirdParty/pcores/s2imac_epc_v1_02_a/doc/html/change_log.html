@@ -1,0 +1,478 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html xmlns:mso="urn:schemas-microsoft-com:office:office"
+ xmlns:msdt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882">
+<head>
+  <title>Change log for s2imac_epc, v1.02.a (former xps_epc, v1.02.a)</title>
+<!--  <link href="../../../../../../doc/usenglish/css/xilhtml.css" rel="stylesheet" type="text/css"> -->
+  <link href="xilhtml.css" rel="stylesheet" type="text/css">
+  <link href="lpnhtml.css" rel="stylesheet" type="text/css">
+  <style>
+		P.Level1Heading {
+			color: #000000;
+			font-weight: bold;
+			font-size: 1.05em;
+			margin-bottom: 0em;
+			margin-top: 0em;
+		}
+		P.Level2Heading  {
+			font-weight: bold;
+			margin-top: 2em;
+			margin-bottom: 0em;
+		}
+		P.Level3Heading {
+			font-weight: bold;
+			margin-top: 2em;
+		}
+		.GreyBackground {
+			background-color:#CCCCCC;
+		}
+		.PreformatFont  {
+			font-family: Fixed, Mono, Courier New, Courier;
+			font-size: .95em;
+		}
+	</style><!--[if gte mso 9]><xml>
+<mso:CustomDocumentProperties>
+<mso:Location msdt:dt="string">New Mexico</mso:Location>
+<mso:Description0 msdt:dt="string"></mso:Description0>
+</mso:CustomDocumentProperties>
+</xml><![endif]-->
+</head>
+<body>
+<div class="lpn">
+<h3 class="PageHeader">MBRef Processor IP Library</h3>
+<h1>Change log for s2imac_epc<br>
+</h1>
+<hr class="whs1">
+<table style="vertical-align: top; text-align: left;" border="0"
+ cellpadding="1" cellspacing="0">
+  <tbody>
+<!-- BEGIN CHANGELOG FOR New core version --><!--spacer--><tr>
+      <td>
+      <p><br>
+      </p>
+      </td>
+    </tr>
+    <tr>
+      <td class="GreyBackground">
+      <p class="Level1Heading">Changes in S2IMAC v1.02.a, introduced in 11.5</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <p class="Level2Heading">S2IMAC 11.5 - Changes in tool interface files (.mpd)</p>
+      <hr class="whs1"> </td>
+    </tr>
+    <tr style="font-family: Arial;">
+      <td>
+      <ul>
+        <li><small>Added parameter C_INTERRUPT_PRESENT</small></li>
+        <li><small>Added input port PRH_Int associated with C_INTERRUPT_PRESENT</small></li>
+        <li><small>Added output port IP2INTC_Irpt associated with C_INTERRUPT_PRESENT</small></li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <p class="Level2Heading">S2IMAC 11.5 - Changes in VHDL/Verilog/Netlist sources (.vhd, .v, .ngc, .edn)</p>
+      <hr class="whs1"> </td>
+    </tr>
+    <tr>
+      <td>
+      <pre><span style="font-style: italic;"></span><font size="-1"><span style="font-family: Arial;"><br></span></font><span style="font-family: Arial;">New Features:</span><font size="-1"><br></font></pre>
+      <ul>
+        <li style="font-family: Arial;"><font size="-1">Initial 1.02a version:</font></li>
+        <ul>
+          <li><span style="font-family: Arial;"></span><span style="font-size: 7pt; line-height: 150%; font-family: &quot;Times New Roman&quot;;">&nbsp;</span><span style="font-family: Arial;"><small>
+Copy xps_epc_v1_02_a to s2imac_epc_v1_02_a
+</small><o:p></o:p></span><u4:p></u4:p><span style="font-family: Arial;"><br></span></li>
+          <li><span style="font-family: Arial;"></span><span style="font-size: 7pt; line-height: 150%; font-family: &quot;Times New Roman&quot;;">&nbsp;</span><span style="font-family: Arial;"><small>
+Rename and adapt data/xps_epc_v2_1_0.* to data/s2imac_epc_v2_1_0.*
+</small><o:p></o:p></span><u4:p></u4:p><span style="font-family: Arial;"><br></span></li>
+          <li><span style="font-family: Arial;"></span><span style="font-size: 7pt; line-height: 150%; font-family: &quot;Times New Roman&quot;;">&nbsp;</span><span style="font-family: Arial;"><small>
+Rename components and associated entities from xps_epc_v1_02_a to s2imac_epc_v1_02_a
+</small><o:p></o:p></span><u4:p></u4:p><span style="font-family: Arial;"><br></span></li>
+        </ul>
+        <li style="font-family: Arial;"><font size="-1">Introduce Interrupt Handling:</font></li>
+        <ul>
+          <li><span style="font-family: Arial;"></span><span style="font-size: 7pt; line-height: 150%; font-family: &quot;Times New Roman&quot;;">&nbsp;</span><span style="font-family: Arial;"><small>Extend interface description for new ports PRH_Int and IP2INTC_Irpt and the generic C_INTERRUPT_PRESENT</small><o:p></o:p></span><u4:p></u4:p><span style="font-family: Arial;"><br></span></li>
+          <li><span style="font-family: Arial;"></span><span style="font-size: 7pt; line-height: 150%; font-family: &quot;Times New Roman&quot;;">&nbsp;</span><span style="font-family: Arial;"><small>Generate interrupt line assignment in according to C_INTERRUPT_PRESENT: REMOVE_INTERRUPT and PASSTHROUGH_INTERRUPT</small><o:p></o:p></span><u4:p></u4:p><span style="font-family: Arial;"><br></span></li>
+        </ul>
+      </ul>
+      <pre><span style="font-family: Arial;">Resolved Issues:</span><font size="+1"><span style="font-family: Arial;"><br></span></font></pre>
+      <ul>
+        <li style="font-family: Arial;"><font size="-1">None</font></li>
+      </ul>
+      <font size="-1"><span style="font-family: Arial;">Known Issues / Limitations:</span></font><br style="font-family: Arial;">
+      <ul>
+        <li style="font-family: Arial;"><font size="-1">Only one interrupt line for all peripheral interfaces (PHR0..3)</font></li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <p class="Level2Heading">S2IMAC 11.5 - Changes documentation associated with core</p>
+      <hr class="whs1"> </td>
+    </tr>
+    <tr>
+      <td>
+      <ul>
+        <li><font size="-1"><span style="font-family: Arial;">Added watermark for each page: S2IMAC</span></font></li>
+      </ul>
+      </td>
+    <tr>
+      <td>
+      <hr class="whs1"><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p class="Copyright"> Copyright &copy; 2011 Li-Pro.Net, Stephan Linz. Allrights reserved.<br><br><br></p>
+<hr class="whs1">
+<h1 class="GreyBackground">Fork from xps_epc to s2imac_epc<br>
+</h1>
+</div>
+<hr class="whs1">
+<h3 class="PageHeader">Xilinx Processor IP Library</h3>
+<h1>Change log for xps_epc<br>
+</h1>
+<hr class="whs1">
+<table style="vertical-align: top; text-align: left;" border="0"
+ cellpadding="1" cellspacing="0">
+  <tbody>
+<!-- BEGIN CHANGELOG FOR New core version --><!--spacer--><tr>
+      <td>
+      <p><br>
+      </p>
+      </td>
+    </tr>
+    <tr>
+      <td class="GreyBackground">
+      <p class="Level1Heading">Changes in v1.02.a, introduced in 11.3 </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <p class="Level2Heading">11.3 - Changes in VHDL/Verilog/Netlist
+sources (.vhd, .v, .ngc, .edn) </p>
+      <hr class="whs1"> </td>
+    </tr>
+    <tr>
+      <td> <br>
+      <pre> <span style="font-family: Arial;">New Features:</span><font
+ size="-1"><br></font></pre>
+      <ul>
+        <li><font size="-1"><span style="font-family: Arial;">None</span></font></li>
+      </ul>
+      <pre><span style="font-family: Arial;">Resolved Issues:</span><font
+ size="+1"><span style="font-family: Arial;"><br></span></font></pre>
+      <ul>
+        <li><font size="-1"><span style="font-family: Arial;"></span></font><font
+ size="-1"><span style="font-family: Arial;"> Fixed [CR&lt;525042&gt;],
+Updated the synchronous mode multiplexing operation. </span></font></li>
+        <ul>
+          <li><font size="-1"><span style="font-family: Arial;">Versions
+that have this issue: v1.01.a<br>
+            </span></font></li>
+        </ul>
+      </ul>
+      <font size="-1"><span style="font-family: Arial;">Known Issues
+/Limitations:</span></font><br style="font-family: Arial;">
+      <ul>
+        <li><font size="-1"><span style="font-family: Arial;">None</span></font></li>
+      </ul>
+      </td>
+    </tr>
+<!-- End section --><!-- End section --> <tr>
+      <td>
+      <p class="Level2Heading">11.3 - Changes in&nbsp;documentation
+associated with core </p>
+      <hr class="whs1"> </td>
+    </tr>
+    <tr>
+      <td><br>
+      <ul>
+        <li><font size="-1"><span style="font-family: Arial;">Updated
+DS for addition of S6 and V6 utilizartion matrix</span></font></li>
+      </ul>
+      </td>
+    </tr>
+<!-- End section --> <tr>
+      <td>
+      <hr class="whs1"> </td>
+    </tr>
+<!-- BEGIN CHANGELOG FOR New core version --><!--spacer--><tr>
+      <td> <br>
+      </td>
+    </tr>
+    <tr>
+      <td class="GreyBackground">
+      <p class="Level1Heading">Changes in v1.01.a, introduced in 11.1 </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <p class="Level2Heading">11.1 - Changes in VHDL/Verilog/Netlist
+sources (.vhd, .v, .ngc, .edn) </p>
+      <hr class="whs1"> </td>
+    </tr>
+    <tr>
+      <td>
+      <pre><span style="font-style: italic;"></span><font size="-1"><span
+ style="font-family: Arial;"><br></span></font><span
+ style="font-family: Arial;">New Features:</span><font size="-1"><br></font></pre>
+      <ul>
+        <li><span style="font-family: Arial;"><font size="-1">Changed
+the helper libraries proc_common_v2_00_a to proc_common_v3_00_a and
+plbv46_slave_single_v1_00_a to plbv46_slave_single_v1_01_a.</font></span></li>
+      </ul>
+      <pre><span style="font-family: Arial;">Resolved Issues:</span><font
+ size="+1"><span style="font-family: Arial;"><br></span></font></pre>
+      <ul>
+        <li><span style="font-family: Arial;"><small>Fixed
+[CR&lt;467963&gt;] - Added the delay in the two consecutive writes and
+reads, in place of adding at the end of transaction.</small></span></li>
+        <ul>
+          <li><span style="font-family: Arial;"></span><span
+ style="font-size: 7pt; line-height: 150%; font-family: &quot;Times New Roman&quot;;">&nbsp;</span><span
+ style="font-family: Arial;"><small>Versions that have this issue :
+v1_00_a</small><o:p></o:p></span><u4:p></u4:p><span
+ style="font-family: Arial;"><br>
+            </span></li>
+        </ul>
+        <li><font size="-1"><span style="font-family: Arial;"></span></font><span
+ style="font-family: Arial;"><small>Fixed
+[CR&lt;480619&gt;] - The logic to verify the device is ready is added
+by splitting the DEV_VALID state in two parts. The CR is resolved.</small></span><font
+ size="-1"><span style="font-family: Arial;"></span></font></li>
+        <ul>
+          <li><font size="-1"><span style="font-family: Arial;">Versions
+that have this issue: v1_00_a<br>
+            </span></font></li>
+        </ul>
+      </ul>
+      <font size="-1"><span style="font-family: Arial;">Known Issues /
+Limitations:</span></font><br style="font-family: Arial;">
+      <ul>
+        <li style="font-family: Arial;"><font size="-1">None</font></li>
+      </ul>
+      </td>
+    </tr>
+<!-- End section --><!-- End section --><!-- End section --> <tr>
+      <td>
+      <p class="Level2Heading"> 11.1 - Changes in&nbsp;documentation
+associated with core </p>
+      <hr class="whs1"> </td>
+    </tr>
+    <tr>
+      <td>
+      <ul>
+        <li><small><span style="font-size: 10pt; font-family: Arial;">Fixed
+[CR&lt;477021&gt;] - Modified the PRH RDY expectation and code</span></small><span
+ style="font-size: 10pt; font-family: Arial;"><small
+ style="font-weight: bold;"> </small><small><big>behavior section.</big></small></span></li>
+      </ul>
+      </td>
+    </tr>
+<!-- End section --> <tr>
+      <td>
+      <hr class="whs1"><br>
+      </td>
+    </tr>
+<!-- END CHANGELOG FOR New core version. BEGIN change logs for new version here --><!--spacer-->
+    <tr>
+      <td class="GreyBackground">
+      <p class="Level1Heading">Changes in v1.00.a </p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <p class="Level2Heading">10.1.2 - Changes in tool interface files
+(.mpd) </p>
+      <hr class="whs1"> </td>
+    </tr>
+    <tr style="font-family: Arial;">
+      <td>
+      <ul>
+        <li><small>Added preferred support for aspartan3a.</small></li>
+        <li><small>Added preferred support for</small><small> </small>aspartan3.</li>
+        <li><small>Added preferred support for</small><small> </small>aspartan3e.</li>
+        <li><small>Added preferred support for virtex5fx.<br>
+          </small></li>
+        <li><small>Added preferred support for&nbsp;</small><small> </small>aspartan3adsp.</li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <h4>10.1.2 - Changes in TCL files associated with core (.tcl)</h4>
+      <hr style="width: 100%; height: 2px;">
+      <ul>
+        <li><small><span style="font-family: Arial;">The following
+checks are required only for asynchronous mode.[&lt;CR
+469644&gt;]&nbsp; is fixed. </span><span style="font-family: Arial;"
+ class="GramE">Changes</span><span style="font-family: Arial;"> are
+done in "proc </span><span style="font-family: Arial;" class="SpellE">check_rdy_tout</span><span
+ style="font-family: Arial;">" as per notes 21,22 in Data Sheet table 2</span></small>.</li>
+        <li style="font-family: Arial;"><small>Versions that have this
+issue : v1_00_a</small></li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <h4>10.1.2 - Changes in tool interface files (.mpd)</h4>
+      <hr style="width: 100%; height: 2px;">
+      <ul style="font-family: Arial;">
+        <li><small>Added preferred support for virtex2p.</small></li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <h4>10.1.2 - Changes in TCL files associated with core (.tcl)</h4>
+      <hr style="width: 100%; height: 2px;">
+      <ul>
+        <li><small><span style="font-family: Arial;">The following
+checks are required only for asynchronous mode.[&lt;CR
+469644&gt;]&nbsp; is fixed. </span><span style="font-family: Arial;"
+ class="GramE">Changes</span><span style="font-family: Arial;"> are
+done in "proc </span><span style="font-family: Arial;" class="SpellE">check_rdy_tout</span><span
+ style="font-family: Arial;">" as per notes 21,22 in Data Sheet table 2</span></small>.</li>
+        <ul style="font-family: Arial;">
+          <li><small>Versions that have this issue : v1_00_a</small></li>
+        </ul>
+      </ul>
+      <hr style="width: 100%; height: 2px;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td class="GreyBackground">
+      <p class="Level1Heading">Changes in v1.00.a </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><br>
+      <h4>10.1 - Changes
+in tool interface files (.mpd)</h4>
+      <hr style="width: 100%; height: 2px;">
+      <h4> </h4>
+      <ul style="font-family: Arial;">
+        <li><small>Added preferred support for virtex2p.</small></li>
+      </ul>
+      <hr style="width: 100%; height: 2px;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td class="GreyBackground">
+      <p class="Level1Heading">Changes in v1.00.a </p>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <h4><br>
+      </h4>
+      <h4>9.2 - Changes
+in tool interface files (.mpd)</h4>
+      <hr style="width: 100%; height: 2px;">
+      <ul style="font-family: Arial;">
+        <li><small>Added ASSIGNMENT = REQUIRE to parameters which need
+to be set</small><u4:p></u4:p></li>
+        <li><u4:p></u4:p><small><span style="font-family: Arial;">Added
+preferred support for spartan3a.</span></small></li>
+        <li style="font-family: Arial;"><small>Added preferred support
+for spartan3adsp.</small></li>
+        <li style="font-family: Arial;"><small>Added preferred support
+for virtex5.</small></li>
+        <li style="font-family: Arial;"><small>Added preferred support
+for virtex4.</small></li>
+        <li style="font-family: Arial;"><small>Added preferred support
+for spartan3.</small></li>
+        <li style="font-family: Arial;"><small>Added early access
+support for virtex5fx.</small></li>
+        <li><small><span style="font-family: Arial;">Added preferred
+support for spartan3e.</span></small></li>
+      </ul>
+      <h4>9.2 - Changes in Tcl script
+files associated with core (.tcl)</h4>
+      <hr style="width: 100%; height: 2px;">
+      <ul>
+        <li><small><span style="font-family: Arial;">The following
+checks are required only for asynchronous mode, </span><span
+ style="font-family: Arial;" class="SpellE">C_PRHx_WRN_WIDTH</span><span
+ style="font-family: Arial;"> &lt; </span><span
+ style="font-family: Arial;" class="SpellE">C_PRHx_WR_CYCLE and </span></small><small><span
+ style="font-family: Arial;"></span><span style="font-family: Arial;"
+ class="SpellE">C_PRHx_RDN_WIDTH</span><span style="font-family: Arial;">
+&lt; </span><span style="font-family: Arial;" class="SpellE">C_PRHx_RD_CYCLE.</span></small></li>
+      </ul>
+      <hr style="width: 100%; height: 2px;">
+      <h4> </h4>
+      </td>
+    </tr>
+    <tr>
+      <td
+ style="vertical-align: top; background-color: rgb(192, 192, 192);"><span
+ style="font-weight: bold;">Changes in v1.00.a</span><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <h4><br>
+      </h4>
+      <h4>9.1.2 - Changes
+in tool interface files (.mpd) </h4>
+      <hr style="width: 100%; height: 2px;">
+      <ul>
+        <li><small><u4:p><span style="font-family: Arial;">Added
+ASSIGNMENT</span> <span style="font-family: Arial;">= CONSTANT to
+parameters</span></u4:p><span style="font-family: Arial;"> like
+C_SPLB_AWIDTH, C_SPLB_NATIVE_DWIDTH, and C_SPLB_SUPPORT_BURST.</span></small></li>
+        <li><small><span style="font-family: Arial;">Added beta support
+for spartan3adsp.</span></small></li>
+      </ul>
+      <hr style="width: 100%; height: 2px;"><br>
+      </td>
+    </tr>
+    <tr>
+      <td
+ style="vertical-align: top; background-color: rgb(192, 192, 192);"><span
+ style="font-weight: bold;">Changes in v1.00.a, introduced in 9.1</span><br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">
+      <h4><br>
+      </h4>
+      <h4>9.1 - Changes in VHDL/Verilog/Netlist sources (.vhd, .v,
+.ngc, .edn)</h4>
+      <hr style="width: 100%; height: 2px;">
+      <pre style="line-height: 150%;"><span style="font-family: Arial;">New Features:<br></span></pre>
+      <ul style="font-family: Arial;">
+        <li><small>Initial 1.00a version</small></li>
+      </ul>
+      <h1><big><big><big><big><span style="font-family: Arial;"><small><small><small><small><small><small
+ style="font-weight: normal;"><small><small>Resolved Issues:</small></small></small></small></small></small></small></small></span></big></big></big></big></h1>
+      <ul>
+        <li><span
+ style="font-size: 10pt; line-height: 150%; font-family: Arial;">None</span></li>
+      </ul>
+      <p class="MsoNormal" style="line-height: 150%;"><span
+ style="font-size: 10pt; line-height: 150%; font-family: Arial;">Known
+Issues / Limitations:</span><u3:p></u3:p><o:p></o:p></p>
+      <u4:p></u4:p>
+      <ul>
+        <li><span
+ style="font-size: 10pt; line-height: 150%; font-family: Symbol;"></span><span
+ style="font-size: 7pt; line-height: 150%;"> </span><span
+ style="font-size: 10pt; line-height: 150%; font-family: Arial;">None</span>
+        </li>
+      </ul>
+      </td>
+    </tr>
+<!-- END CHANGELOG FOR New core version. BEGIN change logs for new version here -->
+  </tbody>
+</table>
+<p class="Copyright"> Copyright &copy; 1995-2009 Xilinx, Inc. Allrights
+reserved. </p>
+</body>
+</html>

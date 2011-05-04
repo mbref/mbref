@@ -45,7 +45,6 @@ set put_cfg_procs(xlboot) {
 set put_cfg_procs(uboot) {
 	put_timer_cfg	put_sysmem_cfg	put_normem_cfg	put_uart_cfg
 	put_iic_cfg	put_gpio_cfg	put_sysace_cfg	put_ethmac_cfg
-	put_s2imac_cfg
 }
 set put_cfg_procs(linux) {
 	put_timer_cfg	put_sysmem_cfg	put_normem_cfg
@@ -348,7 +347,8 @@ proc tpos_check_design {osh} {
 		set s2imac_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] ${s2imac}]
 		set s2imac_type [xget_hw_value ${s2imac_handle}]
 		switch -exact ${s2imac_type} {
-			"xps_epc" {
+			"xps_epc" -
+			"s2imac_epc" {
 				debug info "INFO: S2I GigE Vision Ethernet at EPC specified."
 				set epc_pnum [xget_sw_parameter_value ${s2imac_handle} C_NUM_PERIPHERALS]
 				if {$epc_pnum < 2} {
@@ -1705,108 +1705,6 @@ proc put_sysace_cfg_mk {pkg fh osh sh} {
 }
 
 #
-# Sensor to Image (S2I) GigE Vision Ethernet
-#
-namespace export put_s2imac_cfg
-proc put_s2imac_cfg {pkg fh osh} {
-	set s2imac [xget_sw_parameter_value ${osh} "s2imac"]
-	if {[string match "" ${s2imac}] || [string match -nocase "none" ${s2imac}]} {
-		put_info ${fh} "S2I GigE Vision Ethernet MAC not defined"
-		put_blank_line ${fh}
-		return 0
-	}
-
-	# get s2imac handle per name from processor
-	set s2imac_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] ${s2imac}]
-
-	set ft [get_file_type ${fh}]
-	switch ${ft} {
-		"ch" { return [put_s2imac_cfg_ch ${pkg} ${fh} ${osh} ${s2imac_handle}] }
-		"mk" { return [put_s2imac_cfg_mk ${pkg} ${fh} ${osh} ${s2imac_handle}] }
-		default {
-			error "ERROR: This type of file is not supported yet: ${ft}"
-		}
-	}
-	return 1
-}
-
-proc put_s2imac_cfg_ch {pkg fh osh mh} {
-	# Handle different MACs differently
-	set s2imac_type [xget_hw_value ${mh}]
-	switch -exact ${s2imac_type} {
-		"xps_epc" {
-			set epc_p 0
-			return [put_s2imac_epc_cfg ${pkg} ${fh} ${mh} ${epc_p}]
-		}
-		default {
-			error "ERROR: Unsupported type of S2I GigE Vision Ethernet MAC - ${s2imac_type}"
-		}
-	}
-}
-
-proc put_s2imac_cfg_mk {pkg fh osh th} {
-	#
-	# nothing to do here (not yet)
-	#
-	return 1
-}
-
-proc put_s2imac_epc_cfg {pkg fh mh {epc_p 0}} {
-	switch ${pkg} {
-		"fsboot" {
-			#	Enable		CONFIG_S2IMAC
-			#	BASEADDR	CONFIG_S2IMAC_BASEADDR
-			#	HIGHADDR	CONFIG_S2IMAC_HIGHADDR
-			#	IP2INTC_Irpt	CONFIG_S2IMAC_IRQ
-			array set define {
-			}
-		}
-		"uboot" {
-			#	HIGHADDR	S2IMAC_HIGHADDR
-			#	IP2INTC_Irpt	S2IMAC_IRQ
-			array set define {
-				Enable		S2IMAC
-				BASEADDR	S2IMAC_BASEADDR
-			}
-		}
-		default { array set define {} }
-	}
-
-	# fast exit without any error if define array is empty 
-	if {![array size define]} { return 1 }
-
-	put_info ${fh} "S2I GigE Vision Ethernet MAC controller S2IEMAC is [xget_hw_name ${mh}] (prh${epc_p})"
-	set arg_name Enable
-	if {[array name define ${arg_name}] == ${arg_name}} {
-		put_cfg_ena ${fh} $define($arg_name)
-	}
-
-	# S2I GigE Vision Ethernet MAC pheriphery values
-	set args [xget_sw_parameter_handle ${mh} "*"]
-	set parapre [format C_PRH%i_ ${epc_p}]
-	foreach arg ${args} {
-		set arg_name [xget_value ${arg} "NAME"]
-		set arg_name [string_trimleft_pat ${arg_name} ${parapre}]
-		set arg_value [xget_value ${arg} "VALUE"]
-		if {[array name define ${arg_name}] == ${arg_name}} {
-			put_cfg ${fh} $define($arg_name) ${arg_value}
-		}
-	}
-
-	# Interrupt source number
-	set arg_name IP2INTC_Irpt
-	set arg_value [get_intr ${mh} ${arg_name}]
-	if { ${arg_value} >= 0 } {
-		if {[array name define ${arg_name}] == ${arg_name}} {
-			put_cfg_int ${fh} $define($arg_name) ${arg_value}
-		}
-	}
-
-	put_blank_line ${fh}
-	return 1
-}
-
-#
 # Ethernet
 #
 namespace export put_ethmac_cfg
@@ -1850,6 +1748,9 @@ proc put_ethmac_cfg_ch {pkg fh osh eh} {
 		}
 		"xps_ll_temac" {
 			return [put_lltemac_cfg ${pkg} ${fh} ${eh}]
+		}
+		"s2imac_epc" {
+			return [put_s2imac_epc_cfg ${pkg} ${fh} ${eh}]
 		}
 		default {
 			error "ERROR: Unsupported type of Ethernet MAC - ${ethmac_type}"
@@ -2068,6 +1969,61 @@ proc put_lltemac_cfg {pkg fh eh} {
 
 	# Interrupt source number
 	set arg_name TemacIntc0_Irpt
+	set arg_value [get_intr ${eh} ${arg_name}]
+	if { ${arg_value} >= 0 } {
+		if {[array name define ${arg_name}] == ${arg_name}} {
+			put_cfg_int ${fh} $define($arg_name) ${arg_value}
+		}
+	}
+
+	put_blank_line ${fh}
+	return 1
+}
+
+proc put_s2imac_epc_cfg {pkg fh eh {epc_p 0}} {
+	switch ${pkg} {
+		"fsboot" {
+			#	Enable		CONFIG_S2IMAC
+			#	BASEADDR	CONFIG_S2IMAC_BASEADDR
+			#	HIGHADDR	CONFIG_S2IMAC_HIGHADDR
+			#	IP2INTC_Irpt	CONFIG_S2IMAC_IRQ
+			array set define {
+			}
+		}
+		"uboot" {
+			#	HIGHADDR	S2IMAC_HIGHADDR
+			#	IP2INTC_Irpt	S2IMAC_IRQ
+			array set define {
+				Enable		S2IMAC
+				BASEADDR	S2IMAC_BASEADDR
+			}
+		}
+		default { array set define {} }
+	}
+
+	# fast exit without any error if define array is empty 
+	if {![array size define]} { return 1 }
+
+	put_info ${fh} "Ethernet MAC controller S2IMAC is [xget_hw_name ${eh}] (prh${epc_p})"
+	set arg_name Enable
+	if {[array name define ${arg_name}] == ${arg_name}} {
+		put_cfg_ena ${fh} $define($arg_name)
+	}
+
+	# S2I GigE Vision Ethernet MAC pheriphery values
+	set args [xget_sw_parameter_handle ${eh} "*"]
+	set parapre [format C_PRH%i_ ${epc_p}]
+	foreach arg ${args} {
+		set arg_name [xget_value ${arg} "NAME"]
+		set arg_name [string_trimleft_pat ${arg_name} ${parapre}]
+		set arg_value [xget_value ${arg} "VALUE"]
+		if {[array name define ${arg_name}] == ${arg_name}} {
+			put_cfg ${fh} $define($arg_name) ${arg_value}
+		}
+	}
+
+	# Interrupt source number
+	set arg_name IP2INTC_Irpt
 	set arg_value [get_intr ${eh} ${arg_name}]
 	if { ${arg_value} >= 0 } {
 		if {[array name define ${arg_name}] == ${arg_name}} {
