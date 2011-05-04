@@ -1,3 +1,80 @@
+commit edf080724e6223d3f13622858a579c8a28986044
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed May 4 23:18:10 2011 +0200
+
+    tpos: s2imac_epc: new IP core
+
+    MicroBlaze References extended Xilinx EPC derivate with interrupt
+    line extention. This belongs to Sensor to Image GigE Vision project.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit e5e21fa4b3351d11d1e241558d7fbbc7530b596f
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed May 4 22:12:40 2011 +0200
+
+    tpos: Harmonize S2I GigE Vision MAC support
+
+    It is time to handle the S2IMAC as a generic Ethernet controller
+    like other, eg. Xilinx LL TEMAC. It removes the MSS option 's2imac'.
+    You have to use the MSS generic option 'ethernet' to select your
+    specific 's2imac_epc' entity.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 646a8926e707b0fba94f59d84e0a3abe45a473b3
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Mar 1 17:04:14 2011 +0100
+
+    tpos: device-tree: Add s2imac_epc handling
+
+    Add the new s2imac_epc handling in same manner as a generic
+    xps_epc with s2imac extension. This is a pre-stage version
+    to the way of a single treatment as a generic ethernet core,
+    such as the lltemac.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 5d4c559eba9fa3e6027069759d05499dbc433bb3
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Mar 1 17:02:40 2011 +0100
+
+    tpos: linux: remove PROJECT_NAME in Kconfig
+
+    Remove the improper kernel configuration PROJECT_NAME.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit aa549392ce3e398272d29daaf61f8cae91415d6a
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Mar 1 16:56:10 2011 +0100
+
+    tpos: device-tree: fix typos
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit fe56058963b0e9e14721c8243db56f6ffcbbee98
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Mar 1 16:52:40 2011 +0100
+
+    tpos: device-tree: hot fix to avoid effects of missing variable
+
+    With this hot fix we avoid effects of missing variable in ISE 11.5 and 12.1:
+      ERROR:EDK - tpos () - can't read "generic_uio_list": no such variable
+      ERROR:EDK:1188 - Error(s) while running "generate" for processor microblaze_0.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 884e7c7df2379e074641ea3e0afb7b7c0e137226
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Feb 17 12:11:19 2011 +0100
+
+    Prepare 2011.01 [V2]
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit 251d90ca8fb6155cdbd3df81fe3063a7e95f265a
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Feb 17 12:07:57 2011 +0100
