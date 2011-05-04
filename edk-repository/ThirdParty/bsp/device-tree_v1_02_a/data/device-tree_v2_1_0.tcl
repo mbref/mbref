@@ -167,9 +167,6 @@ proc generate {os_handle} {
 		}
 	}
 
-	global s2imac
-	set s2imac [xget_sw_parameter_value $os_handle "s2imac"]
-
 	generate_device_tree "xilinx.dts" $bootargs $consoleip
 }
 
@@ -1126,6 +1123,11 @@ proc gener_slave {node slave intc} {
 			# about the connected LL connection, and the dual cores.
 			lappend node [slave_ll_temac $slave $intc]
 		}
+		"s2imac_epc" {
+			# We need to handle this specially, to notify the driver
+			# about the connected S2IMAC connection, and the dual cores.
+			lappend node [slave_s2imac_epc $slave $intc]
+		}
 		"xps_tft" {
 			lappend node [slaveip_dcr_or_plb $slave $intc "tft" [default_parameters $slave]]
 		}
@@ -1411,25 +1413,17 @@ proc gener_slave {node slave intc} {
 			debug ip "Other PowerPC405 CPU $name=$type"
 			lappend node [gen_ppc405 $slave [default_parameters $slave]]
 		}
-		"xps_epc" -
-		"s2imac_epc" {
-			global s2imac
-			if {[string match $name $s2imac]} {
-				# We need to handle this specially, to notify the driver
-				# about the connected S2IMAC connection, and the dual cores.
-				lappend node [slave_s2imac_epc $slave $intc]
-			} else {
-				set tree [compound_slave $slave "C_PRH0_BASEADDR"]
-				set tree [tree_append $tree [list ranges empty empty]]
+		"xps_epc" {
+			set tree [compound_slave $slave "C_PRH0_BASEADDR"]
+			set tree [tree_append $tree [list ranges empty empty]]
 
-				set epc_peripheral_num [xget_hw_parameter_value $slave "C_NUM_PERIPHERALS"]
-				for {set x 0} {$x < ${epc_peripheral_num}} {incr x} {
-					set subnode [slaveip_intr $slave $intc [interrupt_list $slave] "" [default_parameters $slave] [format "PRH%i_" $x]]
-					set subnode [change_nodename $subnode $name "${name}_p${x}"]
-					set tree [tree_append $tree $subnode]
-				}
-				lappend node $tree
+			set epc_peripheral_num [xget_hw_parameter_value $slave "C_NUM_PERIPHERALS"]
+			for {set x 0} {$x < ${epc_peripheral_num}} {incr x} {
+				set subnode [slaveip_intr $slave $intc [interrupt_list $slave] "" [default_parameters $slave] [format "PRH%i_" $x]]
+				set subnode [change_nodename $subnode $name "${name}_p${x}"]
+				set tree [tree_append $tree $subnode]
 			}
+			lappend node $tree
 		}
 		default {
 			set dtype ""
