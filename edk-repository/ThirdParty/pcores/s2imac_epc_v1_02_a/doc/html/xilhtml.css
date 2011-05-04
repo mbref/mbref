@@ -1,0 +1,158 @@
+BODY {
+        background-color: #FFFFFF;
+        font-family: Verdana, Arial, Helvetica, Sans-serif;
+}
+
+H1 {
+        margin-bottom: 0em;
+        font-size: 1.20em;
+        font-style: normal;
+        color: #990033;
+}
+
+H2 {
+        font-size: 1.05em;
+        font-style: normal;
+        color: #666666;
+}
+
+H3 {
+        font-size: 0.90em;
+        font-style: normal;
+        color: #000000;
+}
+
+H3.PageHeader {
+        font-size: 0.80em;
+        font-style: normal;
+        color: #990033;
+}
+
+H4 {
+        font-size: .90em;
+        font-style: italic;
+        color: #000000;
+}
+
+H5  {
+        font-size: .90em;
+        font-style: italic;
+        color: #000000;
+}
+
+H6  {
+        font-size: .90em;
+        font-style: italic;
+        color: #000000;
+}
+
+OL  {
+        font-style: normal;
+        color: #000000;
+        margin-top: 0em;
+}
+
+UL  {
+        font-style: normal;
+        color: #000000;
+        margin-top: 0em;
+}
+
+LI  {
+        font-style: normal;
+        color: #000000;
+        margin-top: 0em;
+}
+
+P  {
+        font-size: .90em;
+        font-style: normal;
+        color: #000000;
+        margin-bottom: 1em;
+}
+
+P.Caution  {
+        color: #990033;
+}
+
+P.Code  {
+        font-family: Courier New, Courier, Mono;
+        color: #003399;
+}
+
+P.HeadingDBox {
+        font-weight: bold;
+}
+
+P.HeadingGlossary {
+        font-weight: bold;
+}
+
+P.LinkGlossary  {
+        margin-bottom: .50em;
+}       
+
+P.Note  {
+}
+
+P.SysInOut  {
+        font-family: Courier New, Courier, Mono;
+}
+
+P.TableFootnote  {
+        font-size: .80em;
+        margin-bottom: .70em;
+}
+
+P.TableHeading  {
+        font-weight: bold;
+}
+
+P.TableTitle  {
+        font-style: italic;
+        font-weight: bold;
+}
+
+P.Copyright {
+		font-size: 0.6em;
+}
+
+SPAN.aEmphasis  {
+        font-style: italic;
+}
+
+SPAN.aFilename  {
+        font-family: Courier New, Courier, Mono;
+}
+
+
+SPAN.aGUISysIn  {
+        font-family: Verdana, Arial, Helvetica, Sans-serif;
+        font-weight: bold;
+}
+
+SPAN.aReference  {
+        font-style: italic;
+}
+
+SPAN.aSysIn  {
+        font-family: Courier New, Courier, Monospace;
+        font-weight: bold;
+}
+
+SPAN.aSysOut  {
+        font-family: Courier New, Courier, Monospace;
+}
+
+SPAN.aSymbol  {
+        font-family: Symbol;
+}
+
+hr.whs1 {
+        float: aligncenter;
+        height: 1px; color: #990033;
+        margin-top: 0px;
+        margin-bottom: 0px;
+		size="1";
+        color="#990033";
+}
