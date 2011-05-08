@@ -1,0 +1,4 @@
+This directory contains a patched version of xps_timer_1_01_b.  This is
+required to work around the bug specific in Xilinx AR33880
+
+

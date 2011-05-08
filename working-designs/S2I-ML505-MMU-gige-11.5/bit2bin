@@ -1,0 +1,4 @@
+#!/bin/sh
+
+promgen -w -p bin -c FF -o gvrd_download.bin -u 0 ise/gvrd_download.bit -s 65536 -bpi_dc parallel -data_width 8
+rm -f gvrd.cfi gvrd.prm

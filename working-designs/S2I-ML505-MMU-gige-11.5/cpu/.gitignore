@@ -1,0 +1,22 @@
+# Template .gitignore file for project
+ppc405_?
+microblaze_?
+implementation
+synthesis
+hdl
+CF
+report
+blkdiagram
+fs-boot
+__xps
+platgen.opt
+*.log
+*.svf
+*.scr
+*.cmd
+*.tcl
+*.bak
+*~
+*.elf
+*.ace
+*.make
