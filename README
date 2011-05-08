@@ -74,6 +74,23 @@ versions, i. e. officially released versions of MB-Ref will always
 have a patchlevel of "0" (blank/nothing).
 
 
+Packaging
+
+Development packages
+
+All development will going up inline of the Git development branch:
+
+	devel/tpos
+
+Any development package will create without context to a specific
+release tag. Steps to do:
+
+	make CHANGELOG
+	git add CHANGELOG
+	git commit -sm 'Update CHANGELOG'
+	make dist
+
+
 More documentation
 
 See README.designs and README.tpos.
