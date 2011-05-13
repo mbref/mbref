@@ -979,7 +979,7 @@ proc put_sysmem_cfg_ch {pkg fh osh sh} {
 
 	# System memory resizing
 	set sysmem_size [xget_sw_parameter_value ${osh} "main_memory_size"]
-	if { $sysmem_size < $eram_size } {
+	if { $sysmem_size > 0 && $sysmem_size < $eram_size } {
 		set eram_size [format "0x%08x" $sysmem_size]
 	}
 
