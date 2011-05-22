@@ -1,3 +1,65 @@
+commit ac790bb1ac5bb55a7868cc1c2ec7e1635483dc03
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 22 19:06:43 2011 +0200
+
+    mbref: gitignore: exclude bin files
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit a33e216f575fb97bc1241ff5866224158702d663
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 22 18:59:26 2011 +0200
+
+    working-designs: bit2bin: add new converter
+
+    Add a simple script to convert the ready to use Xilinx BIT
+    file to a flash-able BIN file. This file will be used for
+    BPI programming mode and reside in parallel flash on first
+    configuration address (normaly 0x0).
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit f4302a22e50c4bc00eb723b015ffad2de3984de6
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 22 18:51:41 2011 +0200
+
+    working-designs: MSS: flash partitioning
+
+    Preset the MTD flash partitioning in the Linux boot argument
+    and set default rootfs to jffs2 on /dev/mtdblock2.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit d82bf2556c1b79dd6f4ba8d46ecbc3a5be08275a
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 22 18:47:19 2011 +0200
+
+    working-designs: BitGen: StartUpClk to CCLK
+
+    Change the start up clocks from JTAGCLK to CCLK in all BitGen
+    option files etc/bitgen.ut.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit f4827fb28b51ef5de6898035acb42e6a31620bfe
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat May 14 00:19:14 2011 +0200
+
+    tpos: zero main_memory_size
+
+    Resize the main memory size only if main_memory_size is greater than
+    zero and lower than eram_size.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit ec3f348e5e3df51bf506ff87830b0f3fd220014f
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 8 15:07:00 2011 +0200
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit 8a631d1d06235baaa256524c7ac23d5e5e9a1ff1
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 8 15:02:29 2011 +0200
