@@ -1,7 +1,7 @@
 #
 # MB-Ref make file
 #
-# (C) Copyright 2010
+# (C) Copyright 2010-2011
 # Li-Pro.Net <www.li-pro.net>
 # Stephan Linz <linz@li-pro.net>
 #

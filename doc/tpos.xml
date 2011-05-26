@@ -4,10 +4,10 @@
 <book>
   <!--edited with XMLmind XML Editor Personal Edition 4.6.1
 more information: http://www.xmlmind.com/xmleditor/
-[user@host]> /opt/xxe-perso-4_6_1/bin/xxe tpos_v1_00_a.xml-->
+[user@host]> /opt/xxe-perso-4_6_1/bin/xxe tpos.xml-->
 
   <!--compiled with Eric Bischoff DocBook and James CLarks Jade:
-[user@host]> docbook2pdf tpos_v1_00_a.xml-->
+[user@host]> docbook2pdf tpos.xml-->
 
   <bookinfo>
     <title>TPOS</title>
