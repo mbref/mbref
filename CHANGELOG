@@ -1,3 +1,159 @@
+commit aa52d2b0e65266e90abbaef3289adeb723a6dc8b
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jun 2 09:32:05 2011 +0200
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit a7f53801faee5a33f266e6c3f161c2d7f2de6ea7
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jun 2 09:28:54 2011 +0200
+
+    working-designs: makefile: add simple processing
+
+    Add a simple make file to process build-up and/or clean all
+    XPS based FPGA working designs with a simple make command.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 82b06b410ea4f69cfff09b851aa5cc1d650dea12
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu May 26 23:01:26 2011 +0200
+
+    mbref: move s2imac_epc document sources to ./doc
+
+    As an result of project review it was time to remove all source
+    files of IP core documentation inside the IP core directory itself.
+
+    All documentation source files were moved to and integrated in the
+    make process in the ./doc directory.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 38678199208cda9dc7f60f13ae75fa11e1f7ea3b
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 22 19:19:00 2011 +0200
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit ac790bb1ac5bb55a7868cc1c2ec7e1635483dc03
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 22 19:06:43 2011 +0200
+
+    mbref: gitignore: exclude bin files
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit a33e216f575fb97bc1241ff5866224158702d663
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 22 18:59:26 2011 +0200
+
+    working-designs: bit2bin: add new converter
+
+    Add a simple script to convert the ready to use Xilinx BIT
+    file to a flash-able BIN file. This file will be used for
+    BPI programming mode and reside in parallel flash on first
+    configuration address (normaly 0x0).
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit f4302a22e50c4bc00eb723b015ffad2de3984de6
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 22 18:51:41 2011 +0200
+
+    working-designs: MSS: flash partitioning
+
+    Preset the MTD flash partitioning in the Linux boot argument
+    and set default rootfs to jffs2 on /dev/mtdblock2.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit d82bf2556c1b79dd6f4ba8d46ecbc3a5be08275a
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 22 18:47:19 2011 +0200
+
+    working-designs: BitGen: StartUpClk to CCLK
+
+    Change the start up clocks from JTAGCLK to CCLK in all BitGen
+    option files etc/bitgen.ut.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit f4827fb28b51ef5de6898035acb42e6a31620bfe
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat May 14 00:19:14 2011 +0200
+
+    tpos: zero main_memory_size
+
+    Resize the main memory size only if main_memory_size is greater than
+    zero and lower than eram_size.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit ec3f348e5e3df51bf506ff87830b0f3fd220014f
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 8 15:07:00 2011 +0200
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 8a631d1d06235baaa256524c7ac23d5e5e9a1ff1
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 8 15:02:29 2011 +0200
+
+    mbref: describe devel packaging
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 42b722fa228e163265f05c2fd3d00db4bcdfc5d5
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 8 14:34:23 2011 +0200
+
+    mbref: make special devel distribution
+
+    Use EXTRAVERSION = -devel to archive a context less devel
+    distribution base on HEAD.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit a65060f4457522efcb284e5276a8125011f94ec5
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 8 14:32:29 2011 +0200
+
+    mbref: legal notice and credits to S2I
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 89c070a94bca49bb5e765f995973dbeffcf9fdbf
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 8 13:20:15 2011 +0200
+
+    mbref: correct version for development
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 63a5c64be8f697bb21e3929306b2f351f8e4fd21
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 8 13:13:41 2011 +0200
+
+    working-designs: add S2I-ML505-MMU-gige-11.5
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 1b9725a588f6bd6aca752ce54644b5cf4a7b85b5
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu May 5 00:37:00 2011 +0200
+
+    Prepare 2011.05
+
+    Update Makefile and CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit edf080724e6223d3f13622858a579c8a28986044
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Wed May 4 23:18:10 2011 +0200
@@ -62,6 +218,16 @@ Date:	Tue Mar 1 16:52:40 2011 +0100
     With this hot fix we avoid effects of missing variable in ISE 11.5 and 12.1:
       ERROR:EDK - tpos () - can't read "generic_uio_list": no such variable
       ERROR:EDK:1188 - Error(s) while running "generate" for processor microblaze_0.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 884e7c7df2379e074641ea3e0afb7b7c0e137226
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Feb 17 12:11:19 2011 +0100
+
+    Prepare 2011.01 [V2]
+
+    Update CHANGELOG
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
