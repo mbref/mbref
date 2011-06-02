@@ -1,0 +1,112 @@
+#!/bin/sh
+# usage:   ./makescr <xilinx_setting_script> <command>
+# example: ./makescr /opt/Xilinx/12.4/ISE_DS/settings32.sh clean
+
+ENV=$1
+CMD=$2
+shift 2
+
+export BATCHMODE="true"
+source "$ENV"
+
+function xps_run_bit2bin() {
+	linux32 ./bit2bin
+}
+
+function xps_run_bits() {
+	linux32 xps -nw system.xmp << EOF
+run bits
+exit
+EOF
+}
+
+function xps_run_bitsclean() {
+	linux32 xps -nw system.xmp << EOF
+run bitsclean
+exit
+EOF
+}
+
+function xps_run_hwclean() {
+	linux32 xps -nw system.xmp << EOF
+run hwclean
+exit
+EOF
+}
+
+function xps_run_libs() {
+	linux32 xps -nw system.xmp << EOF
+run libs
+exit
+EOF
+}
+
+function xps_run_libsclean() {
+	linux32 xps -nw system.xmp << EOF
+run libsclean
+exit
+EOF
+}
+
+function xps_run_program() {
+	linux32 xps -nw system.xmp << EOF
+run program
+exit
+EOF
+}
+
+function xps_run_programclean() {
+	linux32 xps -nw system.xmp << EOF
+run programclean
+exit
+EOF
+}
+
+function xps_run_swclean() {
+linux32 xps -nw system.xmp << EOF
+run swclean
+exit
+EOF
+}
+
+function xps_run_init_bram() {
+	linux32 xps -nw system.xmp << EOF
+run init_bram
+exit
+EOF
+}
+
+function xps_run_clean() {
+	linux32 xps -nw system.xmp << EOF
+run clean
+exit
+EOF
+}
+
+case "$CMD" in
+	bit2bin)	xps_run_bit2bin ;;
+
+	bits)		xps_run_bits ;;
+
+	bitsclean)	xps_run_bitsclean ;;
+
+	hwclean)	xps_run_hwclean ;;
+
+	libs)		xps_run_libs ;;
+
+	libsclean)	xps_run_libsclean ;;
+
+	program)	xps_run_program ;;
+
+	programclean)	xps_run_programclean ;;
+
+	swclean)	xps_run_swclean ;;
+
+	init_bram)	xps_run_init_bram ;;
+
+	clean)		xps_run_clean ;;
+
+	*)
+		echo "unknown option"
+		exit 1
+esac

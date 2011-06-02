@@ -1,7 +1,7 @@
 #
 # MB-Ref make file
 #
-# (C) Copyright 2010
+# (C) Copyright 2010-2011
 # Li-Pro.Net <www.li-pro.net>
 # Stephan Linz <linz@li-pro.net>
 #
@@ -31,6 +31,12 @@ MBREF_VERSION = $(VERSION).$(SUBVERSION)$(EXTRAVERSION)
 MBREF_PKGNAME = $(MBREF_NAME)-$(MBREF_VERSION)
 MBREF_PKGRTAG = v$(MBREF_VERSION)
 
+ifeq (-devel,$(findstring -devel,$(EXTRAVERSION)))
+MBREF_LOGREFI = HEAD
+else
+MBREF_LOGREFI = master
+endif
+
 all configure install help:
 	@echo
 	@echo "This is MB-References $(MBREF_VERSION)"
@@ -46,8 +52,8 @@ doc:
 
 dist:
 	git archive --format=tar --prefix=$(MBREF_PKGNAME)/ \
-		$(MBREF_PKGRTAG) | bzip2 -9 >$(MBREF_PKGNAME).tar.bz2
+		$(MBREF_PKGRTAG:%-devel=HEAD) | bzip2 -9 >$(MBREF_PKGNAME).tar.bz2
 
 CHANGELOG:
-	git log --no-merges master | \
+	git log --no-merges $(MBREF_LOGREFI) | \
 		unexpand -a | sed -e 's/\s\s*$$//' > $@

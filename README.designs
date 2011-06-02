@@ -10,6 +10,7 @@ Haydnstr. 3
 Germany
 
 Copyright © 2010-2011 by Li-Pro.Net, Stephan Linz
+Copyright © 2010-2011 by Sensor to Image GmbH
 Copyright © 1995-2011 by Xilinx, Inc.
 
 Legal Notice
@@ -25,7 +26,9 @@ you may choose to treat this document as falling under the same
 license as TPOS source code itself (discussed in README.tpos). [1]
 
 Third-Party Components. This designs includes free components
-developed and copyrighted (C) 1995-2011 by Xilinx, Inc.
+developed and copyrighted (C) 1995-2011 by Xilinx, Inc. The
+ML505 GigE Vision design includes free components developed and
+copyrighted (C) 2010-2011 by Sensor to Image GmbH.
   __________________________________________________________
 
 [1] http://creativecommons.org/licenses/by-nc-sa/3.0/legalcode

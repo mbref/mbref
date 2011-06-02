@@ -1,0 +1,49 @@
+XPS External Peripheral Controller (EPC) v1.02a/5,Black,notBold,notItalic,open,TopLeftZoom,51,485,0.0
+	Introduction/5,Black,notBold,notItalic,open,TopLeftZoom,159,88,0.0
+	Features/5,Black,notBold,notItalic,open,TopLeftZoom,375,88,0.0
+	Functional Description/7,Black,notBold,notItalic,open,TopLeftZoom,85,176,0.0
+		PLB Interface Module/7,Black,notBold,notItalic,open,TopLeftZoom,639,176,0.0
+		EPC CORE/7,Black,notBold,notItalic,open,TopLeftZoom,727,176,0.0
+		IPIC IF Decode Module/8,Black,notBold,notItalic,open,TopLeftZoom,154,176,0.0
+		Sync Control and Async Control Modules/8,Black,notBold,notItalic,open,TopLeftZoom,237,176,0.0
+		Data Steer and Address Generation Modules/8,Black,notBold,notItalic,open,TopLeftZoom,607,176,0.0
+		Access Mux Module/9,Black,notBold,notItalic,open,TopLeftZoom,274,176,0.0
+	XPS EPC IP Core Design Parameters/9,Black,notBold,notItalic,open,TopLeftZoom,458,176,0.0
+	XPS EPC IP Core I/O Signals/16,Black,notBold,notItalic,open,TopLeftZoom,85,176,0.0
+	Parameter - Port Dependencies/18,Black,notBold,notItalic,open,TopLeftZoom,753,176,0.0
+		Allowable Parameter Combinations/22,Black,notBold,notItalic,open,TopLeftZoom,86,176,0.0
+	XPS EPC Design Considerations/23,Black,notBold,notItalic,open,TopLeftZoom,85,176,0.0
+		How to Provide the Timing Parameters in Async Mode of Operation?/23,Black,notBold,notItalic,open,TopLeftZoom,192,176,0.0
+		FIFO Transactions/25,Black,notBold,notItalic,open,TopLeftZoom,280,176,0.0
+		Abnormal Terminations/25,Black,notBold,notItalic,open,TopLeftZoom,414,176,0.0
+		Interrupt Handling/25,Black,notBold,notItalic,open,TopLeftZoom,564,176,0.0
+		Device Ready Signal (PRH_Rdy Signal)/25,Black,notBold,notItalic,open,TopLeftZoom,630,176,0.0
+		Peripheral Data Bus Mapping/27,Black,notBold,notItalic,open,TopLeftZoom,87,176,0.0
+		Unsupported Features/27,Black,notBold,notItalic,open,TopLeftZoom,681,176,0.0
+	XPS EPC IP Core External Peripheral Connections/28,Black,notBold,notItalic,open,TopLeftZoom,85,176,0.0
+		Determining Address and Data Width/28,Black,notBold,notItalic,open,TopLeftZoom,193,176,0.0
+		Endian Considerations/28,Black,notBold,notItalic,open,TopLeftZoom,332,176,0.0
+		Clock Generation/28,Black,notBold,notItalic,open,TopLeftZoom,455,176,0.0
+		Example Peripheral Connections/29,Black,notBold,notItalic,open,TopLeftZoom,372,176,0.0
+		Example: SMSC LAN91C111 10/100 non-PCI Ethernet Single Chip MAC + PHY/29,Black,notBold,notItalic,open,TopLeftZoom,399,176,0.0
+			Asynchronous Mode/29,Black,notBold,notItalic,open,TopLeftZoom,516,176,0.0
+			External Glue Logic/30,Black,notBold,notItalic,open,TopLeftZoom,457,176,0.0
+			Synchronous Mode/30,Black,notBold,notItalic,open,TopLeftZoom,573,176,0.0
+			External Glue Logic/31,Black,notBold,notItalic,open,TopLeftZoom,604,176,0.0
+			Design Considerations/31,Black,notBold,notItalic,open,TopLeftZoom,830,176,0.0
+		Example: Cypress Semiconductor’s CY7C67300 EZ-Host Programmable Embedded USB Host/Peripheral Controller/32,Black,notBold,notItalic,open,TopLeftZoom,146,176,0.0
+			Asynchronous Mode/32,Black,notBold,notItalic,open,TopLeftZoom,261,176,0.0
+			Configuration of CY7C67300 USB Controller/32,Black,notBold,notItalic,open,TopLeftZoom,486,176,0.0
+			External Glue Logic/33,Black,notBold,notItalic,open,TopLeftZoom,640,176,0.0
+	Design Constraints/33,Black,notBold,notItalic,open,TopLeftZoom,789,176,0.0
+		Timing Constraints/33,Black,notBold,notItalic,open,TopLeftZoom,819,176,0.0
+	Design Implementation/34,Black,notBold,notItalic,open,TopLeftZoom,247,176,0.0
+		Timing Diagrams/34,Black,notBold,notItalic,open,TopLeftZoom,278,176,0.0
+		Scenario When The External Device Is Not Ready For Transaction/42,Black,notBold,notItalic,open,TopLeftZoom,473,176,0.0
+		Target Technology/42,Black,notBold,notItalic,open,TopLeftZoom,564,176,0.0
+			Device Utilization and Performance Benchmarks/42,Black,notBold,notItalic,open,TopLeftZoom,619,176,0.0
+		Core Performance/42,Black,notBold,notItalic,open,TopLeftZoom,646,176,0.0
+		System Performance/51,Black,notBold,notItalic,open,TopLeftZoom,87,176,0.0
+	Specification Exceptions/52,Black,notBold,notItalic,open,TopLeftZoom,532,176,0.0
+	Reference Documents/52,Black,notBold,notItalic,open,TopLeftZoom,707,176,0.0
+	Revision History/53,Black,notBold,notItalic,open,TopLeftZoom,303,176,0.0

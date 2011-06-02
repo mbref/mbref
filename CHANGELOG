@@ -65,16 +65,6 @@ Date:	Tue Mar 1 16:52:40 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 884e7c7df2379e074641ea3e0afb7b7c0e137226
-Author: Stephan Linz <linz@li-pro.net>
-Date:	Thu Feb 17 12:11:19 2011 +0100
-
-    Prepare 2011.01 [V2]
-
-    Update CHANGELOG
-
-    Signed-off-by: Stephan Linz <linz@li-pro.net>
-
 commit 251d90ca8fb6155cdbd3df81fe3063a7e95f265a
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Feb 17 12:07:57 2011 +0100

@@ -1,0 +1,48 @@
+#Please do not modify this file by hand
+XmpVersion: 11.5
+VerMgmt: 11.5
+IntStyle: ise
+ModuleSearchPath: ../../../edk-repository
+MHS File: system.mhs
+MSS File: system.mss
+Architecture: virtex5
+Device: xc5vlx50t
+Package: ff1136
+SpeedGrade: -1
+UserCmd1: 
+UserCmd1Type: 0
+UserCmd2: 
+UserCmd2Type: 0
+GenSimTB: 0
+SdkExportBmmBit: 1
+SdkExportDir: SDK/SDK_Export
+InsertNoPads: 1
+WarnForEAArch: 1
+HdlLang: vhdl
+SimModel: BEHAVIORAL
+UcfFile: data/system.ucf
+EnableParTimingError: 1
+ShowLicenseDialog: 1
+ICacheAddr: DDR2_SDRAM,
+DCacheAddr: DDR2_SDRAM,
+Processor: microblaze_0
+BootLoop: 0
+XmdStub: 0
+SwProj: xl-boot
+Processor: microblaze_0
+Executable: xl-boot/executable.elf
+Source: ../../../edk-repository/ThirdParty/sw_apps/xl-boot/src/xl-boot.c
+DefaultInit: EXECUTABLE
+InitBram: 1
+Active: 1
+CompilerOptLevel: 2
+GlobPtrOpt: 0
+DebugSym: 1
+ProfileFlag: 0
+ProgStart: 0x70
+StackSize: 
+HeapSize: 
+LinkerScript: 
+ProgCCFlags: 
+CompileInXps: 1
+NonXpsApp: 0

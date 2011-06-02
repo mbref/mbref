@@ -1,0 +1,18 @@
+# Template .gitignore file for project
+__xps
+_xmsgs
+_ngo
+xst
+gvrd.*
+gvrd_*
+*_xdb
+*.ise
+*.xrpt
+*.bmm
+*.ncf
+*.ngc
+*.ngd
+*.log
+*_log
+*.tcl
+*.html
