@@ -1,3 +1,36 @@
+commit a7f53801faee5a33f266e6c3f161c2d7f2de6ea7
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jun 2 09:28:54 2011 +0200
+
+    working-designs: makefile: add simple processing
+
+    Add a simple make file to process build-up and/or clean all
+    XPS based FPGA working designs with a simple make command.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 82b06b410ea4f69cfff09b851aa5cc1d650dea12
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu May 26 23:01:26 2011 +0200
+
+    mbref: move s2imac_epc document sources to ./doc
+
+    As an result of project review it was time to remove all source
+    files of IP core documentation inside the IP core directory itself.
+
+    All documentation source files were moved to and integrated in the
+    make process in the ./doc directory.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 38678199208cda9dc7f60f13ae75fa11e1f7ea3b
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 22 19:19:00 2011 +0200
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit ac790bb1ac5bb55a7868cc1c2ec7e1635483dc03
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 22 19:06:43 2011 +0200
