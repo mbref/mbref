@@ -76,6 +76,24 @@ exit
 EOF
 }
 
+function xps_run_exporttosdk() {
+	linux32 xps -nw system.xmp << EOF
+run exporttosdk
+exit
+EOF
+}
+
+# TODO/FIXME: use xps infrastructure to do this.
+MB_INSTANCE=microblaze_0
+function xps_run_exporttoptx() {
+	mkdir -v -p PTX/xlbsp
+	for d in device-tree linux uboot; do
+		for f in $(find ${MB_INSTANCE}/libsrc/${d}* -type f); do
+			install -v -m 0644 ${f} PTX/xlbsp/$(basename ${f})
+		done
+	done
+}
+
 function xps_run_clean() {
 	linux32 xps -nw system.xmp << EOF
 run clean
@@ -103,6 +121,10 @@ case "$CMD" in
 	swclean)	xps_run_swclean ;;
 
 	init_bram)	xps_run_init_bram ;;
+
+	exporttosdk)	xps_run_exporttosdk ;;
+
+	exporttoptx)	xps_run_exporttoptx ;;
 
 	clean)		xps_run_clean ;;
 

@@ -39,6 +39,8 @@ $(STATEDIR)/%.build: | mkdirs
 	@echo
 	@pushd $(*) && \
 	  ./makescr $(2XLENVSCR_$(*)) init_bram && \
+	  ./makescr $(2XLENVSCR_$(*)) exporttosdk && \
+	  ./makescr $(2XLENVSCR_$(*)) exporttoptx && \
 	  ./makescr $(2XLENVSCR_$(*)) bit2bin && \
 	  popd
 
