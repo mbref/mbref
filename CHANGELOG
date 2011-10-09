@@ -1,3 +1,59 @@
+commit ef6e5a323c6e7ca835178d36ee12ccae11c5b491
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Oct 8 10:49:09 2011 +0200
+
+    mbref: add software exports
+
+    Add new export scripts for the automatical build environment
+    in working designs:
+      * exporttosdk
+      * exporttoptx
+
+    So we can collect all files needed for a dowenstrem software
+    development with PTXdist or the Xilinx SDK.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit ad1d035e6fbef9877bb88ffd58aaa9819f3d1830
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Oct 3 17:20:46 2011 +0200
+
+    mbref: credits to Michal Simek
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit e14f1c09ccf280c9a0edd1a9b24871db96da22bf
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Oct 3 17:01:08 2011 +0200
+
+    mbref: add doc to distribution
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 9d8b24c80d8fd9cbe606c674ec18fde1e00d69cd
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Oct 3 16:58:24 2011 +0200
+
+    mbref: adapt to latest unoconv behaviour
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 7fcbc21f34e2c1148a11ceadfad6b85ff9a6c46e
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Oct 3 14:58:05 2011 +0200
+
+    mbref: correct version for development
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit aa52d2b0e65266e90abbaef3289adeb723a6dc8b
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jun 2 09:32:05 2011 +0200
+
+    Update CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit a7f53801faee5a33f266e6c3f161c2d7f2de6ea7
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Jun 2 09:28:54 2011 +0200
