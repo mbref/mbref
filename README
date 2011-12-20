@@ -31,11 +31,14 @@ directory "working-designs" are designs with working in progress.
 From time to time there are releases from "working-designs" in
 "reference-designs" by copying.
 
-where to get help
-t.b.d.
+where to get help:
+  - German home page: http://www.li-pro.de/xilinx_mb/mbref/start
+  - more t.b.d.
 
 where to get sources
-t.b.d.
+  - German home page: http://www.li-pro.de/xilinx_mb/mbref/start#status
+  - GIT: http://gitorious.org/mbref/mbref
+  - more t.b.d.
 
 where we come from
 http://www.monstr.eu/wiki/doku.php
