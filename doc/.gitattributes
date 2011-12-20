@@ -1,0 +1,9 @@
+/images export-ignore
+/orig export-ignore
+.gitattributes export-ignore
+.gitignore export-ignore
+Makefile export-ignore
+README export-ignore
+s2imac_epc_ext.odt export-ignore
+s2imac_wm.odg export-ignore
+tpos.xml export-ignore

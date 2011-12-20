@@ -19,6 +19,12 @@ E: linz@li-pro.net
 D: MB-Ref initial version, continuing maintenance, Xilinx evaluation boards
 E: http://www.li-pro.net/
 
+N: Michal Simek
+E: monstr@monstr.eu
+D: device trees supporting Microblaze and PPC
+D: U-boot supporting Microblaze and PPC
+E: http://www.monstr.eu/
+
 N: Sensor to Image GmbH
 E: email@sensor-to-image.de
 D: GigE Vision reference design for ML505

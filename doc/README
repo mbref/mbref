@@ -1,0 +1,14 @@
+
+Tools you will need to generate PDF:
+  * docbook2pdf
+  * pdftk
+  * unoconv
+  * jpdfbookmarks_cli
+
+Packages you have to install for Ubuntu 10.04 LTS:
+  * docbook-utils
+  * pdftk (universe)
+  * unoconv (universe)
+
+Packages you have to install from authors sites:
+  * JPdfBookmarks from http://flavianopetrocchi.blogspot.com/

@@ -22,11 +22,11 @@ pdf: $(pdffiles)
 	docbook2pdf -o $(dir $@) $<
 
 %.pdf: %.odt
-	unoconv -l
+	unoconv -l &
 	unoconv -v -f pdf $<
 
 %.pdf: %.odg
-	unoconv -l
+	unoconv -l &
 	unoconv -v -f pdf $<
 
 s2imac_epc.pdf: orig/xps_epc.pdf s2imac_epc_ext.pdf s2imac_wm.pdf
