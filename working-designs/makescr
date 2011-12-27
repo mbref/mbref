@@ -9,96 +9,233 @@ shift 2
 export BATCHMODE="true"
 source "$ENV"
 
+# TODO/FIXME: use xps infrastructure to do this.
+MB_INSTANCE=microblaze_0
+MB_SOFTWARE=xl-boot
+SW_STDIN=xps_uart_0
+SW_STDOUT=xps_uart_0
+SW_CMEM=ilmb_cntlr
+SW_DMEM=dlmb_cntlr
+SW_BMEM=dlmb_cntlr
+
+# check for Xilinx appguru program, introduced with ISE 12.x
+#
+# HAVE_APPGURU = 1	found appguru, use the new SDK way for software
+# HAVE_APPGURU = 0	found appguru, use the old XPS way for software
+#
+XPS_VERS=$(xps -v | awk '/^Xilinx EDK/{print $3}')
+case ${XPS_VERS} in
+	11*|\
+	12*)	echo "INFO:$(basename ${0^^}):$LINENO - use XPS for software"
+		HAVE_APPGURU=0
+		XPS_LIBSPATH=${MB_INSTANCE}
+		XPS_XADD_ELF=""
+		;;
+
+	13*)	echo "INFO:$(basename ${0^^}):$LINENO - use APPGURU for software"
+		HAVE_APPGURU=1
+		XPS_LIBSPATH=${MB_SOFTWARE}/${MB_INSTANCE}
+		XPS_XADD_ELF="xadd_elf ${MB_INSTANCE} imp ${MB_SOFTWARE}/executable.elf"
+		APPGURU_STDIOOPTS="-stdin ${SW_STDIN} -stdout ${SW_STDOUT}"
+		APPGURU_MEMOPTS="-cmem ${SW_CMEM} -dmem ${SW_DMEM} -bmem ${SW_BMEM}"
+		;;
+
+	*)	echo "ERROR: wrong XPS version: ${XPS_VERS}"
+		exit 1
+		;;
+esac
+
 function xps_run_bit2bin() {
-	linux32 ./bit2bin
+	set -x
+	./bit2bin
 }
 
+# void xps_run_bits(void)
+#
+#	Generate bitstream initialization
+#
 function xps_run_bits() {
-	linux32 xps -nw system.xmp << EOF
+	set -x
+	xps -nw system.xmp << EOF
 run bits
 exit
 EOF
 }
 
+# void xps_run_bitsclean(void)
+#
+#	Delete netlist/bit, ncd files
+#
 function xps_run_bitsclean() {
-	linux32 xps -nw system.xmp << EOF
+	set -x
+	xps -nw system.xmp << EOF
 run bitsclean
 exit
 EOF
 }
 
+# void xps_run_hwclean(void)
+#
+#	Delete implementation dir
+#
 function xps_run_hwclean() {
-	linux32 xps -nw system.xmp << EOF
+	set -x
+	xps -nw system.xmp << EOF
 run hwclean
 exit
 EOF
 }
 
+# void xps_run_libs(void)
+#
+#	Compile sw libs
+#
 function xps_run_libs() {
-	linux32 xps -nw system.xmp << EOF
+	set -x
+	if [ ${HAVE_APPGURU} -eq 1 ]; then
+		xps_run_exporttosdk
+		mkdir -p ${MB_SOFTWARE}
+		libgen -lp ../../edk-repository/ThirdParty \
+			-mhs system.mhs -hw SDK/SDK_Export/hw/system.xml \
+			-pe ${MB_INSTANCE} -od ${MB_SOFTWARE} \
+			-log libgen.log system.mss
+	else
+		xps -nw system.xmp << EOF
 run libs
 exit
 EOF
+	fi
 }
 
+# void xps_run_libsclean(void)
+#
+#	Delete sw libs files
+#
 function xps_run_libsclean() {
-	linux32 xps -nw system.xmp << EOF
+	set -x
+	if [ ${HAVE_APPGURU} -eq 1 ]; then
+		rm -rf ${XPS_LIBSPATH}
+		rm -f ${MB_SOFTWARE}/libgen.log
+	else
+		xps -nw system.xmp << EOF
 run libsclean
 exit
 EOF
+	fi
 }
 
+# void xps_run_program(void)
+#
+#	Compile sw user program
+#
 function xps_run_program() {
-	linux32 xps -nw system.xmp << EOF
+	set -x
+	if [ ${HAVE_APPGURU} -eq 1 ]; then
+		xps_run_exporttosdk
+		appguru -lp ../../edk-repository/ThirdParty \
+			-hw SDK/SDK_Export/hw/system.xml -app ${MB_SOFTWARE} \
+			${APPGURU_STDIOOPTS} ${APPGURU_MEMOPTS} \
+			-pe ${MB_INSTANCE} -od ${MB_SOFTWARE}
+		rm -f ${MB_SOFTWARE}/system.mss
+		ln -s ../system.mss ${MB_SOFTWARE}/system.mss
+		make -C ${MB_SOFTWARE}
+	else
+		xps -nw system.xmp << EOF
 run program
 exit
 EOF
+	fi
 }
 
+# void xps_run_programclean(void)
+#
+#	Delete sw ELF files
+#
 function xps_run_programclean() {
-	linux32 xps -nw system.xmp << EOF
+	set -x
+	if [ ${HAVE_APPGURU} -eq 1 ]; then
+		rm -rf ${MB_SOFTWARE}
+	else
+		xps -nw system.xmp << EOF
 run programclean
 exit
 EOF
+	fi
 }
 
+# void xps_run_swclean(void)
+#
+#	Perform libsclean and programclean
+#
 function xps_run_swclean() {
-linux32 xps -nw system.xmp << EOF
+	set -x
+	if [ ${HAVE_APPGURU} -eq 1 ]; then
+		rm -rf ${MB_SOFTWARE}
+	else
+		xps -nw system.xmp << EOF
 run swclean
 exit
 EOF
+	fi
 }
 
+# void xps_run_init_bram(void)
+#
+#	Update bitstream
+#
 function xps_run_init_bram() {
-	linux32 xps -nw system.xmp << EOF
+	set -x
+	if [ ${HAVE_APPGURU} -eq 1 ]; then
+		xps_run_program
+	fi
+	xps -nw system.xmp << EOF
+${XPS_XADD_ELF}
 run init_bram
 exit
 EOF
 }
 
+# void xps_run_exporttosdk(void)
+#
+#	Export files to SDK
+#
 function xps_run_exporttosdk() {
-	linux32 xps -nw system.xmp << EOF
+	set -x
+	xps -nw system.xmp << EOF
 run exporttosdk
 exit
 EOF
 }
 
-# TODO/FIXME: use xps infrastructure to do this.
-MB_INSTANCE=microblaze_0
+# void xps_run_exporttoptx(void)
+#
+#	Export files to PTXdist
+#
 function xps_run_exporttoptx() {
+	set -x
 	mkdir -v -p PTX/xlbsp
 	for d in device-tree linux uboot; do
-		for f in $(find ${MB_INSTANCE}/libsrc/${d}* -type f); do
+		for f in $(find ${XPS_LIBSPATH}/libsrc/${d}* -type f); do
 			install -v -m 0644 ${f} PTX/xlbsp/$(basename ${f})
 		done
 	done
 }
 
+# void xps_run_clean(void)
+#
+#	Delete all generated files/dirs
+#
 function xps_run_clean() {
-	linux32 xps -nw system.xmp << EOF
+	set -x
+	if [ ${HAVE_APPGURU} -eq 1 ]; then
+		xps_run_swclean
+	fi
+	xps -nw system.xmp << EOF
 run clean
 exit
 EOF
+	rm -rf SDK
+	rm -rf PTX
 }
 
 case "$CMD" in
