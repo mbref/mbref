@@ -1062,8 +1062,8 @@ proc put_sysmem_cfg_mk {pkg fh osh sh} {
 	set text_base [get_addr_hex ${osh} "uboot_position"]
 	if {${text_base} == 0} {
 		if {[llength ${eram_end}]} {
-			# calulation of last 1MB
-			set eram_boot [expr ${eram_end} - 0x100000 + 1]
+			# calulation of last 2MB
+			set eram_boot [expr ${eram_end} - 0x200000 + 1]
 			set eram_boot [format "0x%08x" ${eram_boot}]
 			put_info ${fh} "Automatic U-Boot position at ${eram_boot}"
 			put_cfg ${fh} "${cfg_pfx}TEXT_BASE" ${eram_boot}
