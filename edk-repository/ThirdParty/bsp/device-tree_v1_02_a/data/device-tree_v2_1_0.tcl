@@ -28,40 +28,6 @@
 # Project description at http://www.monstr.eu/fdt/
 #
 
-#
-# How to use generate_device_tree() from another MLD
-#
-# Include the following proc in your MLD tcl script:
-#     proc device_tree_bspscript {device_tree_mld_version} {
-#         global env
-#
-#         set device_tree_mld_script "data/device-tree_v2_1_0.tcl"
-#
-#         set edk_install_dir $env(XILINX_EDK)
-#         set device_tree_bspdir_install "$edk_install_dir/sw/ThirdParty/bsp/$device_tree_mld_version"
-#         set device_tree_bspdir_proj "../../../bsp/$device_tree_mld_version"
-#
-#         if {[file isfile $device_tree_bspdir_proj/$device_tree_mld_script]} {
-#             return $device_tree_bspdir_proj/$device_tree_mld_script
-#         } elseif {[file isfile $device_tree_bspdir_install/$device_tree_mld_script]} {
-#             return $device_tree_bspdir_install/$device_tree_mld_script
-#         } else {
-#             return ""
-#         }
-#     }
-#
-# Inside your generate() or post_generate() routine, add something like the following:
-#     set device_tree_mld_name_version "device-tree_v1_00_a"
-#     set dts_name "virtex440.dts"
-#
-#     # kcmd_line is set or constructed however you want. The following is
-#     # just an example
-#     set kcmd_line "console=ttyUL0 ip=on root=/dev/xsysace2 rw"
-#
-#     namespace eval device_tree source "[device_tree_bspscript $device_tree_mld_name_version]"
-#     device_tree::generate_device_tree "linux/arch/powerpc/boot/dts/$dts_name" $kcmd_line
-#
-
 #############################################################################
 #   Exported variables
 #
