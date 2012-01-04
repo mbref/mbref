@@ -377,13 +377,8 @@ proc generate_device_tree {filepath bootargs {consoleip ""}} {
 
 	lappend toplevel [list \#size-cells int 1]
 	lappend toplevel [list \#address-cells int 1]
-        set folder "[exec pwd]"
-        set folder [string range $folder 0 [expr [string last "/" $folder] - 1]]
-        set folder [string range $folder 0 [expr [string last "/" $folder] - 1]]
-        set folder [string range $folder 0 [expr [string last "/" $folder] - 1]]
-        set folder [exec basename $folder]
+	lappend toplevel [list model string [file tail [get_project_folder]]]
 
-	lappend toplevel [list model string $folder]
 	set reset [reset_gpio]
 	if { "$reset" != "" } {
 		lappend toplevel $reset
