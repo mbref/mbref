@@ -119,7 +119,7 @@ proc generate {os_handle} {
 
 	# FIXME: Why we have to set generic_uio_list here?
 	#        Why is global setup invalid? (see above around line 110-115)
-	# With this hot fix we avoid effects of missing variable in ISE 11.5 and 12.1:
+	# This hot fix avoid effects of missing variable in ISE 11.5 and 12.1:
 	#   ERROR:EDK - tpos () - can't read "generic_uio_list": no such variable 
 	#   ERROR:EDK:1188 - Error(s) while running "generate" for processor microblaze_0.
 	global generic_uio_list
