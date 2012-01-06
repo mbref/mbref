@@ -2,6 +2,14 @@
 # usage:   ./makescr <xilinx_setting_script> <command>
 # example: ./makescr /opt/Xilinx/12.4/ISE_DS/settings32.sh clean
 
+# preset application software project name
+MB_SOFTWARE=xl-boot
+
+if [ $# -ne 2 ]; then
+	echo "ERROR:$(basename ${0^^}):$LINENO - missing arguments"
+	exit 1
+fi
+
 ENV=$1
 CMD=$2
 shift 2
@@ -9,21 +17,102 @@ shift 2
 export BATCHMODE="true"
 source "$ENV"
 
-# TODO/FIXME: use xps infrastructure to do this.
-MB_INSTANCE=microblaze_0
-MB_SOFTWARE=xl-boot
-SW_STDIN=xps_uart_0
-SW_STDOUT=xps_uart_0
-SW_CMEM=ilmb_cntlr
-SW_DMEM=dlmb_cntlr
-SW_BMEM=dlmb_cntlr
+# determine Xilinx EDK version
+XPS_VERS=$(xps -nw system.xmp << EOF | grep ^$(basename ${0^^}): | tail -n1 | awk '/Xilinx EDK/{print $4}'
+set tcl_interactive 0
+set tcl_prompt1 "\n"
+set tcl_prompt2 "\n"
+puts "$(basename ${0^^}): [xget_swver]"
+exit
+EOF
+)
+echo "INFO:$(basename ${0^^}):$LINENO - run on XPS version: ${XPS_VERS}"
+
+# fetch processor and blockram instances from MHS
+XPS_HW=$(xps -nw system.xmp << EOF | grep ^$(basename ${0^^}): | tail -n1
+set tcl_interactive 0
+set tcl_prompt1 "\n"
+set tcl_prompt2 "\n"
+set merged_mhs_handle [xget_handle merged_mhs]
+set mb_iphs {}
+foreach iph [xget_hw_ipinst_handle \$merged_mhs_handle *] {
+ if {[string match -nocase [xget_hw_value \$iph] "microblaze"]} {
+  lappend mb_iphs \$iph
+ }
+}
+set mb {}
+if {[llength \$mb_iphs] == 1} {
+ set mb [xget_hw_name \$mb_iphs]
+}
+set lbic_iphs {}
+foreach iph [xget_hw_ipinst_handle \$merged_mhs_handle *] {
+ if {[string match -nocase [xget_hw_value \$iph] "lmb_bram_if_cntlr"]} {
+  lappend lbic_iphs \$iph
+ }
+}
+set ilmb {}
+set dlmb {}
+if {[llength \$lbic_iphs] == 2} {
+ foreach iph \$lbic_iphs {
+  set bifn [xget_hw_busif_value \$iph "SLMB"]
+  set miph [xget_hw_connected_busifs_handle \$merged_mhs_handle \$bifn "MASTER"]
+  switch -exact [xget_hw_name \$miph] {
+   "ILMB" {
+    set ilmb [xget_hw_name \$iph]
+   }
+   "DLMB" {
+    set dlmb [xget_hw_name \$iph]
+   }
+  }
+ }
+}
+puts "$(basename ${0^^}): \$mb \$ilmb \$dlmb"
+exit
+EOF
+)
+
+HW_MB_DMEM=$(echo ${XPS_HW} | awk '{print $4}')
+HW_MB_IMEM=$(echo ${XPS_HW} | awk '{print $3}')
+HW_MB_INSTANCE=$(echo ${XPS_HW} | awk '{print $2}')
+
+echo "INFO:$(basename ${0^^}):$LINENO - MHS: found d-bram: ${HW_MB_DMEM}"
+echo "INFO:$(basename ${0^^}):$LINENO - MHS: found i-bram: ${HW_MB_IMEM}"
+echo "INFO:$(basename ${0^^}):$LINENO - MHS: found processor: ${HW_MB_INSTANCE}"
+
+# fetch processor instance from MSS
+SW_MB_INSTANCE=$(awk -v IGNORECASE=1 '/PROC_INSTANCE/{print $4}' system.mss)
+echo "INFO:$(basename ${0^^}):$LINENO - MSS: found processor: ${SW_MB_INSTANCE}"
+
+# evaluate right processor instance
+if [ "${HW_MB_INSTANCE}" != "${SW_MB_INSTANCE}" ]; then
+	echo "ERROR:$(basename ${0^^}):$LINENO - processor instance differ"
+	exit 1
+fi
+
+# set processor and blockram instances
+MB_INSTANCE=${HW_MB_INSTANCE}
+echo "INFO:$(basename ${0^^}):$LINENO - use processor: ${MB_INSTANCE}"
+
+SW_CMEM=${HW_MB_IMEM}
+echo "INFO:$(basename ${0^^}):$LINENO - use i-bram: ${SW_CMEM}"
+
+SW_DMEM=${HW_MB_DMEM}
+SW_BMEM=${SW_DMEM}
+echo "INFO:$(basename ${0^^}):$LINENO - use d-bram: ${SW_DMEM}"
+
+# fetch standard input from MSS
+SW_STDIN=$(awk -v IGNORECASE=1 '/STDIN/{print $4}' system.mss)
+echo "INFO:$(basename ${0^^}):$LINENO - use stdin: ${SW_STDIN}"
+
+# fetch standard output from MSS
+SW_STDOUT=$(awk -v IGNORECASE=1 '/STDOUT/{print $4}' system.mss)
+echo "INFO:$(basename ${0^^}):$LINENO - use stdout: ${SW_STDOUT}"
 
 # check for Xilinx appguru program, introduced with ISE 12.x
 #
 # HAVE_APPGURU = 1	found appguru, use the new SDK way for software
 # HAVE_APPGURU = 0	found appguru, use the old XPS way for software
 #
-XPS_VERS=$(xps -v | awk '/^Xilinx EDK/{print $3}')
 case ${XPS_VERS} in
 	11*|\
 	12*)	echo "INFO:$(basename ${0^^}):$LINENO - use XPS for software"
@@ -57,6 +146,9 @@ function xps_run_bit2bin() {
 function xps_run_bits() {
 	set -x
 	xps -nw system.xmp << EOF
+set tcl_interactive 0
+set tcl_prompt1 "\n"
+set tcl_prompt2 "\n"
 run bits
 exit
 EOF
@@ -69,6 +161,9 @@ EOF
 function xps_run_bitsclean() {
 	set -x
 	xps -nw system.xmp << EOF
+set tcl_interactive 0
+set tcl_prompt1 "\n"
+set tcl_prompt2 "\n"
 run bitsclean
 exit
 EOF
@@ -81,6 +176,9 @@ EOF
 function xps_run_hwclean() {
 	set -x
 	xps -nw system.xmp << EOF
+set tcl_interactive 0
+set tcl_prompt1 "\n"
+set tcl_prompt2 "\n"
 run hwclean
 exit
 EOF
@@ -101,6 +199,9 @@ function xps_run_libs() {
 			-log libgen.log system.mss
 	else
 		xps -nw system.xmp << EOF
+set tcl_interactive 0
+set tcl_prompt1 "\n"
+set tcl_prompt2 "\n"
 run libs
 exit
 EOF
@@ -118,6 +219,9 @@ function xps_run_libsclean() {
 		rm -f ${MB_SOFTWARE}/libgen.log
 	else
 		xps -nw system.xmp << EOF
+set tcl_interactive 0
+set tcl_prompt1 "\n"
+set tcl_prompt2 "\n"
 run libsclean
 exit
 EOF
@@ -141,6 +245,9 @@ function xps_run_program() {
 		make -C ${MB_SOFTWARE}
 	else
 		xps -nw system.xmp << EOF
+set tcl_interactive 0
+set tcl_prompt1 "\n"
+set tcl_prompt2 "\n"
 run program
 exit
 EOF
@@ -157,6 +264,9 @@ function xps_run_programclean() {
 		rm -rf ${MB_SOFTWARE}
 	else
 		xps -nw system.xmp << EOF
+set tcl_interactive 0
+set tcl_prompt1 "\n"
+set tcl_prompt2 "\n"
 run programclean
 exit
 EOF
@@ -173,6 +283,9 @@ function xps_run_swclean() {
 		rm -rf ${MB_SOFTWARE}
 	else
 		xps -nw system.xmp << EOF
+set tcl_interactive 0
+set tcl_prompt1 "\n"
+set tcl_prompt2 "\n"
 run swclean
 exit
 EOF
@@ -189,6 +302,9 @@ function xps_run_init_bram() {
 		xps_run_program
 	fi
 	xps -nw system.xmp << EOF
+set tcl_interactive 0
+set tcl_prompt1 "\n"
+set tcl_prompt2 "\n"
 ${XPS_XADD_ELF}
 run init_bram
 exit
@@ -202,6 +318,9 @@ EOF
 function xps_run_exporttosdk() {
 	set -x
 	xps -nw system.xmp << EOF
+set tcl_interactive 0
+set tcl_prompt1 "\n"
+set tcl_prompt2 "\n"
 run exporttosdk
 exit
 EOF
@@ -213,6 +332,7 @@ EOF
 #
 function xps_run_exporttoptx() {
 	set -x
+	xps_run_program
 	mkdir -v -p PTX/xlbsp
 	for d in device-tree linux uboot; do
 		for f in $(find ${XPS_LIBSPATH}/libsrc/${d}* -type f); do
@@ -231,6 +351,9 @@ function xps_run_clean() {
 		xps_run_swclean
 	fi
 	xps -nw system.xmp << EOF
+set tcl_interactive 0
+set tcl_prompt1 "\n"
+set tcl_prompt2 "\n"
 run clean
 exit
 EOF
