@@ -1,7 +1,7 @@
 #
 # EDK BSP board generation for third party operating systems misclib
 #
-# (C) Copyright 2010-2011
+# (C) Copyright 2010-2012
 # Li-Pro.Net <www.li-pro.net>
 # Stephan Linz <linz@li-pro.net>
 #
@@ -185,7 +185,7 @@ proc open_project_file {file_name desc vers} {
 		set config_file [open ${file_name} w]
 		set_chid2fn ${config_file} ${file_name}
 		set ft [get_file_type ${file_name}]
-		switch ${ft} {
+		switch -exact ${ft} {
 			ch	{ put_ch_header ${config_file} ${desc} ${vers} }
 			mk	{ put_mk_header ${config_file} ${desc} ${vers} }
 			kc24	{ put_kc24_header ${config_file} ${desc} ${vers} }
@@ -252,10 +252,12 @@ proc tpos_check_design {osh} {
 	}
 	debug info "INFO: System memory specified."
 	set sysmem_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] ${sysmem}]
-	if {[xget_hw_value ${sysmem_handle}] == "mpmc"} {
-		set parapre MPMC
-	} else {
-		set parapre [format MEM%i ${sysmem_bank}]
+	switch -exact [xget_hw_value ${sysmem_handle}] {
+		"mpmc"		{ set parapre MPMC }
+		"axi_v6_ddrx"	{ set parapre S_AXI }
+		"axi_s6_ddrx"	{ set parapre [format S%i_AXI ${sysmem_bank}] }
+		"ppc440mc_ddr2"	{ set parapre MEM }
+		default		{ set parapre [format MEM%i ${sysmem_bank}] }
 	}
 	set eram_base [get_addr_hex ${sysmem_handle} [format C_%s_BASEADDR ${parapre}]]
 	debug info "      eram_base := ${eram_base}"
@@ -280,12 +282,16 @@ proc tpos_check_design {osh} {
 			"xps_mch_emc" -
 			"axi_emc" {
 				debug info "INFO: Parallel NOR Flash memory specified."
-				set parapre [format C_MEM%i ${normem_bank}]
+				if { $flash_type == "xps_mch_emc" } {
+					set parapre [format C_MEM%i ${normem_bank}]
+				} else {
+					set parapre [format C_S_AXI_MEM%i ${normem_bank}]
+				}
 				set flash_base [get_addr_hex ${normem_handle} [format %s_BASEADDR ${parapre}]]
 				debug info "      flash_base := ${flash_base}"
 
 				# check address position between System memory and Flash
-				debug info "INFO: Check address map (ROM < RAM)."
+				debug info "INFO: Check address map (RAM < ROM)."
 				if {$eram_base >= $flash_base} {
 					error "ERROR: Flash base address must be on higher address than ram memory"
 				} else {
@@ -330,8 +336,24 @@ proc tpos_check_design {osh} {
 					}
 				}
 			}
+			"axi_ethernet" {
+				debug info "INFO: AXIEMAC Ethernet specified."
+				set stream_handle [get_axiemac_stream_handle ${ethmac_handle}]
+				set axidma [xget_sw_parameter_handle ${stream_handle} C_BASEADDR]
+				if {[llength ${axidma}]} {
+					debug info "      AXIDMA Mode"
+					set bus_type [get_axiemac_txstr_bus_type ${ethmac_handle}]
+					set stream_name [get_axiemac_txstr_name ${ethmac_handle}]
+					debug info "      ${bus_type} <--- ${stream_name}"
+					set bus_type [get_axiemac_rxstr_bus_type ${ethmac_handle}]
+					set stream_name [get_axiemac_rxstr_name ${ethmac_handle}]
+					debug info "      ${bus_type} ---> ${stream_name}"
+				} else {
+					error "ERROR: Your axi_ethernet is not connected properly."
+				}
+			}
 			default {
-				debug info "INFO: Ethernet (LITE) specified."
+				debug info "INFO: Simple Ethernet specified."
 			}
 		}
 	}
@@ -393,7 +415,7 @@ proc put_pkg_cfg {pkg fh osh} {
 namespace export put_xlboot_cfg
 proc put_xlboot_cfg {pkg fh osh} {
 	set ft [get_file_type ${fh}]
-	switch ${ft} {
+	switch -exact ${ft} {
 		"ch" {
 			array set define {
 				BootCount		XLB_BOOT_COUNTER
@@ -408,7 +430,7 @@ proc put_xlboot_cfg {pkg fh osh} {
 		}
 	}
 
-	# fast exit without any error if define array is empty 
+	# fast exit without any error if define array is empty
 	if {![array size define]} { return 1 }
 
 	put_info ${fh} "XL-Boot setup"
@@ -448,7 +470,7 @@ namespace export put_processor_cfg
 proc put_processor_cfg {pkg fh} {
 	set hwproc_handle [get_hwproc_handle]
 	set ft [get_file_type ${fh}]
-	switch ${ft} {
+	switch -exact ${ft} {
 		"ch"   { return [put_processor_cfg_ch ${pkg} ${fh} ${hwproc_handle}] }
 		"mk"   { return [put_processor_cfg_mk ${pkg} ${fh} ${hwproc_handle}] }
 		"kc24" { return [put_processor_cfg_ch [format "%s-24" ${pkg}] ${fh} ${hwproc_handle}] }
@@ -462,9 +484,9 @@ proc put_processor_cfg {pkg fh} {
 
 proc put_processor_cfg_ch {pkg fh hh} {
 	set proctype [xget_value ${hh} "OPTION" "IPNAME"]
-	switch ${proctype} {
+	switch -exact ${proctype} {
 		"microblaze" {
-			switch ${pkg} {
+			switch -exact ${pkg} {
 				"fsboot" {
 					set HWPROC_STR [xget_hw_parameter_value ${hh} INSTANCE]
 					set HWPROC_STR [string map {_ ""} [string toupper ${HWPROC_STR}]]
@@ -476,7 +498,6 @@ proc put_processor_cfg_ch {pkg fh hh} {
 				"xlboot" {
 					set defpre_hwproc ""
 					array set define {
-						CLK			XLB_MB_CLOCK_FREQ
 						FAMILY			XLB_MB_FAMILY
 						HW_VER			XLB_MB_HW_VER
 					}
@@ -490,7 +511,6 @@ proc put_processor_cfg_ch {pkg fh hh} {
 					#	DCACHE_HIGHADDR		XILINX_DCACHE_HIGHADDR
 					#	FAMILY			XILINX_FAMILY
 					array set define {
-						CLK			XILINX_CLOCK_FREQ
 						USE_MSR_INSTR		XILINX_USE_MSR_INSTR
 						FSL_LINKS		XILINX_FSL_NUMBER
 						USE_ICACHE		XILINX_USE_ICACHE
@@ -536,13 +556,13 @@ proc put_processor_cfg_ch {pkg fh hh} {
 				}
 			}
 
-			# fast exit without any error if define array is empty 
+			# fast exit without any error if define array is empty
 			if {![array size define] && ![llength ${defpre_hwproc}]} { return 1 }
 
-			# System Clock Frequency (if need)
+			# System (CPU) Clock Frequency (if need)
 			set arg_name CLK
 			if {[array name define ${arg_name}] == ${arg_name}} {
-				put_info ${fh} "System Clock Frequency"
+				put_info ${fh} "System (CPU) Clock Frequency"
 				set des_name [format "_d_${arg_name}"]
 				if {[array name define ${des_name}] == ${des_name}} {
 					put_cfg_int ${fh} $define($arg_name) [get_clock_val ${hh}] $define($des_name)
@@ -620,9 +640,9 @@ proc put_processor_cfg_ch {pkg fh hh} {
 #
 proc put_processor_cfg_mk {pkg fh hh} {
 	set proctype [xget_value ${hh} "OPTION" "IPNAME"]
-	switch ${proctype} {
+	switch -exact ${proctype} {
 		"microblaze" {
-			switch ${pkg} {
+			switch -exact ${pkg} {
 				"fsboot" -
 				"xlboot" -
 				"uboot"  { set cfvar "PLATFORM_CPPFLAGS" }
@@ -699,7 +719,7 @@ proc put_intctrl_cfg {pkg fh} {
 	}
 
 	set ft [get_file_type ${fh}]
-	switch ${ft} {
+	switch -exact ${ft} {
 		"ch"   { return [put_intctrl_cfg_ch ${pkg} ${fh} ${intc_handle}] }
 		"mk"   { return [put_intctrl_cfg_mk ${pkg} ${fh} ${intc_handle}] }
 		"kc24" { return [put_intctrl_cfg_ch [format "%s-24" ${pkg}] ${fh} ${intc_handle}] }
@@ -712,7 +732,7 @@ proc put_intctrl_cfg {pkg fh} {
 }
 
 proc put_intctrl_cfg_ch {pkg fh ih} {
-	switch ${pkg} {
+	switch -exact ${pkg} {
 		"uboot" {
 			set defpre_hwproc ""
 			#	HIGHADDR		XILINX_INTC_HIGHADDR
@@ -734,7 +754,7 @@ proc put_intctrl_cfg_ch {pkg fh ih} {
 		}
 	}
 
-	# fast exit without any error if define array is empty 
+	# fast exit without any error if define array is empty
 	if {![array size define] && ![llength ${defpre_hwproc}]} { return 1 }
 
 	put_info ${fh} "Interrupt controller is [xget_hw_name ${ih}]"
@@ -791,7 +811,7 @@ proc put_timer_cfg {pkg fh osh} {
 	set timer_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] ${timer}]
 
 	set ft [get_file_type ${fh}]
-	switch ${ft} {
+	switch -exact ${ft} {
 		"ch"   { return [put_timer_cfg_ch ${pkg} ${fh} ${osh} ${timer_handle}] }
 		"mk"   { return [put_timer_cfg_mk ${pkg} ${fh} ${osh} ${timer_handle}] }
 		"kc24" { return [put_timer_cfg_ch [format "%s-24" ${pkg}] ${fh} ${osh} ${timer_handle}] }
@@ -804,7 +824,7 @@ proc put_timer_cfg {pkg fh osh} {
 }
 
 proc put_timer_cfg_ch {pkg fh osh th} {
-	switch ${pkg} {
+	switch -exact ${pkg} {
 		"fsboot" {
 			set defpre_hwproc ""
 			#	HIGHADDR	CONFIG_XILINX_TIMER_0_HIGHADDR
@@ -818,6 +838,7 @@ proc put_timer_cfg_ch {pkg fh osh th} {
 			#	HIGHADDR	XLB_TIMER_0_HIGHADDR
 			#	Interrupt	XLB_TIMER_0_IRQ
 			array set define {
+				CLK		XLB_MB_CLOCK_FREQ
 				BASEADDR	XLB_TIMER_0_BASEADDR
 			}
 		}
@@ -825,6 +846,7 @@ proc put_timer_cfg_ch {pkg fh osh th} {
 			set defpre_hwproc ""
 			#	HIGHADDR	XILINX_TIMER_HIGHADDR
 			array set define {
+				CLK		XILINX_CLOCK_FREQ
 				BASEADDR	XILINX_TIMER_BASEADDR
 				Interrupt	XILINX_TIMER_IRQ
 			}
@@ -840,8 +862,21 @@ proc put_timer_cfg_ch {pkg fh osh th} {
 		}
 	}
 
-	# fast exit without any error if define array is empty 
+	# fast exit without any error if define array is empty
 	if {![array size define] && ![llength ${defpre_hwproc}]} { return 1 }
+
+	# System (Timer) Clock Frequency (if need)
+	set arg_name CLK
+	if {[array name define ${arg_name}] == ${arg_name}} {
+		put_info ${fh} "System (Timer) Clock Frequency"
+		set des_name [format "_d_${arg_name}"]
+		if {[array name define ${des_name}] == ${des_name}} {
+			put_cfg_int ${fh} $define($arg_name) [get_clock_val ${th}] $define($des_name)
+		} else {
+			put_cfg_int ${fh} $define($arg_name) [get_clock_val ${th}]
+		}
+		put_blank_line ${fh}
+	}
 
 	put_info ${fh} "Timer is [xget_hw_name ${th}]"
 
@@ -908,7 +943,7 @@ proc put_sysmem_cfg {pkg fh osh} {
 	set sysmem_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] ${sysmem}]
 
 	set ft [get_file_type ${fh}]
-	switch ${ft} {
+	switch -exact ${ft} {
 		"ch"   { return [put_sysmem_cfg_ch ${pkg} ${fh} ${osh} ${sysmem_handle}] }
 		"mk"   { return [put_sysmem_cfg_mk ${pkg} ${fh} ${osh} ${sysmem_handle}] }
 		"kc24" { return [put_sysmem_cfg_ch [format "%s-24" ${pkg}] ${fh} ${osh} ${sysmem_handle}] }
@@ -921,7 +956,7 @@ proc put_sysmem_cfg {pkg fh osh} {
 }
 
 proc put_sysmem_cfg_ch {pkg fh osh sh} {
-	switch ${pkg} {
+	switch -exact ${pkg} {
 		"fsboot" {
 			#	End		CONFIG_XILINX_ERAM_END
 			array set define {
@@ -958,17 +993,19 @@ proc put_sysmem_cfg_ch {pkg fh osh sh} {
 		default { array set define {} }
 	}
 
-	# fast exit without any error if define array is empty 
+	# fast exit without any error if define array is empty
 	if {![array size define]} { return 1 }
 
 	put_info ${fh} "System memory is [xget_hw_name ${sh}]"
 
 	# Naming different memory controller differently
 	set sysmem_bank [xget_sw_parameter_value ${osh} "main_memory_bank"]
-	if {[xget_hw_value ${sh}] == "mpmc"} {
-		set parapre MPMC
-	} else {
-		set parapre [format MEM%i ${sysmem_bank}]
+	switch -exact [xget_hw_value ${sh}] {
+		"mpmc"		{ set parapre MPMC }
+		"axi_v6_ddrx"	{ set parapre S_AXI }
+		"axi_s6_ddrx"	{ set parapre [format S%i_AXI ${sysmem_bank}] }
+		"ppc440mc_ddr2"	{ set parapre MEM }
+		default		{ set parapre [format MEM%i ${sysmem_bank}] }
 	}
 
 	# System memory values
@@ -1028,7 +1065,7 @@ proc put_sysmem_cfg_ch {pkg fh osh sh} {
 }
 
 proc put_sysmem_cfg_mk {pkg fh osh sh} {
-	switch ${pkg} {
+	switch -exact ${pkg} {
 		# nothing to do for fsboot/xlboot
 		"fsboot" -
 		"xlboot" {
@@ -1038,7 +1075,7 @@ proc put_sysmem_cfg_mk {pkg fh osh sh} {
 
 	# set U-Boot version dependencies
 	set uboot_version [xget_sw_parameter_value ${osh} "uboot_version"]
-	switch ${uboot_version} {
+	switch -exact ${uboot_version} {
 		"UB_2010_12" {
 			set cfg_pfx "CONFIG_SYS_"
 		}
@@ -1048,10 +1085,12 @@ proc put_sysmem_cfg_mk {pkg fh osh sh} {
 
 	# Naming different memory controller differently
 	set sysmem_bank [xget_sw_parameter_value ${osh} "main_memory_bank"]
-	if {[xget_hw_value ${sh}] == "mpmc"} {
-		set parapre MPMC
-	} else {
-		set parapre [format MEM%i ${sysmem_bank}]
+	switch -exact [xget_hw_value ${sh}] {
+		"mpmc"		{ set parapre MPMC }
+		"axi_v6_ddrx"	{ set parapre S_AXI }
+		"axi_s6_ddrx"	{ set parapre [format S%i_AXI ${sysmem_bank}] }
+		"ppc440mc_ddr2"	{ set parapre MEM }
+		default		{ set parapre [format MEM%i ${sysmem_bank}] }
 	}
 
 	# System memory values
@@ -1101,7 +1140,7 @@ proc put_normem_cfg {pkg fh osh} {
 	set normem_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] ${normem}]
 
 	set ft [get_file_type ${fh}]
-	switch ${ft} {
+	switch -exact ${ft} {
 		"ch"   { return [put_normem_cfg_ch ${pkg} ${fh} ${osh} ${normem_handle}] }
 		"mk"   { return [put_normem_cfg_mk ${pkg} ${fh} ${osh} ${normem_handle}] }
 		"kc24" { return [put_normem_cfg_ch [format "%s-24" ${pkg}] ${fh} ${osh} ${normem_handle}] }
@@ -1114,7 +1153,7 @@ proc put_normem_cfg {pkg fh osh} {
 }
 
 proc put_normem_cfg_ch {pkg fh osh nh} {
-	switch ${pkg} {
+	switch -exact ${pkg} {
 		"fsboot" {
 			#	End		CONFIG_XILINX_FLASH_END
 			array set define {
@@ -1152,7 +1191,7 @@ proc put_normem_cfg_ch {pkg fh osh nh} {
 		default { array set define {} }
 	}
 
-	# fast exit without any error if define array is empty 
+	# fast exit without any error if define array is empty
 	if {![array size define]} { return 1 }
 
 	put_info ${fh} "NOR Flash memory is [xget_hw_name ${nh}]"
@@ -1165,6 +1204,7 @@ proc put_normem_cfg_ch {pkg fh osh nh} {
 		"axi_spi" {
 			# Serial SPI Flash
 			set flash_base [get_addr_hex ${nh} C_BASEADDR]
+			# TODO: use [get_clock_val ${nh}] here and so avoid AXI decision
 			if { ${flash_type} == "axi_spi" } {
 				set flash_sys_clk [get_clock_frequency ${nh} S_AXI_ACLK]
 			} else {
@@ -1261,52 +1301,105 @@ proc put_normem_cfg_mk {pkg fh osh nh} {
 #
 namespace export put_uart_cfg
 proc put_uart_cfg {pkg fh osh} {
-	set uart [xget_sw_parameter_value ${osh} "stdout"]
-	if {[string match "" ${uart}] || [string match -nocase "none" ${uart}]} {
+	set sio [xget_sw_parameter_value ${osh} "stdout"]
+	if {[string match "" ${sio}] || [string match -nocase "none" ${sio}]} {
 		put_info ${fh} "Uart controller not defined"
 		put_blank_line ${fh}
 		return 0
 	}
 
 	# get uart handle per name from processor
-	set uart_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] ${uart}]
+	set stdio_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] ${sio}]
 
 	set ft [get_file_type ${fh}]
-	switch ${ft} {
-		"ch" { return [put_uart_cfg_ch ${pkg} ${fh} ${osh} ${uart_handle}] }
-		"mk" { return [put_uart_cfg_mk ${pkg} ${fh} ${osh} ${uart_handle}] }
+	switch -exact ${ft} {
+		"ch" { return [put_uart_cfg_ch ${pkg} ${fh} ${osh} ${stdio_handle}] }
+		"mk" { return [put_uart_cfg_mk ${pkg} ${fh} ${osh} ${stdio_handle}] }
 		default {
 			error "ERROR: This type of file is not supported yet: ${ft}"
 		}
 	}
+
 	return 1
 }
 
-proc put_uart_cfg_ch {pkg fh osh uh} {
-	# Handle different UARTs differently
-	set uart_type [xget_hw_value ${uh}]
-	switch -exact ${uart_type} {
-		"opb_uartlite" -
-		"xps_uartlite" -
-		"axi_uartlite" -
-		"opb_mdm" -
-		"xps_mdm" {
-			return [put_uartlite_cfg ${pkg} ${fh} ${uh}]
+proc put_uart_cfg_ch {pkg fh osh sioh} {
+	# count uartlite/uart16500 ips for serial multi support
+	set uartlite_count 0
+	set uart16550_count 0
+
+	# Store all uart IPs connected to cpu BUS
+	set uhs [get_all_other_uart_handle ${sioh}]
+
+	set retval 0
+	foreach uh [list ${sioh} ${uhs}] {
+		# Handle different UARTs differently
+		set uart_type [xget_hw_value ${uh}]
+		switch -exact ${uart_type} {
+			"opb_uartlite" -
+			"xps_uartlite" -
+			"axi_uartlite" -
+			"mdm" -
+			"opb_mdm" -
+			"xps_mdm" {
+				switch -exact ${pkg} {
+					"fsboot" -
+					"xlboot" -
+					"uboot" {
+						if {${uart16550_count} != 0} {
+							debug warning "WARNING: Package '${pkg}' doesn't supports multiple serial drivers."
+							set ret 1
+							continue
+						}
+					}
+				}
+				set ret [put_uartlite_cfg ${pkg} ${fh} ${uh} ${uartlite_count}]
+				incr uartlite_count
+			}
+			"opb_uart16550" -
+			"xps_uart16550" {
+				switch -exact ${pkg} {
+					"fsboot" -
+					"xlboot" -
+					"uboot" {
+						if {${uartlite_count} != 0} {
+							debug warning "WARNING: Package '${pkg}' doesn't supports multiple serial drivers."
+							set ret 1
+							continue
+						}
+					}
+				}
+				# FIXME: clarify if we realy need this ugly
+				# register offset --> endianess problem ????
+				# return [put_uart16550_cfg ${pkg} ${fh} ${uh} ${uart16550_count} 3]
+				set ret [put_uart16550_cfg ${pkg} ${fh} ${uh} ${uart16550_count}]
+				incr uart16550_count
+			}
+			"axi_uart16550" {
+				switch -exact ${pkg} {
+					"fsboot" -
+					"xlboot" -
+					"uboot" {
+						if {${uartlite_count} != 0} {
+							debug warning "WARNING: Package '${pkg}' doesn't supports multiple serial drivers."
+							set ret 1
+							continue
+						}
+					}
+				}
+				set ret [put_uart16550_cfg ${pkg} ${fh} ${uh} ${uart16550_count}]
+				incr uart16550_count
+			}
+			default {
+				error "ERROR: Unsupported type of uart - ${uart_type}"
+			}
 		}
-		"opb_uart16550" -
-		"xps_uart16550" {
-			# FIXME: clarify if we realy need this ugly
-			# register offset --> endianess problem ????
-			# return [put_uart16550_cfg ${pkg} ${fh} ${uh} 3]
-			return [put_uart16550_cfg ${pkg} ${fh} ${uh} 0]
-		}
-		"axi_uart16550" {
-			return [put_uart16550_cfg ${pkg} ${fh} ${uh}]
-		}
-		default {
-			error "ERROR: Unsupported type of console - ${uart_type}"
+		if { $ret != 0 } {
+			set retval 1
 		}
 	}
+
+	return $ret
 }
 
 proc put_uart_cfg_mk {pkg fh osh uh} {
@@ -1316,42 +1409,57 @@ proc put_uart_cfg_mk {pkg fh osh uh} {
 	return 1
 }
 
-proc put_uartlite_cfg {pkg fh uh} {
-	switch ${pkg} {
-		"fsboot" {
-			#	HIGHADDR	CONFIG_STDINOUT_HIGHADDR
-			#	BAUDRATE	CONFIG_UARTLITE_BAUDRATE
-			#	Interrupt	CONFIG_UARTLITE_IRQ
-			array set define {
-				Enable		CONFIG_UARTLITE
-				BASEADDR	CONFIG_STDINOUT_BASEADDR
+proc put_uartlite_cfg {pkg fh uh {count 0}} {
+	set uartlite_have_baudrate 0
+	if { ${count} == 0 } {
+		switch -exact ${pkg} {
+			"fsboot" {
+				#	HIGHADDR	CONFIG_STDINOUT_HIGHADDR
+				#	BAUDRATE	CONFIG_UARTLITE_BAUDRATE
+				#	Interrupt	CONFIG_UARTLITE_IRQ
+				array set define {
+					Enable		CONFIG_UARTLITE
+					BASEADDR	CONFIG_STDINOUT_BASEADDR
+				}
 			}
-		}
-		"xlboot" {
-			#	HIGHADDR	XLB_STDIO_HIGHADDR
-			#	BAUDRATE	XLB_UARTLITE_BAUDRATE
-			#	Interrupt	XLB_UARTLITE_IRQ
-			array set define {
-				Enable		XLB_UARTLITE
-				BASEADDR	XLB_STDIO_BASEADDR
+			"xlboot" {
+				#	HIGHADDR	XLB_STDIO_HIGHADDR
+				#	BAUDRATE	XLB_UARTLITE_BAUDRATE
+				#	Interrupt	XLB_UARTLITE_IRQ
+				array set define {
+					Enable		XLB_UARTLITE
+					BASEADDR	XLB_STDIO_BASEADDR
+				}
 			}
-		}
-		"uboot" {
-			#	HIGHADDR	XILINX_UARTLITE_HIGHADDR
-			#	Interrupt	XILINX_UARTLITE_IRQ
-			array set define {
-				Enable		XILINX_UARTLITE
-				BASEADDR	XILINX_UARTLITE_BASEADDR
-				BAUDRATE	XILINX_UARTLITE_BAUDRATE
+			"uboot" {
+				#	HIGHADDR	XILINX_UARTLITE_HIGHADDR
+				#	Interrupt	XILINX_UARTLITE_IRQ
+				array set define {
+					Enable		XILINX_UARTLITE
+					BASEADDR	XILINX_UARTLITE_BASEADDR
+					BAUDRATE	XILINX_UARTLITE_BAUDRATE
+					_v_BAUDRATE	115200
+				}
 			}
+			default { array set define {} }
 		}
-		default { array set define {} }
+	} else {
+		switch -exact ${pkg} {
+			"uboot" {
+				#	HIGHADDR	XILINX_UARTLITE_HIGHADDR${count}
+				#	Interrupt	XILINX_UARTLITE_IRQ${count}
+				set define(BASEADDR)	XILINX_UARTLITE_BASEADDR${count}
+				set define(BAUDRATE)	XILINX_UARTLITE_BAUDRATE${count}
+				set define(_v_BAUDRATE)	115200
+			}
+			default { array set define {} }
+		}
 	}
 
-	# fast exit without any error if define array is empty 
+	# fast exit without any error if define array is empty
 	if {![array size define]} { return 1 }
 
-	put_info ${fh} "Uart controller UARTLITE is [xget_hw_name ${uh}]"
+	put_info ${fh} "Uart controller UARTLITE ${count} is [xget_hw_name ${uh}]"
 	set arg_name Enable
 	if {[array name define ${arg_name}] == ${arg_name}} {
 		put_cfg_ena ${fh} $define($arg_name)
@@ -1365,6 +1473,21 @@ proc put_uartlite_cfg {pkg fh uh} {
 		set arg_value [xget_value ${arg} "VALUE"]
 		if {[array name define ${arg_name}] == ${arg_name}} {
 			put_cfg ${fh} $define($arg_name) ${arg_value}
+			if {[string match -nocase ${arg_name} "BAUDRATE"]} {
+				set uartlite_have_baudrate 1
+			}
+		}
+	}
+
+	# Uart baudrate default
+	if {${uartlite_have_baudrate} == 0} {
+		set arg_name BAUDRATE
+		if {[array name define ${arg_name}] == ${arg_name}} {
+			set arg_default_name [format "_v_${arg_name}"]
+			if {[array name define ${arg_default_name}] == ${arg_default_name}} {
+				debug warning "WARNING: set default baudrate, was missing in MHS."
+				put_cfg ${fh} $define($arg_name) $define($arg_default_name) "WARNING: set default"
+			}
 		}
 	}
 
@@ -1381,42 +1504,53 @@ proc put_uartlite_cfg {pkg fh uh} {
 	return 1
 }
 
-proc put_uart16550_cfg {pkg fh uh {regoffs 0}} {
-	switch ${pkg} {
-		"fsboot" {
-			#	HIGHADDR	CONFIG_STDINOUT_HIGHADDR
-			#	IP2INTC_Irpt	CONFIG_XILINX_UART16550_0_IRQ
-			array set define {
-				Enable		CONFIG_UART16550
-				BASEADDR	CONFIG_STDINOUT_BASEADDR
-				Clock		CONFIG_XILINX_UART16550_0_CLOCK_HZ
+proc put_uart16550_cfg {pkg fh uh {count 0} {regoffs 0}} {
+	if { ${count} == 0 } {
+		switch -exact ${pkg} {
+			"fsboot" {
+				#	HIGHADDR	CONFIG_STDINOUT_HIGHADDR
+				#	IP2INTC_Irpt	CONFIG_XILINX_UART16550_0_IRQ
+				array set define {
+					Enable		CONFIG_UART16550
+					BASEADDR	CONFIG_STDINOUT_BASEADDR
+					Clock		CONFIG_XILINX_UART16550_0_CLOCK_HZ
+				}
 			}
-		}
-		"xlboot" {
-			#	HIGHADDR	XLB_STDIO_HIGHADDR
-			#	IP2INTC_Irpt	XLB_XILINX_UART16550_0_IRQ
-			array set define {
-				Enable		XLB_UART16550
-				BASEADDR	XLB_STDIO_BASEADDR
-				Clock		XLB_XILINX_UART16550_0_CLOCK_HZ
+			"xlboot" {
+				#	HIGHADDR	XLB_STDIO_HIGHADDR
+				#	IP2INTC_Irpt	XLB_XILINX_UART16550_0_IRQ
+				array set define {
+					Enable		XLB_UART16550
+					BASEADDR	XLB_STDIO_BASEADDR
+					Clock		XLB_XILINX_UART16550_0_CLOCK_HZ
+				}
 			}
-		}
-		"uboot" {
-			#	HIGHADDR	XILINX_UART16550_HIGHADDR
-			#	IP2INTC_Irpt	XILINX_UART16550_IRQ
-			array set define {
-				Enable		XILINX_UART16550
-				BASEADDR	XILINX_UART16550_BASEADDR
-				Clock		XILINX_UART16550_CLOCK_HZ
+			"uboot" {
+				#	HIGHADDR	XILINX_UART16550_HIGHADDR
+				#	IP2INTC_Irpt	XILINX_UART16550_IRQ
+				array set define {
+					Enable		XILINX_UART16550
+					BASEADDR	XILINX_UART16550_BASEADDR
+					Clock		XILINX_UART16550_CLOCK_HZ
+				}
 			}
+			default { array set define {} }
 		}
-		default { array set define {} }
+	} else {
+		switch -exact ${pkg} {
+			"uboot" {
+				#	HIGHADDR	XILINX_UART16550_HIGHADDR${count}
+				#	IP2INTC_Irpt	XILINX_UART16550_IRQ${count}
+				set define(BASEADDR)	XILINX_UART16550_BASEADDR${count}
+			}
+			default { array set define {} }
+		}
 	}
 
-	# fast exit without any error if define array is empty 
+	# fast exit without any error if define array is empty
 	if {![array size define]} { return 1 }
 
-	put_info ${fh} "Uart controller UART16550 is [xget_hw_name ${uh}]"
+	put_info ${fh} "Uart controller UART16550 ${count} is [xget_hw_name ${uh}]"
 	set arg_name Enable
 	if {[array name define ${arg_name}] == ${arg_name}} {
 		put_cfg_ena ${fh} $define($arg_name)
@@ -1471,7 +1605,7 @@ proc put_iic_cfg {pkg fh osh} {
 	set iic_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] ${iic}]
 
 	set ft [get_file_type ${fh}]
-	switch ${ft} {
+	switch -exact ${ft} {
 		"ch" { return [put_iic_cfg_ch ${pkg} ${fh} ${osh} ${iic_handle}] }
 		"mk" { return [put_iic_cfg_mk ${pkg} ${fh} ${osh} ${iic_handle}] }
 		default {
@@ -1482,7 +1616,7 @@ proc put_iic_cfg {pkg fh osh} {
 }
 
 proc put_iic_cfg_ch {pkg fh osh ih} {
-	switch ${pkg} {
+	switch -exact ${pkg} {
 		"fsboot" {
 			#	BASEADDR	CONFIG_XILINX_IIC_BASEADDR
 			#	HIGHADDR	CONFIG_XILINX_IIC_HIGHADDR
@@ -1504,7 +1638,7 @@ proc put_iic_cfg_ch {pkg fh osh ih} {
 		default { array set define {} }
 	}
 
-	# fast exit without any error if define array is empty 
+	# fast exit without any error if define array is empty
 	if {![array size define]} { return 1 }
 
 	put_info ${fh} "I2C controller is [xget_hw_name ${ih}]"
@@ -1556,7 +1690,7 @@ proc put_gpio_cfg {pkg fh osh} {
 	set gpio_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] ${gpio}]
 
 	set ft [get_file_type ${fh}]
-	switch ${ft} {
+	switch -exact ${ft} {
 		"ch" { return [put_gpio_cfg_ch ${pkg} ${fh} ${osh} ${gpio_handle}] }
 		"mk" { return [put_gpio_cfg_mk ${pkg} ${fh} ${osh} ${gpio_handle}] }
 		default {
@@ -1567,7 +1701,7 @@ proc put_gpio_cfg {pkg fh osh} {
 }
 
 proc put_gpio_cfg_ch {pkg fh osh gh} {
-	switch ${pkg} {
+	switch -exact ${pkg} {
 		"fsboot" {
 			#	BASEADDR	CONFIG_XILINX_GPIO_BASEADDR
 			#	HIGHADDR	CONFIG_XILINX_GPIO_HIGHADDR
@@ -1585,7 +1719,7 @@ proc put_gpio_cfg_ch {pkg fh osh gh} {
 		default { array set define {} }
 	}
 
-	# fast exit without any error if define array is empty 
+	# fast exit without any error if define array is empty
 	if {![array size define]} { return 1 }
 
 	put_info ${fh} "GPIO controller is [xget_hw_name ${gh}]"
@@ -1637,7 +1771,7 @@ proc put_sysace_cfg {pkg fh osh} {
 	set sysace_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] ${sysace}]
 
 	set ft [get_file_type ${fh}]
-	switch ${ft} {
+	switch -exact ${ft} {
 		"ch" { return [put_sysace_cfg_ch ${pkg} ${fh} ${osh} ${sysace_handle}] }
 		"mk" { return [put_sysace_cfg_mk ${pkg} ${fh} ${osh} ${sysace_handle}] }
 		default {
@@ -1648,7 +1782,7 @@ proc put_sysace_cfg {pkg fh osh} {
 }
 
 proc put_sysace_cfg_ch {pkg fh osh sh} {
-	switch ${pkg} {
+	switch -exact ${pkg} {
 		"fsboot" {
 			#	BASEADDR	CONFIG_XILINX_SYSACE_BASEADDR
 			#	HIGHADDR	CONFIG_XILINX_SYSACE_HIGHADDR
@@ -1668,7 +1802,7 @@ proc put_sysace_cfg_ch {pkg fh osh sh} {
 		default { array set define {} }
 	}
 
-	# fast exit without any error if define array is empty 
+	# fast exit without any error if define array is empty
 	if {![array size define]} { return 1 }
 
 	put_info ${fh} "Sysace CF controller is [xget_hw_name ${sh}]"
@@ -1720,7 +1854,7 @@ proc put_ethmac_cfg {pkg fh osh} {
 	set ethmac_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] ${ethmac}]
 
 	set ft [get_file_type ${fh}]
-	switch ${ft} {
+	switch -exact ${ft} {
 		"ch" { return [put_ethmac_cfg_ch ${pkg} ${fh} ${osh} ${ethmac_handle}] }
 		"mk" { return [put_ethmac_cfg_mk ${pkg} ${fh} ${osh} ${ethmac_handle}] }
 		default {
@@ -1739,7 +1873,7 @@ proc put_ethmac_cfg_ch {pkg fh osh eh} {
 			return [put_ethernet_cfg ${pkg} ${fh} ${eh}]
 		}
 		"axi_ethernet" {
-			debug warning "WARNING: stubbed support for AXI ethernet"
+			return [put_axiethernet_cfg ${pkg} ${fh} ${eh}]
 		}
 		"opb_ethernetlite" -
 		"xps_ethernetlite" -
@@ -1766,7 +1900,7 @@ proc put_ethmac_cfg_mk {pkg fh osh th} {
 }
 
 proc put_ethernet_cfg {pkg fh eh} {
-	switch ${pkg} {
+	switch -exact ${pkg} {
 		"fsboot" {
 			#	Enable		CONFIG_EMAC
 			#	BASEADDR	CONFIG_EMAC_BASEADDR
@@ -1792,7 +1926,7 @@ proc put_ethernet_cfg {pkg fh eh} {
 		default { array set define {} }
 	}
 
-	# fast exit without any error if define array is empty 
+	# fast exit without any error if define array is empty
 	if {![array size define]} { return 1 }
 
 	put_info ${fh} "Ethernet MAC controller EMAC is [xget_hw_name ${eh}]"
@@ -1825,8 +1959,86 @@ proc put_ethernet_cfg {pkg fh eh} {
 	return 1
 }
 
+proc put_axiethernet_cfg {pkg fh eh} {
+	switch -exact ${pkg} {
+		"fsboot" {
+			#	Enable		CONFIG_AXIEMAC
+			#	BASEADDR	CONFIG_AXIEMAC_BASEADDR
+			#	HIGHADDR	CONFIG_AXIEMAC_HIGHADDR
+			#	S_AXI_PROTOCOL	CONFIG_AXIEMAC_S_AXI_PROTOCOL
+			#	PHY_TYPE	CONFIG_AXIEMAC_PHY_TYPE
+			#	PHYADDR		XILINX_AXIEMAC_PHYADDR
+			#	HALFDUP		CONFIG_AXIEMAC_HALFDUP
+			#	INTERRUPT	CONFIG_AXIEMAC_IRQ
+			array set define {
+			}
+		}
+		"uboot" {
+			#	HIGHADDR	XILINX_AXIEMAC_HIGHADDR
+			#	S_AXI_PROTOCOL	XILINX_AXIEMAC_S_AXI_PROTOCOL
+			#	PHY_TYPE	XILINX_AXIEMAC_PHY_TYPE
+			#	PHYADDR		XILINX_AXIEMAC_PHYADDR
+			#	HALFDUP		XILINX_AXIEMAC_HALFDUP
+			#	INTERRUPT	XILINX_AXIEMAC_IRQ
+			array set define {
+				Enable		XILINX_AXIEMAC
+				BASEADDR	XILINX_AXIEMAC_BASEADDR
+				DMA_BASEADDR	XILINX_AXIDMA_BASEADDR
+			}
+		}
+		default { array set define {} }
+	}
+
+	# fast exit without any error if define array is empty
+	if {![array size define]} { return 1 }
+
+	put_info ${fh} "Ethernet MAC controller AXIEMAC is [xget_hw_name ${eh}]"
+	set arg_name Enable
+	if {[array name define ${arg_name}] == ${arg_name}} {
+		put_cfg_ena ${fh} $define($arg_name)
+	}
+
+	# Ethernet MAC pheriphery values
+	set args [xget_sw_parameter_handle ${eh} "*"]
+	foreach arg ${args} {
+		set arg_name [xget_value ${arg} "NAME"]
+		set arg_name [string_trimleft_pat ${arg_name} C_]
+		set arg_value [xget_value ${arg} "VALUE"]
+		if {[array name define ${arg_name}] == ${arg_name}} {
+			put_cfg ${fh} $define($arg_name) ${arg_value}
+		}
+	}
+
+	# SDMA pheriphery values
+	set stream_handle [get_axiemac_stream_handle ${eh}]
+	set axidma [xget_sw_parameter_handle ${stream_handle} C_BASEADDR]
+	if {[llength ${axidma}]} {
+		set axidma_name [xget_value ${axidma} "NAME"]
+		set axidma_name [string_trimleft_pat ${axidma_name} C_]
+		set axidma_value [xget_value ${axidma} "VALUE"]
+		set arg_name DMA_BASEADDR
+		if {[array name define ${arg_name}] == ${arg_name}} {
+			put_cfg ${fh} $define($arg_name) ${axidma_value}
+		}
+	} else {
+		debug warning "WARNING: Your axi_ethernet is not connected properly."
+	}
+
+	# Interrupt source number
+	set arg_name INTERRUPT
+	set arg_value [get_intr ${eh} ${arg_name}]
+	if { ${arg_value} >= 0 } {
+		if {[array name define ${arg_name}] == ${arg_name}} {
+			put_cfg_int ${fh} $define($arg_name) ${arg_value}
+		}
+	}
+
+	put_blank_line ${fh}
+	return 1
+}
+
 proc put_ethernetlite_cfg {pkg fh eh} {
-	switch ${pkg} {
+	switch -exact ${pkg} {
 		"fsboot" {
 			#	Enable		CONFIG_EMACLITE
 			#	BASEADDR	CONFIG_EMACLITE_BASEADDR
@@ -1850,7 +2062,7 @@ proc put_ethernetlite_cfg {pkg fh eh} {
 		default { array set define {} }
 	}
 
-	# fast exit without any error if define array is empty 
+	# fast exit without any error if define array is empty
 	if {![array size define]} { return 1 }
 
 	put_info ${fh} "Ethernet MAC controller EMACLITE is [xget_hw_name ${eh}]"
@@ -1865,7 +2077,7 @@ proc put_ethernetlite_cfg {pkg fh eh} {
 		set arg_name [xget_value ${arg} "NAME"]
 		set arg_name [string_trimleft_pat ${arg_name} C_]
 		set arg_value [xget_value ${arg} "VALUE"]
-		switch ${arg_name} {
+		switch -exact ${arg_name} {
 			"TX_PING_PONG" -
 			"RX_PING_PONG" {
 				if { ${arg_value} != 1 } {
@@ -1893,11 +2105,13 @@ proc put_ethernetlite_cfg {pkg fh eh} {
 }
 
 proc put_lltemac_cfg {pkg fh eh} {
-	switch ${pkg} {
+	switch -exact ${pkg} {
 		"fsboot" {
 			#	Enable		CONFIG_LLTEMAC
 			#	BASEADDR	CONFIG_LLTEMAC_BASEADDR
 			#	HIGHADDR	CONFIG_LLTEMAC_HIGHADDR
+			#	PHY_TYPE	CONFIG_LLTEMAC_PHY_TYPE
+			#	TEMAC0_PHYADDR	CONFIG_LLTEMAC_PHYADDR
 			#	SDMA_BASEADDR	CONFIG_LLTEMAC_SDMA_CTRL_BASEADDR
 			#	FIFO_BASEADDR	CONFIG_LLTEMAC_FIFO_BASEADDR
 			#	TemacIntc0_Irpt	CONFIG_LLTEMAC_IRQ
@@ -1906,6 +2120,8 @@ proc put_lltemac_cfg {pkg fh eh} {
 		}
 		"uboot" {
 			#	HIGHADDR	XILINX_LLTEMAC_HIGHADDR
+			#	PHY_TYPE	XILINX_LLTEMAC_PHY_TYPE
+			#	TEMAC0_PHYADDR	XILINX_LLTEMAC_PHYADDR
 			#	TemacIntc0_Irpt	XILINX_LLTEMAC_IRQ
 			array set define {
 				Enable		XILINX_LLTEMAC
@@ -1917,7 +2133,7 @@ proc put_lltemac_cfg {pkg fh eh} {
 		default { array set define {} }
 	}
 
-	# fast exit without any error if define array is empty 
+	# fast exit without any error if define array is empty
 	if {![array size define]} { return 1 }
 
 	put_info ${fh} "Ethernet MAC controller LLTEMAC is [xget_hw_name ${eh}]"
@@ -1981,7 +2197,7 @@ proc put_lltemac_cfg {pkg fh eh} {
 }
 
 proc put_s2imac_epc_cfg {pkg fh eh {epc_p 0}} {
-	switch ${pkg} {
+	switch -exact ${pkg} {
 		"fsboot" {
 			#	Enable		CONFIG_S2IMAC
 			#	BASEADDR	CONFIG_S2IMAC_BASEADDR
@@ -2001,7 +2217,7 @@ proc put_s2imac_epc_cfg {pkg fh eh {epc_p 0}} {
 		default { array set define {} }
 	}
 
-	# fast exit without any error if define array is empty 
+	# fast exit without any error if define array is empty
 	if {![array size define]} { return 1 }
 
 	put_info ${fh} "Ethernet MAC controller S2IMAC is [xget_hw_name ${eh}] (prh${epc_p})"
@@ -2036,7 +2252,7 @@ proc put_s2imac_epc_cfg {pkg fh eh {epc_p 0}} {
 }
 
 #############################################################################
-#   Data fetching functions
+#   Data fetch functions
 #
 # Return the clock frequency attribute of the port of the given ip core.
 proc get_clock_frequency {ip_handle portname} {
@@ -2064,6 +2280,34 @@ proc get_clock_val {hw_handle} {
 		}
 	}
 	error "ERROR: Can not find correct clock frequency for ${ipname}."
+}
+
+proc get_all_other_uart_handle {stdio_handle} {
+	set mhs_handle [xget_hw_parent_handle $stdio_handle]
+	set slave_ips [xget_hw_connected_busifs_handle $mhs_handle [get_system_bus] "SLAVE"]
+	set uart_handles ""
+	foreach slave_ip $slave_ips {
+		set uart_handle [xget_hw_parent_handle $slave_ip]
+		# do not generate console setting
+		if {[string match -nocase $uart_handle $stdio_handle]} {
+			continue
+		}
+		set uart_type [xget_value $uart_handle "VALUE"]
+		switch -exact $uart_type {
+			"axi_uart16550" -
+			"opb_uart16550" -
+			"xps_uart16550" -
+			"opb_uartlite" -
+			"xps_uartlite" -
+			"axi_uartlite" -
+			"opb_mdm" -
+			"mdm" -
+			"xps_mdm" {
+				lappend uart_handles $uart_handle
+			}
+		}
+	}
+	return $uart_handles
 }
 
 # Return the base address for given handle
@@ -2148,54 +2392,41 @@ proc get_intc_handle {} {
 		return
 	}
 
-#	set sink_port [xget_hw_connected_ports_handle ${mhs_handle} ${intr_port} "sink"]
+#	set sink_port [xget_hw_connected_ports_handle ${mhs_handle} ${intr_port} "SINK"]
 #	set sink_name [xget_hw_name ${sink_port}]
 
 	# get source port periphery handle - on interrupt controller
-	set source_port [xget_hw_connected_ports_handle ${mhs_handle} ${intr_port} "source"]
+	set source_port [xget_hw_connected_ports_handle ${mhs_handle} ${intr_port} "SOURCE"]
 	set intc_handle [xget_hw_parent_handle ${source_port}]
 
 	return ${intc_handle}
 }
 
-# system bus resolve: mb_opb, mb_plb
+# system bus name resolve, for example to: mb_opb, mb_plb, axi4lite_0
 proc get_system_bus {} {
 	set hwproc_handle [get_hwproc_handle]
-	set busif_handle [xget_hw_busif_handle ${hwproc_handle} "DPLB"]
-	if {[llength ${busif_handle}] != 0} {
-		# Microblaze v7 has PLB.
-		set dplb [xget_handle ${hwproc_handle} "BUS_INTERFACE" "DPLB"]
-		set dplb [xget_value ${dplb} "VALUE"]
-		set iplb [xget_handle ${hwproc_handle} "BUS_INTERFACE" "IPLB"]
-		set iplb [xget_value ${iplb} "VALUE"]
-		if { ${dplb} == ${iplb} } {
-			debug cpu "CPU: System bus for instruction and data ${dplb}"
-			return ${dplb}
-		} else {
-			error "ERROR: Different microblaze architecture - dual busses: ${iplb} ${dplb}"
-		}
+	set ibusif_name "<not_found>"
+
+	set dbusif_name [xget_hw_busif_value ${hwproc_handle} "M_AXI_DP"]
+	if { [string compare -nocase $dbusif_name ""] != 0 } {
+		set ibusif_name [xget_hw_busif_value ${hwproc_handle} "M_AXI_IP"]
 	} else {
-		# Older microblazes have OPB.
-		set dopb [xget_handle ${hwproc_handle} "BUS_INTERFACE" "DOPB"]
-		set dopb [xget_value ${dopb} "VALUE"]
-		set iopb [xget_handle ${hwproc_handle} "BUS_INTERFACE" "IOPB"]
-		set iopb [xget_value ${iopb} "VALUE"]
-		if { ${dopb} == ${iopb} } {
-			debug cpu "CPU: System bus for instruction and data ${dopb}"
-			# testing
-#			set bus [xget_sw_parameter_value ${os_handle} "opb_v20"]
-##			set bus_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] ${bus}]
-##			set hodn [xget_sw_parameter_value ${bus_handle} C_EXT_RESET_HIGH]
-#			debug cpu "CPU: fdf ${bus} fds"
-#			set clk [xget_handle ${dopb} "PORT" "OPB_Clk"]
-#			debug cpu "CPU: ${clk}"
-#			set clk [xget_value ${clk} "VALUE"]
-#			error "ERROR: ${clk}"
-			# end testing
-			return ${dopb}
+		set dbusif_name [xget_hw_busif_value ${hwproc_handle} "DPLB"]
+		if { [string compare -nocase $dbusif_name ""] != 0 } {
+			set ibusif_name [xget_hw_busif_value ${hwproc_handle} "IPLB"]
 		} else {
-			error "ERROR: Different microblaze architecture - dual busses: ${iopb} ${dopb}"
+			set dbusif_name [xget_hw_busif_value ${hwproc_handle} "DOPB"]
+			if { [string compare -nocase $dbusif_name ""] != 0 } {
+				set ibusif_name [xget_hw_busif_value ${hwproc_handle} "IOPB"]
+			}
 		}
+	}
+
+	if { ${dbusif_name} == ${ibusif_name} } {
+		debug cpu "CPU: System bus for instruction and data ${dbusif_name}"
+		return ${dbusif_name}
+	} else {
+		error "ERROR: Different microblaze architecture - dual busses: ${ibusif_name} ${dbusif_name}"
 	}
 }
 
@@ -2203,8 +2434,8 @@ proc get_lltemac_llink_bus_type {eh} {
 	set mhs_handle [xget_hw_parent_handle ${eh}]
 	set bus_handle [xget_handle ${eh} "BUS_INTERFACE" "LLINK0"]
 	set bus_type [xget_hw_value ${bus_handle}]
-	set slave_ips [xget_hw_connected_busifs_handle ${mhs_handle} ${bus_type} "INITIATOR"]
-	if { ${bus_handle} != ${slave_ips} } {
+	set slave_ip [xget_hw_connected_busifs_handle ${mhs_handle} ${bus_type} "INITIATOR"]
+	if { ${bus_handle} != ${slave_ip} } {
 		error "ERROR: Bus initiator (this slave) is not xps_ll_temac"
 	}
 	return ${bus_type}
@@ -2222,6 +2453,57 @@ proc get_lltemac_llink_name {eh} {
 
 proc get_lltemac_llink_handle {eh} {
 	return [xget_hw_parent_handle [get_lltemac_llink_bus ${eh}]]
+}
+
+proc get_axiemac_txstr_bus_type {eh} {
+	set mhs_handle [xget_hw_parent_handle ${eh}]
+	set bus_handle [xget_handle ${eh} "BUS_INTERFACE" "AXI_STR_TXD"]
+	set bus_type [xget_hw_value ${bus_handle}]
+	set slave_ip [xget_hw_connected_busifs_handle ${mhs_handle} ${bus_type} "TARGET"]
+	if { ${bus_handle} != ${slave_ip} } {
+		error "ERROR: Bus target (this slave) is not axiemac"
+	}
+	return ${bus_type}
+}
+
+proc get_axiemac_rxstr_bus_type {eh} {
+	set mhs_handle [xget_hw_parent_handle ${eh}]
+	set bus_handle [xget_handle ${eh} "BUS_INTERFACE" "AXI_STR_RXD"]
+	set bus_type [xget_hw_value ${bus_handle}]
+	set slave_ip [xget_hw_connected_busifs_handle ${mhs_handle} ${bus_type} "INITIATOR"]
+	if { ${bus_handle} != ${slave_ip} } {
+		error "ERROR: Bus initiator (this slave) is not axiemac"
+	}
+	return ${bus_type}
+}
+
+proc get_axiemac_txstr_bus {eh} {
+	set mhs_handle [xget_hw_parent_handle ${eh}]
+	set bus_type [get_axiemac_txstr_bus_type ${eh}]
+	return [xget_hw_connected_busifs_handle ${mhs_handle} ${bus_type} "INITIATOR"]
+}
+
+proc get_axiemac_rxstr_bus {eh} {
+	set mhs_handle [xget_hw_parent_handle ${eh}]
+	set bus_type [get_axiemac_rxstr_bus_type ${eh}]
+	return [xget_hw_connected_busifs_handle ${mhs_handle} ${bus_type} "TARGET"]
+}
+
+proc get_axiemac_txstr_name {eh} {
+	return [xget_hw_name [get_axiemac_txstr_bus ${eh}]]
+}
+
+proc get_axiemac_rxstr_name {eh} {
+	return [xget_hw_name [get_axiemac_rxstr_bus ${eh}]]
+}
+
+proc get_axiemac_stream_handle {eh} {
+	set txdma_ip [xget_hw_parent_handle [get_axiemac_txstr_bus ${eh}]]
+	set rxdma_ip [xget_hw_parent_handle [get_axiemac_rxstr_bus ${eh}]]
+	if { ${txdma_ip} != ${rxdma_ip} } {
+		error "ERROR: AXI streamer is not the same for axiemac Rx and Tx"
+	}
+	return ${rxdma_ip}
 }
 
 #############################################################################
@@ -2252,13 +2534,17 @@ proc put_info {fh infstr} {
 proc put_cfg {fh var val args} {
 	if {[llength ${args}]} {
 		set descr [lindex ${args} 0]
+		if {[string is integer ${val}]} {
+			put_cfg_int ${fh} ${var} ${val} ${descr}
+		} else {
+			put_cfg_str ${fh} ${var} ${val} ${descr}
+		}
 	} else {
-		set descr ${var}
-	}
-	if {[string is integer ${val}]} {
-		put_cfg_int ${fh} ${var} ${val} ${descr}
-	} else {
-		put_cfg_str ${fh} ${var} ${val} ${descr}
+		if {[string is integer ${val}]} {
+			put_cfg_int ${fh} ${var} ${val}
+		} else {
+			put_cfg_str ${fh} ${var} ${val}
+		}
 	}
 }
 
@@ -2266,7 +2552,14 @@ proc put_cfg {fh var val args} {
 proc put_cfg_int {fh var val args} {
 	debug jabber "${var} <-- ${val}"
 	switch [get_file_type ${fh}] {
-		ch { puts ${fh} [format "#define %-40s %s" ${var} ${val}] }
+		ch {
+			if {[llength ${args}]} {
+				set descr [lindex ${args} 0]
+				puts ${fh} [format "#define %-40s %s /* %s */" ${var} ${val} ${descr}]
+			} else {
+				puts ${fh} [format "#define %-40s %s" ${var} ${val}]
+			}
+		}
 		mk { puts ${fh} [format "%-8s = %s" ${var} ${val}] }
 		kc24 {
 			if {[string match -nocase 0x* ${val}]} {
@@ -2300,7 +2593,14 @@ proc put_cfg_int {fh var val args} {
 proc put_cfg_str {fh var val args} {
 	debug jabber "${var} <-- \"${val}\""
 	switch [get_file_type ${fh}] {
-		ch { puts ${fh} [format "#define %-40s \"%s\"" ${var} ${val}] }
+		ch {
+			if {[llength ${args}]} {
+				set descr [lindex ${args} 0]
+				puts ${fh} [format "#define %-40s \"%s\"" ${var} ${val} "/* ${descr} */"]
+			} else {
+				puts ${fh} [format "#define %-40s \"%s\"" ${var} ${val}]
+			}
+		}
 		mk { puts ${fh} [format "%-8s = \"%s\"" ${var} ${val}] }
 		kc24 {
 			puts ${fh} [format "define_string CONFIG_%s %s" ${var} ${val}]
@@ -2351,7 +2651,7 @@ proc put_ch_header {fh desc vers} {
 	puts ${fh} " * (C) Copyright 2007-2009 Michal Simek"
 	puts ${fh} " * Michal SIMEK <monstr@monstr.eu>"
 	puts ${fh} " *"
-	puts ${fh} " * (C) Copyright 2010-2011 Li-Pro.Net"
+	puts ${fh} " * (C) Copyright 2010-2012 Li-Pro.Net"
 	puts ${fh} " * Stephan Linz <linz@li-pro.net>"
 	puts ${fh} " *"
 	puts ${fh} " * This program is free software; you can redistribute it and/or"
@@ -2369,8 +2669,10 @@ proc put_ch_header {fh desc vers} {
 	puts ${fh} " * Foundation, Inc., 59 Temple Place, Suite 330, Boston,"
 	puts ${fh} " * MA 02111-1307 USA"
 	puts ${fh} " *"
-	puts ${fh} " * CAUTION: This file is automatically generated by libgen."
-	puts ${fh} " * Version: [xget_swverandbld]"
+	puts ${fh} " * CAUTION:  This file is automatically generated by libgen."
+	puts ${fh} " * Version:  [xget_swverandbld]"
+	puts ${fh} " * [clock format [clock seconds] -format {Today is: %A, the %d of %B, %Y; %H:%M:%S}]"
+	puts ${fh} " *"
 	puts ${fh} " * Description: ${desc}"
 	puts ${fh} " *"
 	puts ${fh} " * Generate by ${vers}"
@@ -2384,7 +2686,7 @@ proc put_mk_header {fh desc vers} {
 	puts ${fh} "\# (C) Copyright 2007-2009 Michal Simek"
 	puts ${fh} "\# Michal SIMEK <monstr@monstr.eu>"
 	puts ${fh} "\#"
-	puts ${fh} "\# (C) Copyright 2010-2011 Li-Pro.Net"
+	puts ${fh} "\# (C) Copyright 2010-2012 Li-Pro.Net"
 	puts ${fh} "\# Stephan Linz <linz@li-pro.net>"
 	puts ${fh} "\#"
 	puts ${fh} "\# This program is free software; you can redistribute it and/or"
@@ -2402,8 +2704,10 @@ proc put_mk_header {fh desc vers} {
 	puts ${fh} "\# Foundation, Inc., 59 Temple Place, Suite 330, Boston,"
 	puts ${fh} "\# MA 02111-1307 USA"
 	puts ${fh} "\#"
-	puts ${fh} "\# CAUTION: This file is automatically generated by libgen."
-	puts ${fh} "\# Version: [xget_swverandbld]"
+	puts ${fh} "\# CAUTION:  This file is automatically generated by libgen."
+	puts ${fh} "\# Version:  [xget_swverandbld]"
+	puts ${fh} "\# [clock format [clock seconds] -format {Today is: %A, the %d of %B, %Y; %H:%M:%S}]"
+	puts ${fh} "\#"
 	puts ${fh} "\# Description: ${desc}"
 	puts ${fh} "\#"
 	puts ${fh} "\# Generate by ${vers}"

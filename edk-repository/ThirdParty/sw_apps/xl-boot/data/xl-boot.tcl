@@ -2,11 +2,11 @@
 # SDK software application generator for XL-Boot
 # supporting Microblaze (and PPC ???)
 #
-# (C) Copyright 2010
+# (C) Copyright 2010-2012
 # Li-Pro.Net <www.li-pro.net>
 # Stephan Linz <linz@li-pro.net>
 #
-# (C) Copyright 2010 Xilinx, Inc.
+# (C) Copyright 2010-2012 Xilinx, Inc.
 # Borrowed in parts from SREC Bootloader
 # ${XILINX_EDK}/sw/lib/sw_apps/bootloader
 #
@@ -40,12 +40,12 @@ proc check_tpos_os {} {
     set oslist [xget_sw_modules "type" "os"];
 
     if { [llength $oslist] != 1 } {
-        return 0;
+	return 0;
     }
     set os [lindex $oslist 0];
 
     if { $os != "tpos" } {
-        error "This bootloader is supported only on the ThirdParty OS Board Support Package.";
+	error "This bootloader is supported only on the ThirdParty OS Board Support Package.";
     }
 }
 
@@ -55,13 +55,13 @@ proc generate_stdout_config {fid} {
     # if stdout is uartlite, we don't have to generate anything
     set stdout_type [xget_ip_attribute "type" $stdout];
 
-    if { $stdout_type == "xps_uartlite"} {
-        return;
-    } elseif { $stdout_type == "xps_uart16550" } {
+    if { [regexp -nocase "uartlite" $stdout_type] || [string match -nocase "mdm" $stdout_type] } {
+	return;
+    } elseif { [regexp -nocase "uart16550" $stdout_type] } {
 	# mention that we have a 16550
-        puts $fid "#define STDOUT_IS_16550";
+	puts $fid "#define STDOUT_IS_16550";
 
-        # and note down its base address
+	# and note down its base address
 	set prefix "XPAR_";
 	set postfix "_BASEADDR";
 	set stdout_baseaddr_macro $prefix$stdout$postfix;
@@ -75,7 +75,7 @@ proc get_os {} {
     set os [lindex $oslist 0];
 
     if { $os == "" } {
-        error "No Operating System specified in the Board Support Package.";
+	error "No Operating System specified in the Board Support Package.";
     }
     
     return $os;
@@ -88,12 +88,17 @@ proc get_stdout {} {
 }
 
 proc check_stdout_hw {} {
-    set uartlites [xget_ips "type" "xps_uartlite"];
+    set uartlites [xget_ips "type" "uartlite"];
     if { [llength $uartlites] == 0 } {
-        # we do not have an uartlite
-	set uart16550s [xget_ips "type" "xps_uart16550"];
+	# we do not have an uartlite
+	set uart16550s [xget_ips "type" "uart16550"];
 	if { [llength $uart16550s] == 0 } {      
-	    error "This application requires a Uart IP (xps_uartlite or xps_uart16550) in the hardware."
+	    # Check for MDM-Uart peripheral. The MDM would be listed as a peripheral
+	    # only if it has a UART interface. So no further check is required
+	    set mdms [xget_ips "type" "mdm"]
+	    if { [llength $mdms] == 0 } {
+		error "This application requires a Uart IP in the hardware."
+	    }
 	}
     }
 }
@@ -101,7 +106,7 @@ proc check_stdout_hw {} {
 proc check_stdout_sw {} {
     set stdout [get_stdout];
     if { $stdout == "none" } {
-        error "The STDOUT parameter is not set on the OS. The bootloader requires STDOUT to be set."
+	error "The STDOUT parameter is not set on the OS. The bootloader requires STDOUT to be set."
     }
 }
 
@@ -117,12 +122,12 @@ proc require_memory {memsize} {
     set memlist [concat $imemlist $idmemlist $dmemlist];
 
     while { [llength $memlist] > 3 } {
-        set mem [lrange $memlist 0 4];
-        set memlist [lreplace $memlist 0 4];
+	set mem [lrange $memlist 0 4];
+	set memlist [lreplace $memlist 0 4];
 
-        if { [get_mem_size $mem] >= $memsize } {
-            return 1;
-        }
+	if { [get_mem_size $mem] >= $memsize } {
+	    return 1;
+	}
     }
 
     error "This application requires atleast $memsize bytes of memory.";
@@ -141,6 +146,18 @@ proc swapp_is_supported {} {
 }
 
 proc swapp_is_supported_hw {} {
+    # bootloader is supported only for microblaze targets
+    set proc_instance [xget_processor_name];
+    set proc_type [xget_ip_attribute "type" $proc_instance];
+
+    # TODO: expand for PPC, use:
+    #    && ($proc_type != "ppc405")
+    #    && ($proc_type != "ppc405_virtex4")
+    #    && ($proc_type != "ppc440_virtex5")
+    if { ($proc_type != "microblaze") } {
+	error "This application is supported only for MicroBlaze processors";
+    }
+
     # check for uart peripheral
     check_stdout_hw;
 
@@ -203,12 +220,12 @@ proc extract_bram_memories { memlist } {
     set bram_mems [];
     set l [llength $memlist];
     while { [llength $memlist] > 3 } {
-        set mem [lrange $memlist 0 4];
-        set memlist [lreplace $memlist 0 4];
+	set mem [lrange $memlist 0 4];
+	set memlist [lreplace $memlist 0 4];
 
-        if { [get_mem_type $mem] == "BRAM" } {
-            set bram_mems [concat $bram_mems $mem];
-        }
+	if { [get_mem_type $mem] == "BRAM" } {
+	    set bram_mems [concat $bram_mems $mem];
+	}
     }
 
     return $bram_mems;
