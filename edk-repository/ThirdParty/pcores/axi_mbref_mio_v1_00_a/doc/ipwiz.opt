@@ -1,0 +1,10 @@
+-batch 
+-create axi_mbref_mio 
+-ver 1.00.a 
+-dir "/store/devel/MICROBLAZE/mbref/edk-repository/ThirdParty" 
+-lang vhdl 
+-bus axi4 s 
+-burst s 32 
+-arn 4 
+-xps 
+-driver 

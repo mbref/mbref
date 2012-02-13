@@ -1,0 +1,11 @@
+-batch 
+-create axi_mbref_mio 
+-ver 1.00.a 
+-lang vhdl 
+-bus axi4 s 
+-burst s 32 
+#-rst 
+-arn 4 
+-xps 
+#-ise
+-driver 
