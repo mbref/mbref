@@ -1,0 +1,10 @@
+-batch 
+-create axi_mbref_reg 
+-ver 1.00.a 
+-lang vhdl 
+-bus axi4lite s 
+-rst 
+-reg 32 
+-xps 
+#-ise
+-driver 
