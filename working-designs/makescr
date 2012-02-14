@@ -126,7 +126,13 @@ case ${XPS_VERS} in
 		XPS_LIBSPATH=${MB_SOFTWARE}/${MB_INSTANCE}
 		XPS_XADD_ELF="xadd_elf ${MB_INSTANCE} imp ${MB_SOFTWARE}/executable.elf"
 		APPGURU_STDIOOPTS="-stdin ${SW_STDIN} -stdout ${SW_STDOUT}"
-		APPGURU_MEMOPTS="-cmem ${SW_CMEM} -dmem ${SW_DMEM} -bmem ${SW_BMEM}"
+		if [ "${XPS_VERS}" = "13.1" ]; then
+			HAVE_TO_PATCH_MAKEFILE=1
+			APPGURU_MEMOPTS=""
+		else
+			HAVE_TO_PATCH_MAKEFILE=0
+			APPGURU_MEMOPTS="-cmem ${SW_CMEM} -dmem ${SW_DMEM} -bmem ${SW_BMEM}"
+		fi
 		;;
 
 	*)	echo "ERROR: wrong XPS version: ${XPS_VERS}"
@@ -136,6 +142,7 @@ esac
 
 function xps_run_bit2bin() {
 	set -x
+	xps_run_init_bram
 	./bit2bin
 }
 
@@ -242,6 +249,9 @@ function xps_run_program() {
 			-pe ${MB_INSTANCE} -od ${MB_SOFTWARE}
 		rm -f ${MB_SOFTWARE}/system.mss
 		ln -s ../system.mss ${MB_SOFTWARE}/system.mss
+		if [ ${HAVE_TO_PATCH_MAKEFILE} -eq 1 ]; then
+			sed -i -e 's%\(libgen.*\)\(-pe.*$\)%\1-lp ../../../edk-repository/ThirdParty \2%' ${MB_SOFTWARE}/Makefile
+		fi
 		make -C ${MB_SOFTWARE}
 	else
 		xps -nw system.xmp << EOF
@@ -299,7 +309,8 @@ EOF
 function xps_run_init_bram() {
 	set -x
 	if [ ${HAVE_APPGURU} -eq 1 ]; then
-		xps_run_program
+		# xps_run_program
+		xps_run_exporttoptx
 	fi
 	xps -nw system.xmp << EOF
 set tcl_interactive 0
