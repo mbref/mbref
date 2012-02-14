@@ -1484,8 +1484,16 @@ proc gener_slave {node slave intc} {
 					set compat "generic-uio"
 				}
 			}
+			# Decide if we have to handle a AXI/nonAXI slave w or w/o MBAR.
+			if {[parameter_exists $slave "C_MEM0_BASEADDR"]} {
+				set mbnstr "C_MEM"
+			} elseif {[parameter_exists $slave "C_S_AXI_MEM0_BASEADDR"]} {
+				set mbnstr "C_S_AXI_MEM"
+			} else {
+				set mbnstr ""
+			}
 			# *Most* IP with or w/o MBARS should be handled by this default case.
-			if {[parameter_exists $slave "C_BASEADDR"] && [parameter_exists $slave "C_MEM0_BASEADDR"]} {
+			if {[parameter_exists $slave "C_BASEADDR"] && [parameter_exists $slave [format "%s0_BASEADDR" $mbnstr]]} {
 				set baseaddr [scan_int_parameter_value $slave "C_BASEADDR"]
 				set highaddr [scan_int_parameter_value $slave "C_HIGHADDR"]
 				if {[catch {set tree [slaveip_basic $slave $intc [default_parameters $slave] [format_ip_name $dtype $baseaddr $name] $compat]} {error}]} {
@@ -1494,9 +1502,9 @@ proc gener_slave {node slave intc} {
 				} else {
 					set subnode [gen_reg_property $name $baseaddr $highaddr]
 					for {set x 0} {$x < 8} {incr x} {
-						if {[parameter_exists $slave [format "C_MEM%i_BASEADDR" $x]]} {
-							set baseaddr [scan_int_parameter_value $slave [format "C_MEM%i_BASEADDR" $x]]
-							set highaddr [scan_int_parameter_value $slave [format "C_MEM%i_HIGHADDR" $x]]
+						if {[parameter_exists $slave [format "%s%i_BASEADDR" $mbnstr $x]]} {
+							set baseaddr [scan_int_parameter_value $slave [format "%s%i_BASEADDR" $mbnstr $x]]
+							set highaddr [scan_int_parameter_value $slave [format "%s%i_HIGHADDR" $mbnstr $x]]
 							if {[catch {set subnode [reg_property_append $subnode [gen_reg_property $name $baseaddr $highaddr]]} {error}]} {
 								debug warning "Warning: Default MBAR handling for unknown IP $name ($type) MEM$x Failed...  It won't show up in the device tree."
 								debug warning $error
@@ -1508,18 +1516,18 @@ proc gener_slave {node slave intc} {
 					set tree [gen_interrupt_property $tree $slave $intc [interrupt_list $slave]]
 				}
 				lappend node $tree
-			} elseif {[parameter_exists $slave "C_MEM0_BASEADDR"]} {
-				set baseaddr [scan_int_parameter_value $slave "C_MEM0_BASEADDR"]
-				set highaddr [scan_int_parameter_value $slave "C_MEM0_HIGHADDR"]
+			} elseif {[parameter_exists $slave [format "%s0_BASEADDR" $mbnstr]]} {
+				set baseaddr [scan_int_parameter_value $slave [format "%s0_BASEADDR" $mbnstr]]
+				set highaddr [scan_int_parameter_value $slave [format "%s0_HIGHADDR" $mbnstr]]
 				if {[catch {set tree [slaveip_basic $slave $intc [default_parameters $slave] [format_ip_name $dtype $baseaddr $name] $compat]} {error}]} {
 					debug warning "Warning: Default slave handling for unknown IP $name ($type) Failed...  It won't show up in the device tree."
 					debug warning $error
 				} else {
 					set subnode [gen_reg_property $name $baseaddr $highaddr]
 					for {set x 1} {$x < 8} {incr x} {
-						if {[parameter_exists $slave [format "C_MEM%i_BASEADDR" $x]]} {
-							set baseaddr [scan_int_parameter_value $slave [format "C_MEM%i_BASEADDR" $x]]
-							set highaddr [scan_int_parameter_value $slave [format "C_MEM%i_HIGHADDR" $x]]
+						if {[parameter_exists $slave [format "%s%i_BASEADDR" $mbnstr $x]]} {
+							set baseaddr [scan_int_parameter_value $slave [format "%s%i_BASEADDR" $mbnstr $x]]
+							set highaddr [scan_int_parameter_value $slave [format "%s%i_HIGHADDR" $mbnstr $x]]
 							if {[catch {set subnode [reg_property_append $subnode [gen_reg_property $name $baseaddr $highaddr]]} {error}]} {
 								debug warning "Warning: Default MBAR handling for unknown IP $name ($type) MEM$x Failed...  It won't show up in the device tree."
 								debug warning $error
