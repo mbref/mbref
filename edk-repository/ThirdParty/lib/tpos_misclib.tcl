@@ -211,6 +211,10 @@ proc string_trimleft_pat {str pat} {
 	return ${str}
 }
 
+# simple helper function to flat a nested list
+# comes from: http://wiki.tcl.tk/440
+proc flatten list {string map {\{ "" \} ""} $list}
+
 #
 # DRC
 #
@@ -1332,7 +1336,7 @@ proc put_uart_cfg_ch {pkg fh osh sioh} {
 	set uhs [get_all_other_uart_handle ${sioh}]
 
 	set retval 0
-	foreach uh [list ${sioh} ${uhs}] {
+	foreach uh [flatten [list ${sioh} ${uhs}]] {
 		# Handle different UARTs differently
 		set uart_type [xget_hw_value ${uh}]
 		switch -exact ${uart_type} {
