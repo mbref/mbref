@@ -1,7 +1,7 @@
 #
 # EDK BSP board generation for device trees supporting Microblaze and PPC
 #
-# (C) Copyright 2007-2008 Xilinx, Inc.
+# (C) Copyright 2007-2012 Xilinx, Inc.
 #
 # Based on original code:
 # (C) Copyright 2007-2011 PetaLogix Qld Pty Ltd
@@ -387,7 +387,7 @@ proc headerc {ufile generator_version} {
 	puts $ufile "/*"
 	puts $ufile " * Device Tree Generator version: $generator_version"
 	puts $ufile " *"
-	puts $ufile " * (C) Copyright 2007-2008 Xilinx, Inc."
+	puts $ufile " * (C) Copyright 2007-2012 Xilinx, Inc."
 	puts $ufile " *"
 	puts $ufile " * Based on original code:"
 	puts $ufile " * (C) Copyright 2007-2011 PetaLogix Qld Pty Ltd"
@@ -564,6 +564,7 @@ proc compound_slave {slave {baseaddrname "C_BASEADDR"}} {
 	set tree [list [format_ip_name $ip_type $baseaddr $ip_name] tree {}]
 	set tree [tree_append $tree [list \#size-cells int 1]]
 	set tree [tree_append $tree [list \#address-cells int 1]]
+	set tree [tree_append $tree [list ranges empty empty]]
 	set tree [tree_append $tree [list compatible stringtuple [list "xlnx,compound"]]]
 	return $tree
 }
@@ -1151,12 +1152,14 @@ proc gener_slave {node slave intc} {
 			set ip_tree [gen_interrupt_property $ip_tree $slave $intc [format "INTERRUPT"]]
 			set ip_name [lindex $ip_tree 0]
 			set ip_node [lindex $ip_tree 2]
+
 			# Generate the common parameters.
 			set ip_node [gen_params $ip_node $slave [list "C_PHY_TYPE" "C_TYPE" "C_PHYADDR" "C_INCLUDE_IO" "C_HALFDUP"]]
 			set ip_node [gen_params $ip_node $slave [list "C_TXMEM" "C_RXMEM" "C_TXCSUM" "C_RXCSUM" "C_MCAST_EXTEND" "C_STATS" "C_AVB"]]
 			set ip_node [gen_params $ip_node $slave [list "C_TXVLAN_TRAN" "C_RXVLAN_TRAN" "C_TXVLAN_TAG" "C_RXVLAN_TAG" "C_TXVLAN_STRP" "C_RXVLAN_STRP"]]
 			set ip_tree [list $ip_name tree $ip_node]
 			set mhs_handle [xget_hw_parent_handle $slave]
+
 			# See what the axi ethernet is connected to.
 			set axiethernet_busif_handle [xget_hw_busif_handle $slave "AXI_STR_TXD"]
 			set axiethernet_name [xget_hw_value $axiethernet_busif_handle]
@@ -1170,6 +1173,165 @@ proc gener_slave {node slave intc} {
 			set ip_tree [tree_append $ip_tree [gen_mdiotree]]
 
 			lappend node $ip_tree
+		}
+		"axi_dma" {
+			set axiethernetfound 0
+			set xdma "axi-dma"
+			set mhs_handle [xget_hw_parent_handle $slave]
+			set axidma_busif_handle [xget_hw_busif_handle $slave "M_AXIS_MM2S"]
+			set axidma_name [xget_hw_value $axidma_busif_handle]
+			set axidma_ip_handle [xget_hw_connected_busifs_handle $mhs_handle $axidma_name "TARGET"]
+			set axidma_ip_handle_name [xget_hw_name $axidma_ip_handle]
+			set connected_ip_handle [xget_hw_parent_handle $axidma_ip_handle]
+			set connected_ip_name [xget_hw_name $connected_ip_handle]
+			set connected_ip_type [xget_hw_value $connected_ip_handle]
+			if {[string compare $connected_ip_type "axi_ethernet"] == 0} {
+				set axiethernetfound 1
+			}
+			if {$axiethernetfound != 1} {
+				set hw_name [xget_hw_name $slave]
+
+				set baseaddr [scan_int_parameter_value $slave "C_BASEADDR"]
+				set highaddr [scan_int_parameter_value $slave "C_HIGHADDR"]
+
+				set mytree [list [format_ip_name "axidma" $baseaddr $hw_name] tree {}]
+
+				set tx_chan [scan_int_parameter_value $slave "C_INCLUDE_MM2S"]
+				if {$tx_chan == 1} {
+					set chantree [dma_channel_config $xdma $baseaddr "MM2S" $intc $slave]
+					set mytree [tree_append $mytree $chantree]
+				}
+
+				set rx_chan [scan_int_parameter_value $slave "C_INCLUDE_S2MM"]
+				if {$rx_chan == 1} {
+					set chantree [dma_channel_config $xdma [expr $baseaddr + 0x30] "S2MM" $intc $slave]
+					set mytree [tree_append $mytree $chantree]
+				}
+
+				set mytree [tree_append $mytree [list \#size-cells int 1]]
+				set mytree [tree_append $mytree [list \#address-cells int 1]]
+				set mytree [tree_append $mytree [list compatible stringtuple [list "xlnx,axi-dma"]]]
+
+				set stsctrl 1
+				set sgdmamode1 1
+				set sgdmamode [xget_hw_parameter_handle $slave "C_INCLUDE_SG"]
+				if {$sgdmamode != ""} {
+					set sgdmamode1 [scan_int_parameter_value $slave "C_INCLUDE_SG"]
+					if {$sgdmamode1 == 0} {
+						set stsctrl 0
+						set mytree [tree_append $mytree [list "xlnx,sg-include-stscntrl-strm" hexint $stsctrl]]
+					} else {
+						set stsctrl [xget_hw_parameter_handle $slave "C_SG_INCLUDE_STSCNTRL_STRM"]
+						if {$stsctrl != ""} {
+							set stsctrl [scan_int_parameter_value $slave "C_SG_INCLUDE_STSCNTRL_STRM"]
+						} else {
+							set stsctrl 0
+						}
+						set mytree [tree_append $mytree [list "xlnx,sg-include-stscntrl-strm" hexint $stsctrl]]
+					}
+				} else {
+					set stsctrl [xget_hw_parameter_handle $slave "C_SG_INCLUDE_STSCNTRL_STRM"]
+					if {$stsctrl != ""} {
+						set stsctrl [scan_int_parameter_value $slave "C_SG_INCLUDE_STSCNTRL_STRM"]
+					} else {
+						set stsctrl 0
+					}
+					set mytree [tree_append $mytree [list "xlnx,sg-include-stscntrl-strm" hexint $stsctrl]]
+				}
+				set mytree [tree_append $mytree [gen_ranges_property $slave $baseaddr $highaddr $baseaddr]]
+				set mytree [tree_append $mytree [gen_reg_property $hw_name $baseaddr $highaddr]]
+
+				lappend node $mytree
+			}
+
+			if {$axiethernetfound == 1} {
+				if {[catch {lappend node [slaveip_intr $slave $intc [interrupt_list $slave] "" [default_parameters $slave] "" ]} {error}]} {
+					debug warning $error
+				}
+			}
+		}
+		"axi_vdma" {
+			set xdma "axi-vdma"
+			set hw_name [xget_hw_name $slave]
+
+			set baseaddr [scan_int_parameter_value $slave "C_BASEADDR"]
+			set highaddr [scan_int_parameter_value $slave "C_HIGHADDR"]
+
+			set mytree [list [format_ip_name "axivdma" $baseaddr $hw_name] tree {}]
+			set tx_chan [scan_int_parameter_value $slave "C_INCLUDE_MM2S"]
+			if {$tx_chan == 1} {
+				set chantree [dma_channel_config $xdma $baseaddr "MM2S" $intc $slave]
+				set mytree [tree_append $mytree $chantree]
+			}
+
+			set rx_chan [scan_int_parameter_value $slave "C_INCLUDE_S2MM"]
+			if {$rx_chan == 1} {
+				set chantree [dma_channel_config $xdma [expr $baseaddr + 0x30] "S2MM" $intc $slave]
+				set mytree [tree_append $mytree $chantree]
+			}
+
+			set mytree [tree_append $mytree [list \#size-cells int 1]]
+			set mytree [tree_append $mytree [list \#address-cells int 1]]
+			set mytree [tree_append $mytree [list compatible stringtuple [list "xlnx,axi-vdma"]]]
+
+			set tmp [xget_hw_parameter_handle $slave "C_INCLUDE_SG"]
+
+			if {$tmp != ""} {
+				set tmp [scan_int_parameter_value $slave "C_INCLUDE_SG"]
+				set mytree [tree_append $mytree [list "xlnx,include-sg" hexint $tmp]]
+			} else {
+				# older core always has SG
+				set mytree [tree_append $mytree [list "xlnx,include-sg" hexint 1]]
+			}
+
+			set tmp [scan_int_parameter_value $slave "C_NUM_FSTORES"]
+			set mytree [tree_append $mytree [list "xlnx,num-fstores" hexint $tmp]]
+			set mytree [tree_append $mytree [gen_ranges_property $slave $baseaddr $highaddr $baseaddr]]
+			set mytree [tree_append $mytree [gen_reg_property $hw_name $baseaddr $highaddr]]
+
+			lappend node $mytree
+		}
+		"axi_cdma" {
+			set hw_name [xget_hw_name $slave]
+
+			set baseaddr [scan_int_parameter_value $slave "C_BASEADDR"]
+			set highaddr [scan_int_parameter_value $slave "C_HIGHADDR"]
+
+			set mytree [list [format_ip_name "axicdma" $baseaddr $hw_name] tree {}]
+			set namestring "dma-channel"
+			set channame [format_name [format "%s@%x" $namestring $baseaddr]]
+
+			set chan {}
+			lappend chan [list compatible stringtuple [list "xlnx,axi-cdma-channel"]]
+			set tmp [scan_int_parameter_value $slave "C_INCLUDE_DRE"]
+			lappend chan [list "xlnx,include-dre" hexint $tmp]
+
+			set tmp [scan_int_parameter_value $slave "C_USE_DATAMOVER_LITE"]
+			lappend chan [list "xlnx,lite-mode" hexint $tmp]
+
+			set tmp [scan_int_parameter_value $slave "C_M_AXI_DATA_WIDTH"]
+			lappend chan [list "xlnx,datawidth" hexint $tmp]
+
+			set tmp [scan_int_parameter_value $slave "C_M_AXI_MAX_BURST_LEN"]
+			lappend chan [list "xlnx,max-burst-len" hexint $tmp]
+
+
+			set chantree [list $channame tree $chan]
+			set chantree [gen_interrupt_property $chantree $slave $intc [list "cdma_introut"]]
+
+			set mytree [tree_append $mytree $chantree]
+
+			set mytree [tree_append $mytree [list \#size-cells int 1]]
+			set mytree [tree_append $mytree [list \#address-cells int 1]]
+			set mytree [tree_append $mytree [list compatible stringtuple [list "xlnx,axi-cdma"]]]
+
+			set tmp [scan_int_parameter_value $slave "C_INCLUDE_SG"]
+			set mytree [tree_append $mytree [list "xlnx,include-sg" hexint $tmp]]
+
+			set mytree [tree_append $mytree [gen_ranges_property $slave $baseaddr $highaddr $baseaddr]]
+			set mytree [tree_append $mytree [gen_reg_property $hw_name $baseaddr $highaddr]]
+
+			lappend node $mytree
 		}
 		"xps_tft" {
 			lappend node [slaveip_dcr_or_plb $slave $intc "tft" [default_parameters $slave]]
@@ -1231,7 +1393,8 @@ proc gener_slave {node slave intc} {
 			lappend node [slaveip_intr $slave $intc [interrupt_list $slave] "i2c" [default_parameters $slave]]
 		}
 		"xps_spi" -
-		"axi_spi" {
+		"axi_spi" -
+		"axi_quad_spi" {
 			# We will handle SPI FLASH here
 			global flash_memory flash_memory_bank
 			set tree [slaveip_intr $slave $intc [interrupt_list $slave] "spi" [default_parameters $slave] "" ]
@@ -1275,6 +1438,7 @@ proc gener_slave {node slave intc} {
 		"mch_opb_sdram" -
 		"axi_s6_ddrx" -
 		"axi_v6_ddrx" -
+		"axi_7series_ddrx" -
 		"ppc440mc_ddr2" {
 			# Do nothing..  this is handled by the 'memory' special case.
 		}
@@ -1305,7 +1469,7 @@ proc gener_slave {node slave intc} {
 				set datawidth [scan_int_parameter_value $slave [format "C_%sWIDTH" $baseaddr_prefix]]
 				set tree [tree_append $tree [list "bank-width" int "[expr ($datawidth/8)]"]]
 
-				# If it is a set as the system Flash memory, change the name of this node to PetaLinux standard system Flash emmory name
+				# If it is a set as the system Flash memory, change the name of this node to Linux standard system Flash emmory name
 				if {[ string match -nocase $name $flash_memory ] && $x == $flash_memory_bank} {
 					set tree [change_nodename $tree $name "primary_flash"]
 				}
@@ -1328,6 +1492,7 @@ proc gener_slave {node slave intc} {
 				# C_MEM$x_TYPE = 0, 1 or 4 indicates the bank handles
 				# SRAM and it should be listed as a memory in
 				# fdt.
+				if { $synch_mem == 2 || $synch_mem == 3 } {
 					set baseaddr_prefix [format "S_AXI_MEM%d_" $x]
 					set tree [slaveip_intr $slave $intc [interrupt_list $slave] "flash" [default_parameters $slave] $baseaddr_prefix "" "cfi-flash"]
 
@@ -1335,12 +1500,13 @@ proc gener_slave {node slave intc} {
 					set datawidth [scan_int_parameter_value $slave [format "C_MEM%d_WIDTH" $x]]
 					set tree [tree_append $tree [list "bank-width" int "[expr ($datawidth/8)]"]]
 
-					# If it is a set as the system Flash memory, change the name of this node to PetaLinux standard system Flash emmory name
+					# If it is a set as the system Flash memory, change the name of this node to Linux standard system Flash emmory name
 					global flash_memory flash_memory_bank
 					if {[ string match -nocase $name $flash_memory ] && $x == $flash_memory_bank} {
 						set tree [change_nodename $tree $name "primary_flash"]
 					}
 					lappend node $tree
+				}
 			}
 		}
 		"mpmc" {
@@ -1447,6 +1613,12 @@ proc gener_slave {node slave intc} {
 			# the best we can do
 			debug warning "WARNING: Cannot automatically populate PCI interrupt-map property - this must be completed manually"
 			lappend node $ip_tree
+		}
+		"axi2axi_connector" {
+			# FIXME: multiple ranges!
+			set baseaddr [scan_int_parameter_value $slave "C_S_AXI_RNG00_BASEADDR"]
+			set tree [bus_bridge $slave $intc $baseaddr "M_AXI"]
+			lappend node $tree
 		}
 		"microblaze" {
 			debug ip "Other Microblaze CPU $name=$type"
@@ -1787,7 +1959,8 @@ proc gen_memories {tree hwproc_handle} {
 				}
 				incr memory_count
 			}
-			"axi_v6_ddrx" {
+			"axi_v6_ddrx" -
+			"axi_7series_ddrx" {
 				lappend tree [memory $slave "S_AXI_" ""]
 				incr memory_count
 			}
@@ -1825,6 +1998,7 @@ proc gen_memories {tree hwproc_handle} {
 					set count 1
 				}
 				for {set x 0} {$x < $count} {incr x} {
+					set synch_mem [scan_int_parameter_value $slave [format "C_MEM%d_TYPE" $x]]
 					# C_MEM$x_TYPE = 2 or 3 indicates the bank handles
 					# a flash device and it should be listed as a
 					# slave in fdt.
@@ -1930,6 +2104,10 @@ proc bus_bridge {slave intc_handle baseaddr face} {
 		debug handles "Bus handle $face connected through a bus..."
 		set bus_type [xget_hw_value $bus_handle]
 		switch $bus_type {
+			"axi_interconnect" {
+				set devicetype "axi"
+				set compatible_list [list "simple-bus"]
+			}
 			"plb_v34" -
 			"plb_v46" {
 				set devicetype "plb"
@@ -1941,10 +2119,6 @@ proc bus_bridge {slave intc_handle baseaddr face} {
 			}
 			"dcr_v29" {
 				set devicetype "dcr"
-				set compatible_list [list "simple-bus"]
-			}
-			"axi_interconnect" {
-				set devicetype "axi"
 				set compatible_list [list "simple-bus"]
 			}
 			default {
@@ -2505,4 +2679,37 @@ proc get_pathname_for_label {tree label {path /}} {
 		}
 	}
 	return ""
+}
+
+proc dma_channel_config {xdma addr mode intc slave} {
+	set modelow [string tolower $mode]
+	set namestring "dma-channel"
+	set channame [format_name [format "%s@%x" $namestring $addr]]
+
+	set chan {}
+	lappend chan [list compatible stringtuple [list [format "xlnx,%s-%s-channel" $xdma $modelow]]]
+	set tmp [scan_int_parameter_value $slave [format "C_INCLUDE_%s_DRE" $mode]]
+	lappend chan [list "xlnx,include-dre" hexint $tmp]
+
+	set tmp [xget_hw_parameter_handle $slave [format "C_%s_AXIS_%s_TDATA_WIDTH" [string index $mode 0] $mode]]
+	if {$tmp != ""} {
+		set tmp [scan_int_parameter_value $slave [format "C_%s_AXIS_%s_TDATA_WIDTH" [string index $mode 0] $mode]]
+		lappend chan [list "xlnx,datawidth" hexint $tmp]
+	}
+
+	set tmp [xget_hw_parameter_handle $slave [format "C_%s_AXIS_%s_DATA_WIDTH" [string index $mode 0] $mode]]
+	if {$tmp != ""} {
+		set tmp [scan_int_parameter_value $slave [format "C_%s_AXIS_%s_DATA_WIDTH" [string index $mode 0] $mode]]
+		lappend chan [list "xlnx,datawidth" hexint $mode]
+	}
+
+	if { [string compare -nocase $xdma "axi-dma"] != 0} {
+		set tmp [scan_int_parameter_value $slave [format "C_%s_GENLOCK_MODE" $mode]]
+		lappend chan [list "xlnx,genlock-mode" hexint $tmp]
+	}
+
+	set chantree [list $channame tree $chan]
+	set chantree [gen_interrupt_property $chantree $slave $intc [list [format "%s_introut" $modelow]]]
+
+	return $chantree
 }
