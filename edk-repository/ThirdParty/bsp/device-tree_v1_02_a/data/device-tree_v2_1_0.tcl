@@ -785,6 +785,8 @@ proc slave_ll_temac_port {slave intc index} {
 	set ip_tree [slaveip_basic $slave $intc "" [format_ip_name "ethernet" $baseaddr]]
 	set ip_tree [tree_append $ip_tree [list "device_type" string "network"]]
 	set ip_tree [gen_macaddr $ip_tree]
+	variable phy_count
+	set ip_tree [tree_append $ip_tree [list "phy-handle" labelref phy$phy_count]]
 
 	set ip_tree [tree_append $ip_tree [gen_reg_property $name $baseaddr $highaddr]]
 	set ip_tree [gen_interrupt_property $ip_tree $slave $intc [format "TemacIntc%d_Irpt" $index]]
@@ -827,6 +829,7 @@ proc slave_ll_temac_port {slave intc index} {
 		# connection. Most likely an xps_ll_fifo
 		set ip_tree [tree_append $ip_tree [list "llink-connected" labelref "$connected_ip_name"]]
 	}
+	set ip_tree [tree_append $ip_tree [gen_mdiotree]]
 	return $ip_tree
 }
 
