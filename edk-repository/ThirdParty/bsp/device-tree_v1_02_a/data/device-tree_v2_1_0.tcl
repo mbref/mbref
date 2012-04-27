@@ -738,9 +738,7 @@ proc slave_s2imac_epc {slave intc} {
 	# 'network' type
 	set ip_tree [slaveip_basic $slave $intc [default_parameters $slave] [format_ip_name "ethernet" $baseaddr $name] "s2i,s2imac-epc"]
 	set ip_tree [tree_append $tree [list "device_type" string "network"]]
-	variable mac_count
-	set ip_tree [tree_append $tree [list "local-mac-address" bytesequence [list 0x00 0x0a 0x35 0x00 0x00 $mac_count]]]
-	incr mac_count
+	set ip_tree [gen_macaddr $ip_tree]
 
 	# epc slot 0..3
 	set subnode [gen_reg_property $name $baseaddr $highaddr]
@@ -786,9 +784,7 @@ proc slave_ll_temac_port {slave intc index} {
 
 	set ip_tree [slaveip_basic $slave $intc "" [format_ip_name "ethernet" $baseaddr]]
 	set ip_tree [tree_append $ip_tree [list "device_type" string "network"]]
-	variable mac_count
-	set ip_tree [tree_append $ip_tree [list "local-mac-address" bytesequence [list 0x00 0x0a 0x35 0x00 0x00 $mac_count]]]
-	incr mac_count
+	set ip_tree [gen_macaddr $ip_tree]
 
 	set ip_tree [tree_append $ip_tree [gen_reg_property $name $baseaddr $highaddr]]
 	set ip_tree [gen_interrupt_property $ip_tree $slave $intc [format "TemacIntc%d_Irpt" $index]]
@@ -1106,9 +1102,7 @@ proc gener_slave {node slave intc} {
 			# 'network' type
 			set ip_tree [slaveip_intr $slave $intc [interrupt_list $slave] "ethernet" [default_parameters $slave]]
 			set ip_tree [tree_append $ip_tree [list "device_type" string "network"]]
-			variable mac_count
-			set ip_tree [tree_append $ip_tree [list "local-mac-address" bytesequence [list 0x00 0x0a 0x35 0x00 0x00 $mac_count]]]
-			incr mac_count
+			set ip_tree [gen_macaddr $ip_tree]
 
 			#if {$type == "xps_ethernetlite" || $type == "axi_ethernetlite"} {
 			#	if {[parameter_exists $slave "C_INCLUDE_MDIO"]} {
@@ -1146,9 +1140,7 @@ proc gener_slave {node slave intc} {
 
 			set ip_tree [slaveip_basic $slave $intc "" [format_ip_name "axi-ethernet" $baseaddr $name]]
 			set ip_tree [tree_append $ip_tree [list "device_type" string "network"]]
-			variable mac_count
-			set ip_tree [tree_append $ip_tree [list "local-mac-address" bytesequence [list 0x00 0x0a 0x35 0x00 0x00 $mac_count]]]
-			incr mac_count
+			set ip_tree [gen_macaddr $ip_tree]
 			variable phy_count
 			set ip_tree [tree_append $ip_tree [list "phy-handle" labelref phy$phy_count]]
 
@@ -2159,6 +2151,19 @@ proc format_ip_name {devicetype baseaddr {label ""}} {
 	} else {
 		return [format "%s: %s" $label $node_name]
 	}
+}
+
+proc gen_macaddr {ip_tree} {
+	variable mac_count
+
+	set seed4 [clock seconds]
+	set seed5 [clock clicks]
+	set mac_rand_b4 [expr $seed4 % 256]
+	set mac_rand_b5 [expr $seed5 % 256]
+	set ip_tree [tree_append $ip_tree [list "local-mac-address" bytesequence [list 0x00 0x0a 0x35 $mac_rand_b4 $mac_rand_b5 $mac_count]]]
+	incr mac_count
+
+	return $ip_tree
 }
 
 proc gen_phytree {} {
