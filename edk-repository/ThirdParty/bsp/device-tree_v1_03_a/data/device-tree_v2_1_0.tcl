@@ -49,7 +49,7 @@ variable phy_count
 #  Package meta
 #
 set pkg_name	"device-tree"
-set pkg_version	"1.02.a"
+set pkg_version	"1.03.a"
 
 #############################################################################
 #   Globals functions
