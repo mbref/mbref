@@ -1104,16 +1104,16 @@ proc gener_slave {node slave intc} {
 			set ip_tree [tree_append $ip_tree [list "device_type" string "network"]]
 			set ip_tree [gen_macaddr $ip_tree]
 
-			#if {$type == "xps_ethernetlite" || $type == "axi_ethernetlite"} {
-			#	if {[parameter_exists $slave "C_INCLUDE_MDIO"]} {
-			#		set has_mdio [scan_int_parameter_value $slave "C_INCLUDE_MDIO"]
-			#		if {$has_mdio == 1} {
-			#			variable phy_count
-			#			set ip_tree [tree_append $ip_tree [list "phy-handle" labelref phy$phy_count]]
-			#			set ip_tree [tree_append $ip_tree [gen_mdiotree]]
-			#		}
-			#	}
-			#}
+			if {$type == "xps_ethernetlite" || $type == "axi_ethernetlite"} {
+				if {[parameter_exists $slave "C_INCLUDE_MDIO"]} {
+					set has_mdio [scan_int_parameter_value $slave "C_INCLUDE_MDIO"]
+					if {$has_mdio == 1} {
+						variable phy_count
+						set ip_tree [tree_append $ip_tree [list "phy-handle" labelref phy$phy_count]]
+						set ip_tree [tree_append $ip_tree [gen_mdiotree]]
+					}
+				}
+			}
 
 			lappend node $ip_tree
 		}
