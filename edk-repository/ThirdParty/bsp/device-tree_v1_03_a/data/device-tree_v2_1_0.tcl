@@ -564,7 +564,6 @@ proc compound_slave {slave {baseaddrname "C_BASEADDR"}} {
 	set tree [list [format_ip_name $ip_type $baseaddr $ip_name] tree {}]
 	set tree [tree_append $tree [list \#size-cells int 1]]
 	set tree [tree_append $tree [list \#address-cells int 1]]
-	set tree [tree_append $tree [list ranges empty empty]]
 	set tree [tree_append $tree [list compatible stringtuple [list "xlnx,compound"]]]
 	return $tree
 }
