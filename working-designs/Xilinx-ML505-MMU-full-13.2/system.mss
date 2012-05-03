@@ -20,7 +20,7 @@ BEGIN OS
  PARAMETER IIC = xps_iic_0
  PARAMETER XLBOOT_BOOT_COUNTER = 3
  PARAMETER XLBOOT_LOCBLOB_OFFSET = 0x1F80000
- PARAMETER LINUX_BOOTARGS = console=ttyS0,115200 root=/dev/mtdblock2 rw rootfstype=jffs2 mtdparts=ae000000.flash:16384k(bpi),4096k(kernel),11776k(rootfs),384k(u-boot-xl)ro,128k(env) debug
+ PARAMETER LINUX_BOOTARGS = console=ttyS0,115200 ubi.mtd=2 root=ubi0:root rootfstype=ubifs rw mtdparts=ae000000.flash:16384k(bpi),4096k(kernel),11776k(rootfs),384k(u-boot-xl)ro,128k(env) debug
  PARAMETER PERIPH_TYPE_OVERRIDES = {hard-reset-gpios xps_gpio_0 0 1} {led heartbeat xps_gpio_3 0 1} {led green-1 xps_gpio_3 1 1} {led green-2 xps_gpio_3 2 1} {led green-3 xps_gpio_3 3 1} {led green-4 xps_gpio_3 4 1} {led green-5 xps_gpio_3 5 1} {led green-6 xps_gpio_3 6 1} {led green-7 xps_gpio_3 7 1}
  PARAMETER GENERIC_UIO_LIST = (mbref_mio_0,mbref_reg_0)
 END
