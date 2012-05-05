@@ -15,6 +15,8 @@
  PARAMETER VERSION = 2.1.0
 
 
+ PORT fpga_0_xps_uart_0_RX_pin = fpga_0_xps_uart_0_RX_pin, DIR = I
+ PORT fpga_0_xps_uart_0_TX_pin = fpga_0_xps_uart_0_TX_pin, DIR = O
  PORT fpga_0_xps_uart_1_RX_pin = fpga_0_xps_uart_1_RX_pin, DIR = I
  PORT fpga_0_xps_uart_1_TX_pin = fpga_0_xps_uart_1_TX_pin, DIR = O
  PORT fpga_0_xps_gpio_3_GPIO_IO_pin = fpga_0_xps_gpio_3_GPIO_IO_pin, DIR = IO, VEC = [0:7]
@@ -63,8 +65,6 @@
  PORT fpga_0_xps_mch_emc_0_Mem_WEN_pin = fpga_0_xps_mch_emc_0_Mem_WEN_pin, DIR = O
  PORT fpga_0_xps_mch_emc_0_Mem_ADV_LDN_pin = fpga_0_xps_mch_emc_0_Mem_ADV_LDN_pin, DIR = O
  PORT fpga_0_xps_mch_emc_0_Mem_DQ_pin = fpga_0_xps_mch_emc_0_Mem_DQ_pin, DIR = IO, VEC = [0:15]
- PORT fpga_0_xps_uart_0_RX_pin = fpga_0_xps_uart_0_RX_pin, DIR = I
- PORT fpga_0_xps_uart_0_TX_pin = fpga_0_xps_uart_0_TX_pin, DIR = O
  PORT fpga_0_clk_1_sys_clk_pin = dcm_clk_s, DIR = I, SIGIS = CLK, CLK_FREQ = 100000000
  PORT fpga_0_rst_1_sys_rst_pin = sys_rst_s, DIR = I, SIGIS = RST, RST_POLARITY = 0
 
@@ -147,6 +147,21 @@ BEGIN bram_block
  PARAMETER HW_VER = 1.00.a
  BUS_INTERFACE PORTA = ilmb_port
  BUS_INTERFACE PORTB = dlmb_port
+END
+
+BEGIN xps_uartlite
+ PARAMETER INSTANCE = xps_uart_0
+ PARAMETER C_BAUDRATE = 115200
+ PARAMETER C_DATA_BITS = 8
+ PARAMETER C_USE_PARITY = 0
+ PARAMETER C_ODD_PARITY = 0
+ PARAMETER HW_VER = 1.02.a
+ PARAMETER C_BASEADDR = 0x89FF0000
+ PARAMETER C_HIGHADDR = 0x89FFFFFF
+ BUS_INTERFACE SPLB = mb_plb
+ PORT RX = fpga_0_xps_uart_0_RX_pin
+ PORT TX = fpga_0_xps_uart_0_TX_pin
+ PORT Interrupt = xps_uart_0_Interrupt
 END
 
 BEGIN xps_uartlite
@@ -344,21 +359,6 @@ BEGIN xps_timer
  PARAMETER C_HIGHADDR = 0x8AEFFFFF
  BUS_INTERFACE SPLB = mb_plb
  PORT Interrupt = xps_timer_0_Interrupt
-END
-
-BEGIN xps_uartlite
- PARAMETER INSTANCE = xps_uart_0
- PARAMETER C_BAUDRATE = 115200
- PARAMETER C_DATA_BITS = 8
- PARAMETER C_USE_PARITY = 0
- PARAMETER C_ODD_PARITY = 0
- PARAMETER HW_VER = 1.02.a
- PARAMETER C_BASEADDR = 0x89FF0000
- PARAMETER C_HIGHADDR = 0x89FFFFFF
- BUS_INTERFACE SPLB = mb_plb
- PORT RX = fpga_0_xps_uart_0_RX_pin
- PORT TX = fpga_0_xps_uart_0_TX_pin
- PORT Interrupt = xps_uart_0_Interrupt
 END
 
 BEGIN clock_generator
