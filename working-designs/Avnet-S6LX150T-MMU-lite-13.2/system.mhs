@@ -19,6 +19,10 @@
  PORT fpga_0_xps_uart_0_TX_pin = fpga_0_xps_uart_0_TX_pin, DIR = O
  PORT fpga_0_xps_uart_1_RX_pin = fpga_0_xps_uart_1_RX_pin, DIR = I
  PORT fpga_0_xps_uart_1_TX_pin = fpga_0_xps_uart_1_TX_pin, DIR = O
+ PORT fpga_0_RTC_Rst_pin = net_vcc, DIR = O
+ PORT fpga_0_RTC_Int_pin = fpga_0_RTC_Int_pin, DIR = I, SIGIS = INTERRUPT, SENSITIVITY = LEVEL_LOW
+ PORT fpga_0_xps_iic_0_Sda_pin = fpga_0_xps_iic_0_Sda_pin, DIR = IO
+ PORT fpga_0_xps_iic_0_Scl_pin = fpga_0_xps_iic_0_Scl_pin, DIR = IO
  PORT fpga_0_xps_gpio_3_GPIO_IO_O_pin = fpga_0_xps_gpio_3_GPIO_IO_O_pin, DIR = O, VEC = [0:7]
  PORT fpga_0_xps_gpio_2_GPIO_IO_I_pin = fpga_0_xps_gpio_2_GPIO_IO_I_pin, DIR = I, VEC = [0:7]
  PORT fpga_0_xps_gpio_1_GPIO_IO_I_pin = fpga_0_xps_gpio_1_GPIO_IO_I_pin, DIR = I, VEC = [0:2]
@@ -377,7 +381,7 @@ BEGIN xps_intc
  PARAMETER C_BASEADDR = 0x8AFF0000
  PARAMETER C_HIGHADDR = 0x8AFFFFFF
  BUS_INTERFACE SPLB = mb_plb
- PORT Intr = mbref_mio_0_IP2INTC_Irpt & mbref_reg_0_IP2INTC_Irpt & xps_uart_1_Interrupt & xps_uart_0_Interrupt & xps_ether_0_IP2INTC_Irpt & xps_timer_0_Interrupt
+ PORT Intr = mbref_mio_0_IP2INTC_Irpt & mbref_reg_0_IP2INTC_Irpt & xps_iic_0_IIC2INTC_Irpt & xps_uart_1_Interrupt & xps_uart_0_Interrupt & xps_ether_0_IP2INTC_Irpt & fpga_0_RTC_Int_pin & xps_timer_0_Interrupt
  PORT Irq = microblaze_0_Interrupt
 END
 
@@ -415,5 +419,16 @@ BEGIN plbv46_mbref_mio
  PARAMETER C_MEM3_HIGHADDR = 0x804131FF
  BUS_INTERFACE SPLB = mb_plb
  PORT IP2INTC_Irpt = mbref_mio_0_IP2INTC_Irpt
+END
+
+BEGIN xps_iic
+ PARAMETER INSTANCE = xps_iic_0
+ PARAMETER HW_VER = 2.03.a
+ PARAMETER C_BASEADDR = 0x80EF0000
+ PARAMETER C_HIGHADDR = 0x80EFFFFF
+ BUS_INTERFACE SPLB = mb_plb
+ PORT Sda = fpga_0_xps_iic_0_Sda_pin
+ PORT Scl = fpga_0_xps_iic_0_Scl_pin
+ PORT IIC2INTC_Irpt = xps_iic_0_IIC2INTC_Irpt
 END
 
