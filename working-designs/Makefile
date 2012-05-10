@@ -54,6 +54,7 @@ $(STATEDIR)/%.clean:
 	@pushd $(*) && \
 	  ./makescr $(2XLENVSCR_$(*)) clean && \
 	  rm -f download.bin && \
+	  rm -f download_*.mcs && \
 	  popd
 
 mkdirs:
