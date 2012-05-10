@@ -219,6 +219,7 @@ BEGIN xps_iic
  BUS_INTERFACE SPLB = mb_plb
  PORT Sda = fpga_0_xps_iic_0_Sda_pin
  PORT Scl = fpga_0_xps_iic_0_Scl_pin
+ PORT IIC2INTC_Irpt = xps_iic_0_IIC2INTC_Irpt
 END
 
 BEGIN mpmc
@@ -444,7 +445,7 @@ BEGIN xps_intc
  PARAMETER C_BASEADDR = 0x8AFF0000
  PARAMETER C_HIGHADDR = 0x8AFFFFFF
  BUS_INTERFACE SPLB = mb_plb
- PORT Intr = mbref_mio_0_IP2INTC_Irpt & mbref_reg_0_IP2INTC_Irpt & xps_sysace_0_SysACE_IRQ & xps_ether_0_TemacIntc0_Irpt & xps_timer_0_Interrupt & xps_uart_1_IP2INTC_Irpt & xps_uart_0_IP2INTC_Irpt & mpmc_0_SDMA2_Rx_IntOut & mpmc_0_SDMA2_Tx_IntOut & fpga_0_xps_ether_0_PHY_MII_INT_pin
+ PORT Intr = mbref_mio_0_IP2INTC_Irpt & mbref_reg_0_IP2INTC_Irpt & xps_iic_0_IIC2INTC_Irpt & xps_uart_1_IP2INTC_Irpt & xps_uart_0_IP2INTC_Irpt & fpga_0_xps_ether_0_PHY_MII_INT_pin & xps_ether_0_TemacIntc0_Irpt & xps_sysace_0_SysACE_IRQ & mpmc_0_SDMA2_Rx_IntOut & mpmc_0_SDMA2_Tx_IntOut & xps_timer_0_Interrupt
  PORT Irq = microblaze_0_Interrupt
 END
 
