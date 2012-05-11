@@ -37,7 +37,7 @@
  PORT fpga_0_axi_v6_ddrx_0_ddr_addr_pin = fpga_0_axi_v6_ddrx_0_ddr_addr_pin, DIR = O, VEC = [12:0]
  PORT fpga_0_axi_sysace_0_SysACE_WEN_pin = fpga_0_axi_sysace_0_SysACE_WEN_pin, DIR = O
  PORT fpga_0_axi_sysace_0_SysACE_OEN_pin = fpga_0_axi_sysace_0_SysACE_OEN_pin, DIR = O
- PORT fpga_0_axi_sysace_0_SysACE_MPIRQ_pin = fpga_0_axi_sysace_0_SysACE_MPIRQ_pin, DIR = I
+ PORT fpga_0_axi_sysace_0_SysACE_MPIRQ_pin = fpga_0_axi_sysace_0_SysACE_MPIRQ_pin, DIR = I, SIGIS = INTERRUPT, SENSITIVITY = LEVEL_HIGH
  PORT fpga_0_axi_sysace_0_SysACE_MPD_pin = fpga_0_axi_sysace_0_SysACE_MPD_pin, DIR = IO, VEC = [7:0]
  PORT fpga_0_axi_sysace_0_SysACE_MPA_pin = fpga_0_axi_sysace_0_SysACE_MPA_pin, DIR = O, VEC = [6:0]
  PORT fpga_0_axi_sysace_0_SysACE_CLK_pin = fpga_0_axi_sysace_0_SysACE_CLK_pin, DIR = I
