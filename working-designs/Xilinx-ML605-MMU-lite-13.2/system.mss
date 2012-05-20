@@ -16,7 +16,7 @@ BEGIN OS
  PARAMETER sysace = xps_sysace_0
  PARAMETER ethernet = xps_ether_0
  PARAMETER gpio = xps_gpio_3
- PARAMETER linux_bootargs = console=ttyUL0,115200 root=/dev/mtdblock2 rw rootfstype=jffs2 mtdparts=ae000000.flash:16384k(bpi),4096k(kernel),11776k(rootfs),384k(u-boot-xl)ro,128k(env) debug
+ PARAMETER linux_bootargs = console=ttyUL0,115200 ubi.mtd=2 root=ubi0:root rootfstype=ubifs rw mtdparts=ae000000.flash:16384k(bpi),4096k(kernel),11776k(rootfs),384k(u-boot-xl)ro,128k(env) debug
  PARAMETER periph_type_overrides = {hard-reset-gpios xps_gpio_0 0 1} {led heartbeat xps_gpio_3 0 1} {led green-1 xps_gpio_3 1 1} {led green-2 xps_gpio_3 2 1} {led green-3 xps_gpio_3 3 1} {led green-4 xps_gpio_3 4 1} {led green-5 xps_gpio_3 5 1} {led green-6 xps_gpio_3 6 1} {led green-7 xps_gpio_3 7 1}
  PARAMETER board_name = ml605
  PARAMETER xlboot_boot_counter = 3
