@@ -1,3 +1,573 @@
+commit e708784c31ab2780d26be8080fd7c5100979111f
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jun 7 22:52:50 2012 +0200
+
+    working-designs: add Avnet-S6LX150T-AXI-full-13.3
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit c4c76e75e4fd75b5e0911978726d5eb4c50b3ef0
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jun 7 22:52:25 2012 +0200
+
+    working-designs: add Avnet-S6LX150T-AXI-lite-13.3
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit eeb03baf8ce350e7b67a5e7fb646623e779a5013
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri May 25 00:25:27 2012 +0200
+
+    'working-designs: add Avnet-S6LX150T-MMU-full-13.3'
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit cf84a4500bd85851d911d3ea7b1fea103d9cdf04
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri May 25 00:25:27 2012 +0200
+
+    'working-designs: add Avnet-S6LX150T-MMU-lite-13.3'
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit f3c4163ccf8309776b0207c9611db91123aa9587
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri May 25 00:25:27 2012 +0200
+
+    'working-designs: add Xilinx-ML505-MMU-full-13.3'
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 5b3587bed181fe36d6e52c383ce8e38f86686a68
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri May 25 00:25:27 2012 +0200
+
+    'working-designs: add Xilinx-ML505-MMU-lite-13.3'
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 47b7afef7efcee9e6b5d093e7a1267b63c54ec23
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri May 25 00:25:26 2012 +0200
+
+    'working-designs: add Xilinx-ML605-AXI-full-13.3'
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit e2a38824c04c934f297a1cff65abd604f2aa620a
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri May 25 00:25:25 2012 +0200
+
+    'working-designs: add Xilinx-ML605-AXI-lite-13.3'
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit bb21829fb4b58d4d7f37fd44ea8e3e73dcb0ccbd
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri May 25 00:25:25 2012 +0200
+
+    'working-designs: add Xilinx-ML605-MMU-full-13.3'
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit a7164135beefb7fd50b950d131f171ef36c79678
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri May 25 00:25:25 2012 +0200
+
+    'working-designs: add Xilinx-ML605-MMU-lite-13.3'
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 01d82a255a23327a99e4ef65d740adee2d6b0912
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri May 25 00:25:25 2012 +0200
+
+    'working-designs: add Xilinx-SP3ADSP1800-MMU-full-13.3'
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 102a8bd328ebc69fca8e26f1aba34b196f2837a9
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri May 25 00:25:24 2012 +0200
+
+    'working-designs: add Xilinx-SP3ADSP1800-MMU-lite-13.3'
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit b85aff89050b44712b8d9d5c9892c243ece6d2b9
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 20 11:02:55 2012 +0200
+
+    Xilinx-ML605 13.2: bootargs: change from JFFS2 to UBIFS
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 83ee462b907fca6bdb918318f9e3d82321be4bac
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 20 11:00:01 2012 +0200
+
+    Xilinx-ML605-AXI-full-13.2: BitGen: StartUpClk to CCLK
+
+    Change the start up clocks from JTAGCLK to CCLK.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 978e4f6af9279c1388542f073a7105a7a07fdb37
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 20 10:58:23 2012 +0200
+
+    working-designs: promgen: correct size and data width
+
+    Some hints for AXI systems:
+    http://forums.xilinx.com/t5/EDK-and-Platform-Studio/Byte-swapping-during-promgen/td-p/186394
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 6af1f4f4745f4efe85dd58a92755dd28eef39adc
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu May 17 09:05:23 2012 +0200
+
+    working-designs: add Avnet-S6LX150T-AXI-full-13.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit fb90cf6a449e28c7625d9ce8697a982e27b12888
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon May 14 21:53:53 2012 +0200
+
+    working-designs: add Avnet-S6LX150T-AXI-lite-13.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit bfeb22077f09e6e3ab6762bd93cf9a9244114e1e
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 13 14:51:24 2012 +0200
+
+    working-designs: add missing etc/download.cmd files
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 99406977724c549c7d9b8a5e367070e93e64b318
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 13 14:45:45 2012 +0200
+
+    mbref: gitignore: exclude mcs files
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 57a6f83a618da0df99888523c5b7cbe95b74ca3b
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 13 14:44:14 2012 +0200
+
+    Avnet-S6LX150T-MMU-full-13.2: change console to ttyS0
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit f77a8b9b534a8856a8ef717911a2e0d4d3f540d4
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun May 13 00:01:39 2012 +0200
+
+    working-designs: add Avnet-S6LX150T-MMU-full-13.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 3370fd4f6c7191cfa4a04e9c38ce6fd73da0e3c1
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri May 11 23:46:05 2012 +0200
+
+    Xilinx-ML605-AXI-full-13.2: add sensitiviy for SysACE MPIRQ
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit d6aa296b56eeeb0b2364f64df5d6e6a10457c4a3
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri May 11 00:56:43 2012 +0200
+
+    Avnet-S6LX150T-MMU-lite-13.2: add I2C bus
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 16b6c9f321830aca1ed5c3d6c9ca412490ec2c87
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu May 10 19:56:32 2012 +0200
+
+    working-designs: correct interrupt priorities for Xilinx designs
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 87e56740c4716040b39c3ca217b057c22e10e1e6
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu May 10 19:54:58 2012 +0200
+
+    working-designs: makefile: add *.mcs cleanup
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit bd14c0305485384a5ea077289754801a0d9256b0
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu May 10 19:53:57 2012 +0200
+
+    working-designs: add Avnet-S6LX150T-MMU-lite-13.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 0e29fc0074e04d3f96d3515bb2c8b6117df60c59
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat May 5 12:06:55 2012 +0200
+
+    Xilinx-ML505-MMU-lite-13.2: bootargs: change from JFFS2 to UBIFS
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 69ea5ce58bcf58e548e1ecad012006777271bcd1
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat May 5 12:06:16 2012 +0200
+
+    Xilinx-ML505-MMU-lite-13.2: reorder UART ports
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit f94766f7da587a3e7cb455145dd847fe5233b598
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu May 3 21:10:37 2012 +0200
+
+    Xilinx-ML505-MMU-full-13.2: bootargs: change from JFFS2 to UBIFS
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 2f0acd4e625f9bf8f58b629ff066241d9a95fa12
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu May 3 21:09:56 2012 +0200
+
+    Xilinx-ML505-MMU-full-13.2: change FPU from EXTENDED to BASIC
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 5dba1d65377878a544fd9f7e04d5bbbe24034c9d
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Apr 28 10:20:33 2012 +0200
+
+    tpos: device-tree: remove double code in compound_slave()
+
+    WRONG, WRONG, WRONG: by last merge with Xilinx code I have
+    insert double code -- add empty ranges. So we get errors:
+
+    DTC: dts->dtb  on file "arch/microblaze/boot/dts/test.dts"
+    ERROR (duplicate_property_names): Duplicate property name ranges in /plb@0/xps-ll-temac@88f00000
+    ERROR: Input tree has errors, aborting (use -f to force output)
+
+    this is a fix
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 30e172a7a32170a8ccc2799b77c3445d682c0ad9
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Apr 27 22:43:08 2012 +0200
+
+    tpos: device-tree: change to version 1.03.a
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit c9f814dcd584a8893a14c0e86ced147ca786c093
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Apr 27 20:28:15 2012 +0200
+
+    tpos: device-tree: merge with Xilinx work
+
+      * add AXI DMA/VDMA/CDMA
+      * add AXI to AXI bridge
+      * expand for AXI Quad SPI
+      * expand for AXI v7 DRAM controller
+      * fix some errors and typos
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit fdfbc4413da33a1878987d31c15c8df041f8f8a3
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Apr 27 19:17:09 2012 +0200
+
+    tpos: device-tree: gen_mdiotree for XPS LL TEMAC
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 05e1dfd08eb86db0bf65ce60e8e7e3aef240497d
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Apr 27 17:58:51 2012 +0200
+
+    tpos: device-tree: gen_mdiotree for xps/AXI Ethernetlite
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 70e66faaab83e71db1d266c3fba06d3ab4e16b0c
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Apr 27 17:45:28 2012 +0200
+
+    tpos: device-tree: add gen_macaddr
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 59b20f755ffdd649ac31ba634265e0456d64f3e5
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Apr 24 17:23:53 2012 +0200
+
+    Xilinx-ML505-MMU-full-13.2: add plbv46_mbref_reg/_mio
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 7e463f22232ae14f90d12d1f7a38a1726dc68b0f
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Apr 24 17:23:37 2012 +0200
+
+    Xilinx-ML505-MMU-lite-13.2: add plbv46_mbref_reg/_mio
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 106f90868b8cc465fc606dc42251d7d73e2eca0f
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Apr 23 09:42:58 2012 +0200
+
+    Xilinx-ML505-MMU-lite-13.2: reduce sysclk to 100 MHz and remove PCIe bridge
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 1646fca489035fe08110ab58e0fcbd0a8b7632c4
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Apr 23 09:28:53 2012 +0200
+
+    working-designs: add Xilinx-ML505-MMU-full-13.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit f1f9c528a13c6dcee096e797c4e5e915a0c44231
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Apr 22 00:16:12 2012 +0200
+
+    working-designs: add Xilinx-ML505-MMU-lite-13.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 5a662f36431094da7bef8769c9d063a8db22fb39
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Apr 21 09:21:42 2012 +0200
+
+    tpos: fix list handling for serial multi support
+
+    There were nested lists of serial IP entities that had
+    have to flatten.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit b47900d43500d22e46d06787eea44422e275d790
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Feb 23 19:50:51 2012 +0100
+
+    working-designs: add Xilinx-ML605-AXI-full-13.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit f015814d60f316b25554aad0dee850cfe5cf000f
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Feb 15 19:44:47 2012 +0100
+
+    working-designs: upgrade Xilinx-ML605-AXI-lite-13.2
+
+      - upgrade clock_generator from 4.01.a to 4.02.a
+      - upgrade microblaze from 8.10.a to 8.20.a
+      - upgrade lmb_v10 from 2.00.a to 2.00.b
+      - upgrade lmb_bram_if_cntlr from 3.00.a to 3.00.b
+      - upgrade axi_interconnect from 1.02.a to 1.03.a
+      - upgrade axi_v6_ddrx from 1.02.a to 1.03.a
+      - upgrade axi_timer from 1.01.a to 1.02.a
+      - upgrade axi_uartlite from 1.01.a to 1.02.a
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 5347af8008b6ad6553a66eb66f1e74df40575082
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Feb 14 23:45:08 2012 +0100
+
+    working-designs: add Xilinx-ML605-AXI-lite-13.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit cf3e5bf0dcd5fb54df46962cb24e668d7a037a79
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Feb 14 23:44:23 2012 +0100
+
+    tpos: device-tree: handle unknown AXI ip cores
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit fc57b9a2bb6523013741cd1b87c3b5d87c3627b0
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Feb 14 21:45:26 2012 +0100
+
+    working-designs: add support for EDK 13.1
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 6457cb60cf4d09df6216e380332fb1a7947f68ea
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Feb 13 22:42:26 2012 +0100
+
+    tpos: axi_mbref_mio: new IP core
+
+    MicroBlaze References simple memory bank for AXI4.
+    This belongs to MicroBlaze References project.
+
+    It still need the software reset register to be
+    compatible to the plbv46_mbref_mio IP core. There
+    is a problem with the Xilinx IP wizzard (createip)
+    in Xilinx EDK 13.1 and 13.2.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit a4e2e804f4eceec0f9714ea043faf0bae9720b3e
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Feb 13 19:17:31 2012 +0100
+
+    tpos: axi_mbref_reg: new IP core
+
+    MicroBlaze References simple register bank for AXI4 Lite.
+    This belongs to MicroBlaze References project.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 07666c56d2d99f4af3836a07343c9de34b09fb5a
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jan 7 00:47:14 2012 +0100
+
+    tpos: remove mistakenly commited swap file
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 6a4c07450666931af61eab6af26bd5a28c020c7f
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jan 7 00:42:47 2012 +0100
+
+    working-designs: use XPS to fetch hw/sw data
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit e1e0167b7e5c5cfc31dddb9ba04bbcf50b49d227
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jan 7 00:35:38 2012 +0100
+
+    Merge with GNU parts of PetaLinux v2.1 (2011.04)
+
+      * device-tree_v1_02_a: improve AXI support, add AXIEMAC
+      * uboot_v4_02_c: improve AXI support, add AXIEMAC
+      * tpos_v1_00_a: add 'mdm' as stdio and 'axi_ethernet'
+      * xl-boot.tcl: fix typos and adapt changes from ISE 13.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 99045acded8d749ad36686b2919a4c378f3c692b
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Jan 4 17:18:56 2012 +0100
+
+    tpos: device-tree: fix typos
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 4680a29518e22e7709917d0c93a195b6c7b1a638
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Jan 4 17:13:44 2012 +0100
+
+    tpos: device-tree: remove how to use
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit b23847b56c2515aa274c67fd7e1f96746758261f
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Jan 4 17:12:22 2012 +0100
+
+    tpos: device-tree: use get_project_folder() for model name
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 22a42a825e8debe0339cac0dfc9e34e84b72772e
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Jan 3 18:58:08 2012 +0100
+
+    tpos: u-boot: reserve upper 2MB of RAM
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 34e3ea1a0a5c1b54d8ff01a74bad9cd5b18dc8a0
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Jan 3 09:43:33 2012 +0100
+
+    working-designs: Xilinx SP3ADSP1800 with new sw driver versions
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 15192364967195702c3cb35c4104d06f0b2f5264
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Jan 2 21:08:44 2012 +0100
+
+    working-designs: add Xilinx-ML605-MMU-lite-13.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit d34862d0421222ee774c98547c2529aca5b76646
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Jan 2 21:08:29 2012 +0100
+
+    working-designs: add Xilinx-ML605-MMU-full-13.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 1f4a12b6bd663511019a295b4ad47a440ce8c8b0
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Dec 27 17:42:23 2011 +0100
+
+    working-designs: add Xilinx-SP3ADSP1800-MMU-lite-13.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 64b23942ff5ccf49f41d255d2bfe2c87fce39c5c
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Dec 27 17:42:05 2011 +0100
+
+    working-designs: add Xilinx-SP3ADSP1800-MMU-full-13.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 619cc9fdcc13aea685bd1f6d91fe9584dd79ce4d
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Dec 27 13:53:11 2011 +0100
+
+    working-designs: adapt buildenv to EDK 13.x
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit d7ee87956e2fd0d64e5f2ef6ca2032b8e6512353
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Dec 27 13:52:23 2011 +0100
+
+    working-designs: ignore PTX export path
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit eaff6fe7d5ddeff60b076a1962f3e3784a6415ac
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Dec 20 16:53:36 2011 +0100
+
+    mbref: correct version for development
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit cdda9d3c861ee5341c0a46b60f7c5462b4ba75c9
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Tue Dec 20 16:41:29 2011 +0100
+
+    Prepare 2011.12
+
+    Update Makefile and CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit e80b47c278e5800ef13fb7728f418cc42a3fc9ff
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Dec 20 16:30:36 2011 +0100
