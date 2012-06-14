@@ -509,7 +509,7 @@ BEGIN xps_intc
  PARAMETER C_BASEADDR = 0x8AFF0000
  PARAMETER C_HIGHADDR = 0x8AFFFFFF
  BUS_INTERFACE SPLB = mb_plb
- PORT Intr = xps_iic_0_IIC2INTC_Irpt & PCIe_Bridge_IP2INTC_Irpt & xps_sysace_0_SysACE_IRQ & xps_ether_0_TemacIntc0_Irpt & xps_timer_0_Interrupt & xps_uart_0_IP2INTC_Irpt & xps_central_dma_0_IP2INTC_Irpt & mpmc_0_SDMA3_Rx_IntOut & mpmc_0_SDMA3_Tx_IntOut
+ PORT Intr = xps_iic_0_IIC2INTC_Irpt & xps_uart_0_IP2INTC_Irpt & xps_ether_0_TemacIntc0_Irpt & xps_sysace_0_SysACE_IRQ & PCIe_Bridge_IP2INTC_Irpt & xps_central_dma_0_IP2INTC_Irpt & mpmc_0_SDMA3_Tx_IntOut & mpmc_0_SDMA3_Rx_IntOut & xps_timer_0_Interrupt
  PORT Irq = microblaze_0_Interrupt
 END
 

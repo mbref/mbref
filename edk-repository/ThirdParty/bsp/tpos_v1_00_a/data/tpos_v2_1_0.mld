@@ -2,7 +2,7 @@
 # EDK BSP generator for third party operating systems
 # supporting Microblaze (and PPC ???)
 #
-# (C) Copyright 2010-2011
+# (C) Copyright 2010-2012
 # Li-Pro.Net <www.li-pro.net>
 # Stephan Linz <linz@li-pro.net>
 #
@@ -55,8 +55,8 @@ BEGIN OS tpos
   BEGIN CATEGORY syscore
     PARAM NAME = syscore, DESC = "TPOS: systems core components", TYPE = bool, DEFAULT = true, PERMIT = none, GUI_PERMIT = none;
     # communication peripherals (UART) on OPB or PLB
-    PARAM NAME = stdin, DESC = "stdin peripheral", TYPE = peripheral_instance, REQUIRES_INTERFACE = stdin, RANGE = (opb_mdm, opb_uartlite, xps_uartlite, axi_uartlite, opb_uart16550, plb_uart16550, xps_uart16550, axi_uart16550), DEFAULT = none;
-    PARAM NAME = stdout, DESC = "stdout peripheral", TYPE = peripheral_instance, REQUIRES_INTERFACE = stdout, RANGE = (opb_mdm, opb_uartlite, xps_uartlite, opb_uart16550, plb_uart16550, xps_uart16550), DEFAULT = none;
+    PARAM NAME = stdin, DESC = "stdin peripheral", TYPE = peripheral_instance, REQUIRES_INTERFACE = stdin, RANGE = (opb_mdm, mdm, opb_uartlite, xps_uartlite, axi_uartlite, opb_uart16550, plb_uart16550, xps_uart16550, axi_uart16550), DEFAULT = none;
+    PARAM NAME = stdout, DESC = "stdout peripheral", TYPE = peripheral_instance, REQUIRES_INTERFACE = stdout, RANGE = (opb_mdm, mdm, opb_uartlite, xps_uartlite, axi_uartlite, opb_uart16550, plb_uart16550, xps_uart16550, axi_uart16550), DEFAULT = none;
     # core peripherals
     PARAM NAME = intc, DESC = "system interrupt controller", TYPE = peripheral_instance, RANGE = (opb_intc, plb_intc, xps_intc, axi_intc), DEFAULT = none;
     PARAM NAME = timer, DESC = "system timer", TYPE = peripheral_instance, RANGE = (opb_timer, plb_timer, xps_timer, axi_timer), DEFAULT = none;
@@ -84,7 +84,7 @@ BEGIN OS tpos
     PARAM NAME = sysio, DESC = "TPOS: systems i/o components", TYPE = bool, DEFAULT = true, PERMIT = none, GUI_PERMIT = none;
     # standard peripherals
     PARAM NAME = sysace, DESC = "sysace interface for CF", TYPE = peripheral_instance, RANGE = (opb_sysace, xps_sysace, axi_sysace), DEFAULT = none;
-    PARAM NAME = ethernet, DESC = "ethernet controller", TYPE = peripheral_instance, RANGE = (opb_ethernet, opb_ethernetlite, xps_ethernetlite, axi_ethernetlite, xps_ethernet, xps_ll_temac, s2imac_epc), DEFAULT = none;
+    PARAM NAME = ethernet, DESC = "ethernet controller", TYPE = peripheral_instance, RANGE = (opb_ethernet, opb_ethernetlite, xps_ethernetlite, axi_ethernetlite, xps_ethernet, axi_ethernet, xps_ll_temac, s2imac_epc), DEFAULT = none;
     PARAM NAME = gpio, DESC = "LED interface controller", TYPE = peripheral_instance, RANGE = (opb_gpio, plb_gpio, xps_gpio, axi_gpio), DEFAULT = none;
     PARAM NAME = iic, DESC = "I2C interface controller", TYPE = peripheral_instance, RANGE = (opb_iic, xps_iic, axi_iic), DEFAULT = none;
     PARAM NAME = spi, DESC = "SPI interface controller", TYPE = peripheral_instance, RANGE = (xps_spi, axi_spi), DEFAULT = none;

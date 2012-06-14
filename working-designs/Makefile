@@ -16,7 +16,7 @@ $(notdir $(subst -,/,$(1)))
 endef
 
 define get_padding
-$(if $(findstring 12,$(1)),/ISE_DS,)
+$(if $(or $(findstring 12,$(1)),$(findstring 13,$(1))),/ISE_DS,)
 endef
 
 define get_xlenvscr
@@ -54,6 +54,7 @@ $(STATEDIR)/%.clean:
 	@pushd $(*) && \
 	  ./makescr $(2XLENVSCR_$(*)) clean && \
 	  rm -f download.bin && \
+	  rm -f download_*.mcs && \
 	  popd
 
 mkdirs:

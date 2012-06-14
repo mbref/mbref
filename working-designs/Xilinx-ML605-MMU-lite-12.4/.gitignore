@@ -7,6 +7,7 @@ synthesis
 hdl
 CF
 SDK
+PTX
 report
 blkdiagram
 fs-boot

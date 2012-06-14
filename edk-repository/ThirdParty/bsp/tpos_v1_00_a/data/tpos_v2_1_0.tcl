@@ -2,7 +2,7 @@
 # EDK BSP generator for third party operating systems
 # supporting Microblaze (and PPC ???)
 #
-# (C) Copyright 2010-2011
+# (C) Copyright 2010-2012
 # Li-Pro.Net <www.li-pro.net>
 # Stephan Linz <linz@li-pro.net>
 #

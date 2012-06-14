@@ -1,6 +1,7 @@
 # Template .gitignore file for project
 *.bak
 *.bin
+*.mcs
 *.log
 *.old
 *.orig
