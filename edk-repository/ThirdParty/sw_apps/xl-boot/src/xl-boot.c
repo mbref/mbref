@@ -59,6 +59,12 @@
 #ifndef XLB_LOCBLOB_OFFSET
 #define XLB_LOCBLOB_OFFSET	0
 #endif
+
+#ifndef XLB_FLASH_START
+#warning "missing XLB_FLASH_START, set to zero (HOT FIX, expand your BSP)"
+#define XLB_FLASH_START		0
+#endif
+
 #define XLB_LOCBLOB_START	(XLB_FLASH_START + XLB_LOCBLOB_OFFSET)
 
 /*
