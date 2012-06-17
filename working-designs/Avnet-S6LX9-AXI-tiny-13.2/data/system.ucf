@@ -1,0 +1,53 @@
+#
+# pin constraints
+#
+NET fpga_0_axi_ether_0_PHY_col LOC = "M18"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_ether_0_PHY_crs LOC = "N17"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_ether_0_PHY_MDC LOC = "M16"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_ether_0_PHY_MDIO LOC = "L18"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_ether_0_PHY_rst_n LOC = "T18"  |  IOSTANDARD = "LVCMOS33"  |  TIG;
+NET fpga_0_axi_ether_0_PHY_rx_data[0] LOC = "T17"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_ether_0_PHY_rx_data[1] LOC = "N16"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_ether_0_PHY_rx_data[2] LOC = "N15"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_ether_0_PHY_rx_data[3] LOC = "P18"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_ether_0_PHY_rx_clk LOC = "L15"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_ether_0_PHY_dv LOC = "P17"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_ether_0_PHY_rx_er LOC = "N18"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_ether_0_PHY_tx_data[0] LOC = "K18"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_ether_0_PHY_tx_data[1] LOC = "K17"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_ether_0_PHY_tx_data[2] LOC = "J18"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_ether_0_PHY_tx_data[3] LOC = "J16"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_ether_0_PHY_tx_clk LOC = "H17"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_ether_0_PHY_tx_en LOC = "L17"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_gpio_3_GPIO_IO_pin[0] LOC = "P4"  |  IOSTANDARD = "LVCMOS18";
+NET fpga_0_axi_gpio_3_GPIO_IO_pin[1] LOC = "L6"  |  IOSTANDARD = "LVCMOS18";
+NET fpga_0_axi_gpio_3_GPIO_IO_pin[2] LOC = "F5"  |  IOSTANDARD = "LVCMOS18";
+NET fpga_0_axi_gpio_3_GPIO_IO_pin[3] LOC = "C2"  |  IOSTANDARD = "LVCMOS18";
+NET fpga_0_axi_spi_0_HOLDn_pin LOC = "V14"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_spi_0_MISO_pin LOC = "R13"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_spi_0_MOSI_pin LOC = "T13"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_spi_0_SCK_pin LOC = "R15"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_spi_0_SS_pin LOC = "V3"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_spi_0_Wn_pin LOC = "T14"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_uart_0_RX_pin LOC = "R7"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_axi_uart_0_TX_pin LOC = "T7"  |  IOSTANDARD = "LVCMOS33";
+NET fpga_0_rst_1_sys_rst_pin LOC = "V4"  |  IOSTANDARD = "LVCMOS33"  |  TIG  |  PULLDOWN;
+NET fpga_0_clk_1_sys_clk_pin LOC = "K15"  |  IOSTANDARD = "LVCMOS33";
+#
+# additional constraints
+#
+
+NET "fpga_0_clk_1_sys_clk_pin" TNM_NET = sys_clk_pin;
+TIMESPEC TS_sys_clk_pin = PERIOD sys_clk_pin 66666 kHz;
+
+### Set Vccaux for S6LX9 MicroBoard to 3.3V ###
+CONFIG VCCAUX = "3.3" ;
+
+### Pull-ups on RXD are necessary to set the PHY AD to 11110b.  ###
+###   Must keep the PHY from defaulting to PHY AD = 00000b      ###
+###   because this is Isolate Mode                              ###
+Net fpga_0_axi_ether_0_PHY_rx_data<0> PULLUP;
+Net fpga_0_axi_ether_0_PHY_rx_data<1> PULLUP;
+Net fpga_0_axi_ether_0_PHY_rx_data<2> PULLUP;
+Net fpga_0_axi_ether_0_PHY_rx_data<3> PULLUP;
+
