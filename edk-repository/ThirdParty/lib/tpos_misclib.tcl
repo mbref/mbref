@@ -2430,7 +2430,13 @@ proc get_system_bus {} {
 		debug cpu "CPU: System bus for instruction and data ${dbusif_name}"
 		return ${dbusif_name}
 	} else {
-		error "ERROR: Different microblaze architecture - dual busses: ${ibusif_name} ${dbusif_name}"
+		if { [string compare -nocase $ibusif_name ""] == 0 } {
+			debug cpu "CPU: found tiny design, instruction only cachable"
+			debug cpu "CPU: System bus for data only ${dbusif_name}"
+			return ${dbusif_name}
+		} else {
+			error "ERROR: Different microblaze architecture - dual busses: ${ibusif_name} ${dbusif_name}"
+		}
 	}
 }
 

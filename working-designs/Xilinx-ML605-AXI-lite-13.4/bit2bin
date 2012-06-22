@@ -1,0 +1,5 @@
+#!/bin/sh
+
+promgen -w -p bin -c FF -o download.bin -s 65536 -u 0 implementation/download.bit -bpi_dc parallel -data_width 16
+rm -f download.cfi download.prm
+
