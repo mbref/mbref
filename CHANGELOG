@@ -1,3 +1,125 @@
+commit e32606b06ab067fe933fa8f56ff69b996ddb8429
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jun 17 15:42:54 2012 +0200
+
+    working-designs: Avnet-S6LX9-AXI-tiny-13.2
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit e54849a24d5285a89040971c3fa9daf75f6c9523
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jun 17 15:41:09 2012 +0200
+
+    tpos: xl-boot: hot fix to support designs w/o flash setup
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 83bfb81aeecb779c24b30ee2cbb133cdc35bbc11
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jun 17 15:39:30 2012 +0200
+
+    tpos: support tiny designs
+
+    In some circumstances to save slices consumption the
+    FPGA designer needs to remove the capability for fetching
+    instructions directly from RAM (remove M_AXI_IP bus
+    parameter from microblaze IP configuration).
+
+    This case will be handled as a so named "tiny" design.
+    TPOS relax and pay attention to the data bus only.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit d9aff7eb5f3210f442d1b24f9531089acd518aa3
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jun 17 15:29:54 2012 +0200
+
+    working-designs: Avnet-S6LX150T-AXI-full-13.4
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 9bc9d6e737ea49222b1790ad144b03c28252e338
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jun 17 15:29:44 2012 +0200
+
+    working-designs: Avnet-S6LX150T-AXI-lite-13.4
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit cdc812c8527a696487480e8599fbcf100b564db2
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jun 17 15:29:26 2012 +0200
+
+    working-designs: Avnet-S6LX150T-MMU-full-13.4
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 17da5ba88205c8aca8150aa9200bf816ff203a00
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jun 17 15:29:15 2012 +0200
+
+    working-designs: Avnet-S6LX150T-MMU-lite-13.4
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 6668675933b207f040f8a3697d9d726d393350a0
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jun 17 15:28:19 2012 +0200
+
+    working-designs: Xilinx-ML505-MMU-full-13.4
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 62daeabbb7bf5853a15a99f7434c5eebc9ce07f1
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jun 17 15:28:08 2012 +0200
+
+    working-designs: Xilinx-ML505-MMU-lite-13.4
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 54cfdbebfc1c0ec6d8471ca1b12a88cd75854798
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jun 17 15:27:40 2012 +0200
+
+    working-designs: Xilinx-ML605-AXI-full-13.4
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 1c5ead7b6f6179608abb28ee7415f2354a1a3322
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jun 17 15:27:05 2012 +0200
+
+    working-designs: Xilinx-ML605-AXI-lite-13.4
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 555431fafb266ae4da2df5bbfdb263a2571529ec
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jun 17 15:26:45 2012 +0200
+
+    working-designs: Xilinx-ML605-MMU-full-13.4
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit edeb1549113ceb880094890468c689ad221b9b4b
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jun 17 15:26:03 2012 +0200
+
+    working-designs: Xilinx-ML605-MMU-lite-13.4
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 4c5c379624bde8cd9c6445757a2702075ac7ce58
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jun 14 20:38:54 2012 +0200
+
+    Prepare 2012.06-rc1
+
+    Update Makefile and CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit e708784c31ab2780d26be8080fd7c5100979111f
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Jun 7 22:52:50 2012 +0200
