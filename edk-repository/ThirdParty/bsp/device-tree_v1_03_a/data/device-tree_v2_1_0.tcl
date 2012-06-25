@@ -120,6 +120,8 @@ proc generate {os_handle} {
 	set flash_memory [xget_sw_parameter_value $os_handle "flash_memory"]
 	global flash_memory_bank
 	set flash_memory_bank [xget_sw_parameter_value $os_handle "flash_memory_bank"]
+	global flash_memory_sfchip
+	set flash_memory_sfchip [xget_sw_parameter_value $os_handle "flash_memory_sfchip"]
 	global timer
 	set timer [xget_sw_parameter_value $os_handle "timer"]
 
@@ -1395,7 +1397,7 @@ proc gener_slave {node slave intc} {
 		"axi_spi" -
 		"axi_quad_spi" {
 			# We will handle SPI FLASH here
-			global flash_memory flash_memory_bank
+			global flash_memory flash_memory_bank flash_memory_sfchip
 			set tree [slaveip_intr $slave $intc [interrupt_list $slave] "spi" [default_parameters $slave] "" ]
 
 			if {[string match -nocase $flash_memory $name]} {
@@ -1416,6 +1418,13 @@ proc gener_slave {node slave intc} {
 				set sck_ratio [scan_int_parameter_value $slave "C_SCK_RATIO"]
 				set sck [expr { $sys_clk / $sck_ratio }]
 				lappend subnode [list [format_name "spi-max-frequency"] int $sck]
+				# Set the SPI Flash chip compatible entry
+				switch -exact ${flash_memory_sfchip} {
+					"SF_N25Q128" {
+						lappend subnode [list [format_name "compatible"] string "micron,n25q128"]
+					}
+					default {}
+				}
 				set tree [tree_append $tree [list [format_ip_name $type $flash_memory_bank "primary_flash"] tree $subnode]]
 			}
 			lappend node $tree

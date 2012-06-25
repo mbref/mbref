@@ -44,7 +44,8 @@ set put_cfg_procs(xlboot) {
 }
 set put_cfg_procs(uboot) {
 	put_timer_cfg	put_sysmem_cfg	put_normem_cfg	put_uart_cfg
-	put_iic_cfg	put_gpio_cfg	put_sysace_cfg	put_ethmac_cfg
+	put_iic_cfg	put_spi_cfg	put_gpio_cfg	put_sysace_cfg
+	put_ethmac_cfg
 }
 set put_cfg_procs(linux) {
 	put_timer_cfg	put_sysmem_cfg	put_normem_cfg
@@ -282,6 +283,12 @@ proc tpos_check_design {osh} {
 			"xps_spi" -
 			"axi_spi" {
 				debug info "INFO: Serial SPI Flash memory specified."
+				set flash_transferbits [xget_sw_parameter_value ${normem_handle} C_NUM_TRANSFER_BITS]
+				if {$flash_transferbits != 8} {
+					error "ERROR: Unsupported number of transferbits (${flash_transferbits} bits)."
+				} else {
+					debug info "      number of transferbits: ${flash_transferbits} bits"
+				}
 			}
 			"xps_mch_emc" -
 			"axi_emc" {
@@ -1163,9 +1170,14 @@ proc put_normem_cfg_ch {pkg fh osh nh} {
 			array set define {
 				Start		CONFIG_XILINX_FLASH_START
 				Size		CONFIG_XILINX_FLASH_SIZE
-				SPIStart	CONFIG_XILINX_SPI_FLASH_BASEADDR
+				SPIBase		CONFIG_XILINX_SPI_FLASH_BASEADDR
 				SPIClock	CONFIG_XILINX_SPI_FLASH_MAX_FREQ
 				SPICS		CONFIG_XILINX_SPI_FLASH_CS
+				SPISSBits	CONFIG_XILINX_SPI_FLASH_SSBITS
+				SPITransferBits	CONFIG_XILINX_SPI_FLASH_TRANSFERBITS
+				SPIFifoExist	CONFIG_XILINX_SPI_FLASH_FIFO
+				SPISize		CONFIG_XILINX_SPI_FLASH_SIZE
+				SPISectSize	CONFIG_XILINX_SPI_FLASH_SECTSIZE
 			}
 		}
 		"xlboot" {
@@ -1173,6 +1185,14 @@ proc put_normem_cfg_ch {pkg fh osh nh} {
 			array set define {
 				Start		XLB_FLASH_START
 				Size		XLB_FLASH_SIZE
+				SPIBase		XLB_SPI_FLASH_BASEADDR
+				SPIClock	XLB_SPI_FLASH_MAX_FREQ
+				SPICS		XLB_SPI_FLASH_CS
+				SPISSBits	XLB_SPI_FLASH_SSBITS
+				SPITransferBits	XLB_SPI_FLASH_TRANSFERBITS
+				SPIFifoExist	XLB_SPI_FLASH_FIFO
+				SPISize		XLB_SPI_FLASH_SIZE
+				SPISectSize	XLB_SPI_FLASH_SECTSIZE
 			}
 		}
 		"uboot" {
@@ -1180,9 +1200,14 @@ proc put_normem_cfg_ch {pkg fh osh nh} {
 			array set define {
 				Start		XILINX_FLASH_START
 				Size		XILINX_FLASH_SIZE
-				SPIStart	XILINX_SPI_FLASH_BASEADDR
+				SPIBase		XILINX_SPI_FLASH_BASEADDR
 				SPIClock	XILINX_SPI_FLASH_MAX_FREQ
 				SPICS		XILINX_SPI_FLASH_CS
+				SPISSBits	XILINX_SPI_FLASH_SSBITS
+				SPITransferBits	XILINX_SPI_FLASH_TRANSFERBITS
+				SPIFifoExist	XILINX_SPI_FLASH_FIFO
+				SPISize		XILINX_SPI_FLASH_SIZE
+				SPISectSize	XILINX_SPI_FLASH_SECTSIZE
 			}
 		}
 		"linux-24" {
@@ -1216,9 +1241,27 @@ proc put_normem_cfg_ch {pkg fh osh nh} {
 			}
 			set flash_sck_ratio [xget_sw_parameter_value ${nh} C_SCK_RATIO]
 			set flash_clk [expr { ${flash_sys_clk} / ${flash_sck_ratio} }]
+			set flash_ssbits [xget_sw_parameter_value ${nh} C_NUM_SS_BITS]
+			set flash_transferbits [xget_sw_parameter_value ${nh} C_NUM_TRANSFER_BITS]
+			set flash_fifoexist [xget_sw_parameter_value ${nh} C_FIFO_EXIST]
 
-			# SPI Flash memory address and size (if need)
-			set arg_name SPIStart
+			# SPI Flash memory size and sector size by given chip
+			set flash_memory_sfchip [xget_sw_parameter_value ${osh} "flash_memory_sfchip"]
+			switch -exact ${flash_memory_sfchip} {
+				"SF_N25Q128" {
+					set flash_size  [format "0x%08x" [expr { 16 * 1024 * 1024 }]]
+					set flash_ssize [format "0x%08x" [expr { 64 * 1024 }]]
+				}
+				default {
+					debug warning "WARNING: SPI Flash memory chip not specified."
+					debug warning "         Please specify flash_memory_sfchip in projects MSS."
+					set flash_size 0
+					set flash_ssize 0
+				}
+			}
+
+			# SPI Flash memory values
+			set arg_name SPIBase
 			if {[array name define ${arg_name}] == ${arg_name}} {
 				set des_name [format "_d_${arg_name}"]
 				if {[array name define ${des_name}] == ${des_name}} {
@@ -1243,6 +1286,53 @@ proc put_normem_cfg_ch {pkg fh osh nh} {
 					put_cfg_int ${fh} $define($arg_name) ${normem_bank} $define($des_name)
 				} else {
 					put_cfg_int ${fh} $define($arg_name) ${normem_bank}
+				}
+			}
+			set arg_name SPISSBits
+			if {[array name define ${arg_name}] == ${arg_name}} {
+				set des_name [format "_d_${arg_name}"]
+				if {[array name define ${des_name}] == ${des_name}} {
+					put_cfg_int ${fh} $define($arg_name) ${flash_ssbits} $define($des_name)
+				} else {
+					put_cfg_int ${fh} $define($arg_name) ${flash_ssbits}
+				}
+			}
+			set arg_name SPITransferBits
+			if {[array name define ${arg_name}] == ${arg_name}} {
+				set des_name [format "_d_${arg_name}"]
+				if {[array name define ${des_name}] == ${des_name}} {
+					put_cfg_int ${fh} $define($arg_name) ${flash_transferbits} $define($des_name)
+				} else {
+					put_cfg_int ${fh} $define($arg_name) ${flash_transferbits}
+				}
+			}
+			set arg_name SPIFifoExist
+			if { ${flash_fifoexist} == 1 } {
+				if {[array name define ${arg_name}] == ${arg_name}} {
+					set des_name [format "_d_${arg_name}"]
+					if {[array name define ${des_name}] == ${des_name}} {
+						put_cfg_int ${fh} $define($arg_name) ${flash_fifoexist} $define($des_name)
+					} else {
+						put_cfg_int ${fh} $define($arg_name) ${flash_fifoexist}
+					}
+				}
+			}
+			set arg_name SPISize
+			if {[array name define ${arg_name}] == ${arg_name}} {
+				set des_name [format "_d_${arg_name}"]
+				if {[array name define ${des_name}] == ${des_name}} {
+					put_cfg_int ${fh} $define($arg_name) ${flash_size} $define($des_name)
+				} else {
+					put_cfg_int ${fh} $define($arg_name) ${flash_size}
+				}
+			}
+			set arg_name SPISectSize
+			if {[array name define ${arg_name}] == ${arg_name}} {
+				set des_name [format "_d_${arg_name}"]
+				if {[array name define ${des_name}] == ${des_name}} {
+					put_cfg_int ${fh} $define($arg_name) ${flash_ssize} $define($des_name)
+				} else {
+					put_cfg_int ${fh} $define($arg_name) ${flash_ssize}
 				}
 			}
 		}
@@ -1672,6 +1762,100 @@ proc put_iic_cfg_ch {pkg fh osh ih} {
 }
 
 proc put_iic_cfg_mk {pkg fh osh ih} {
+	#
+	# nothing to do here (not yet)
+	#
+	return 1
+}
+
+#
+# SPI controller
+#
+namespace export put_spi_cfg
+proc put_spi_cfg {pkg fh osh} {
+	set spi [xget_sw_parameter_value ${osh} "spi"]
+	if {[string match "" ${spi}] || [string match -nocase "none" ${spi}]} {
+		put_info ${fh} "SPI controller not defined"
+		put_blank_line ${fh}
+		return 0
+	}
+
+	# get spi handle per name from processor
+	set spi_handle [xget_sw_ipinst_handle_from_processor [xget_libgen_proc_handle] ${spi}]
+
+	set ft [get_file_type ${fh}]
+	switch -exact ${ft} {
+		"ch" { return [put_spi_cfg_ch ${pkg} ${fh} ${osh} ${spi_handle}] }
+		"mk" { return [put_spi_cfg_mk ${pkg} ${fh} ${osh} ${spi_handle}] }
+		default {
+			error "ERROR: This type of file is not supported yet: ${ft}"
+		}
+	}
+	return 1
+}
+
+proc put_spi_cfg_ch {pkg fh osh sh} {
+	switch -exact ${pkg} {
+		"uboot" {
+			#	HIGHADDR	XILINX_SPI_HIGHADDR
+			#	IP2INTC_Irpt	XILINX_SPI_IRQ
+			array set define {
+				Enable		XILINX_SPI
+				SCK_RATIO	XILINX_SPI_MAX_FREQ
+				BASEADDR	XILINX_SPI_BASEADDR
+				FIFO_EXIST	XILINX_SPI_FIFO
+				NUM_SS_BITS	XILINX_SPI_SSBITS
+				NUM_TRANSFER_BITS XILINX_SPI_TRANSFERBITS
+			}
+		}
+		default { array set define {} }
+	}
+
+	# fast exit without any error if define array is empty
+	if {![array size define]} { return 1 }
+
+	put_info ${fh} "SPI controller is [xget_hw_name ${sh}]"
+	set arg_name Enable
+	if {[array name define ${arg_name}] == ${arg_name}} {
+		put_cfg_ena ${fh} $define($arg_name)
+	}
+
+	# SPI pheriphery values
+	set args [xget_sw_parameter_handle ${sh} "*"]
+	foreach arg ${args} {
+		set arg_name [xget_value ${arg} "NAME"]
+		set arg_name [string_trimleft_pat ${arg_name} C_]
+		set arg_value [xget_value ${arg} "VALUE"]
+		switch -exact ${arg_name} {
+			"SCK_RATIO" {
+				set arg_value [expr { [get_clock_val ${sh}] / ${arg_value} }]
+			}
+			"FIFO_EXIST" {
+				if { ${arg_value} != 1 } {
+					continue
+				}
+			}
+			default { }
+		}
+		if {[array name define ${arg_name}] == ${arg_name}} {
+			put_cfg ${fh} $define($arg_name) ${arg_value}
+		}
+	}
+
+	# Interrupt source number
+	set arg_name IIC2INTC_Irpt
+	set arg_value [get_intr ${sh} ${arg_name}]
+	if { ${arg_value} >= 0 } {
+		if {[array name define ${arg_name}] == ${arg_name}} {
+			put_cfg_int ${fh} $define($arg_name) ${arg_value}
+		}
+	}
+
+	put_blank_line ${fh}
+	return 1
+}
+
+proc put_spi_cfg_mk {pkg fh osh sh} {
 	#
 	# nothing to do here (not yet)
 	#
