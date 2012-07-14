@@ -25,11 +25,9 @@ Xilinx EDK and SDK.
 
 Status
 
-In general, all designes in directory "reference-designs" have been
-tested in a manner to the best knowledge and belief. Designs in
-directory "working-designs" are designs with working in progress.
-From time to time there are releases from "working-designs" in
-"reference-designs" by copying.
+In general, all designes in directory "working-designs" are designs
+with working in progress. I try to hold the content in a ready to
+use state with every commit.
 
 where to get help:
   - German home page: http://www.li-pro.de/xilinx_mb/mbref/start

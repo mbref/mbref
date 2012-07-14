@@ -1,4 +1,4 @@
-commit 81ed355c1184312e61b20b753d043772c66cc667
+commit 5a0d729a51a81f3c62e909baef764a4f3e838a3d
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Jun 29 18:25:22 2012 +0200
 
@@ -8,7 +8,7 @@ Date:	Fri Jun 29 18:25:22 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 7aea0e9febc2df913431d60416822cf5b348c1bb
+commit 027967f79d75ebb6a23481dcd47c9d1a14853382
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Jun 22 21:15:22 2012 +0200
 
@@ -18,7 +18,7 @@ Date:	Fri Jun 22 21:15:22 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit e32606b06ab067fe933fa8f56ff69b996ddb8429
+commit 06a2c1f9ced382fbd0a3f93e89bcfb0019a73ac9
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jun 17 15:42:54 2012 +0200
 
@@ -26,7 +26,7 @@ Date:	Sun Jun 17 15:42:54 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit e54849a24d5285a89040971c3fa9daf75f6c9523
+commit dd6c3b271359ddc7dba3340b781f1795d23a5d02
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jun 17 15:41:09 2012 +0200
 
@@ -34,7 +34,7 @@ Date:	Sun Jun 17 15:41:09 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 83bfb81aeecb779c24b30ee2cbb133cdc35bbc11
+commit e90ccdb1672645852564f81f04901d5635cfd7ce
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jun 17 15:39:30 2012 +0200
 
@@ -50,7 +50,7 @@ Date:	Sun Jun 17 15:39:30 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit d9aff7eb5f3210f442d1b24f9531089acd518aa3
+commit 38d2c525f6f02f42d51d91451fd2cb7e63ded044
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jun 17 15:29:54 2012 +0200
 
@@ -58,7 +58,7 @@ Date:	Sun Jun 17 15:29:54 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 9bc9d6e737ea49222b1790ad144b03c28252e338
+commit e7785bebdcb868da93831f8c69da94c2bb47d3d0
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jun 17 15:29:44 2012 +0200
 
@@ -66,7 +66,7 @@ Date:	Sun Jun 17 15:29:44 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit cdc812c8527a696487480e8599fbcf100b564db2
+commit ea5d563594cc9fd55ec81bd350009ff722a718c7
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jun 17 15:29:26 2012 +0200
 
@@ -74,7 +74,7 @@ Date:	Sun Jun 17 15:29:26 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 17da5ba88205c8aca8150aa9200bf816ff203a00
+commit cb199887579e2ac7c5091f8f158203710776f936
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jun 17 15:29:15 2012 +0200
 
@@ -82,7 +82,7 @@ Date:	Sun Jun 17 15:29:15 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 6668675933b207f040f8a3697d9d726d393350a0
+commit 2f59d74d0d8df7a4eb844ad25f55ed2254d8c738
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jun 17 15:28:19 2012 +0200
 
@@ -90,7 +90,7 @@ Date:	Sun Jun 17 15:28:19 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 62daeabbb7bf5853a15a99f7434c5eebc9ce07f1
+commit 06fcc249385d5113ef9bde62c7d72f531b90604e
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jun 17 15:28:08 2012 +0200
 
@@ -98,7 +98,7 @@ Date:	Sun Jun 17 15:28:08 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 54cfdbebfc1c0ec6d8471ca1b12a88cd75854798
+commit d7bca13f53a18a94e744cc5d30a9162296cf68f2
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jun 17 15:27:40 2012 +0200
 
@@ -106,7 +106,7 @@ Date:	Sun Jun 17 15:27:40 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 1c5ead7b6f6179608abb28ee7415f2354a1a3322
+commit 20d6b80796f53ecb865b78b77ee9cc8457331891
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jun 17 15:27:05 2012 +0200
 
@@ -114,7 +114,7 @@ Date:	Sun Jun 17 15:27:05 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 555431fafb266ae4da2df5bbfdb263a2571529ec
+commit 4b09f0b345a7ce2d7271f05d1f6315994a37a1d1
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jun 17 15:26:45 2012 +0200
 
@@ -122,7 +122,7 @@ Date:	Sun Jun 17 15:26:45 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit edeb1549113ceb880094890468c689ad221b9b4b
+commit 197d10be2e70b09ef72533fdf3b6e9dbbcaa0a45
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jun 17 15:26:03 2012 +0200
 
@@ -130,7 +130,7 @@ Date:	Sun Jun 17 15:26:03 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 4c5c379624bde8cd9c6445757a2702075ac7ce58
+commit 92c000e1cedbd4f2224588650a987c204d0fab4c
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Jun 14 20:38:54 2012 +0200
 
@@ -140,7 +140,7 @@ Date:	Thu Jun 14 20:38:54 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit e708784c31ab2780d26be8080fd7c5100979111f
+commit e3986fc97e1f128ad385f6d54d920260d5ab5540
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Jun 7 22:52:50 2012 +0200
 
@@ -148,7 +148,7 @@ Date:	Thu Jun 7 22:52:50 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit c4c76e75e4fd75b5e0911978726d5eb4c50b3ef0
+commit 7b56f612d93991c90a0481660578d39c0dc59786
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Jun 7 22:52:25 2012 +0200
 
@@ -156,7 +156,7 @@ Date:	Thu Jun 7 22:52:25 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit eeb03baf8ce350e7b67a5e7fb646623e779a5013
+commit 3fee307aae4423086e4584fc215580e39ded9a6b
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri May 25 00:25:27 2012 +0200
 
@@ -164,7 +164,7 @@ Date:	Fri May 25 00:25:27 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit cf84a4500bd85851d911d3ea7b1fea103d9cdf04
+commit 8cf770ba0204eee9d6a5440689cc3b83408b42b6
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri May 25 00:25:27 2012 +0200
 
@@ -172,7 +172,7 @@ Date:	Fri May 25 00:25:27 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit f3c4163ccf8309776b0207c9611db91123aa9587
+commit 3878511e7fc8cc463a05cccdff57df4d5570b540
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri May 25 00:25:27 2012 +0200
 
@@ -180,7 +180,7 @@ Date:	Fri May 25 00:25:27 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 5b3587bed181fe36d6e52c383ce8e38f86686a68
+commit b58e58341fde199dd98d3adbe208238d7ef19aa8
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri May 25 00:25:27 2012 +0200
 
@@ -188,7 +188,7 @@ Date:	Fri May 25 00:25:27 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 47b7afef7efcee9e6b5d093e7a1267b63c54ec23
+commit 991932b03482ddf2b2250f156b162099403f33a7
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri May 25 00:25:26 2012 +0200
 
@@ -196,7 +196,7 @@ Date:	Fri May 25 00:25:26 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit e2a38824c04c934f297a1cff65abd604f2aa620a
+commit 0315d9bf572fd8692b106c091403ef95c36ee90e
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri May 25 00:25:25 2012 +0200
 
@@ -204,7 +204,7 @@ Date:	Fri May 25 00:25:25 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit bb21829fb4b58d4d7f37fd44ea8e3e73dcb0ccbd
+commit 5a290b0ccf58716134e40e7803012d67c9e82703
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri May 25 00:25:25 2012 +0200
 
@@ -212,7 +212,7 @@ Date:	Fri May 25 00:25:25 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit a7164135beefb7fd50b950d131f171ef36c79678
+commit 4982170ba61ee09c26d0718573850ae439816451
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri May 25 00:25:25 2012 +0200
 
@@ -220,7 +220,7 @@ Date:	Fri May 25 00:25:25 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 01d82a255a23327a99e4ef65d740adee2d6b0912
+commit ff4aa358ba22d0cffa8a2707d55244d470d2a284
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri May 25 00:25:25 2012 +0200
 
@@ -228,7 +228,7 @@ Date:	Fri May 25 00:25:25 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 102a8bd328ebc69fca8e26f1aba34b196f2837a9
+commit 0f97bdff960da182eb403b5941c0cce3c1124a76
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri May 25 00:25:24 2012 +0200
 
@@ -236,7 +236,7 @@ Date:	Fri May 25 00:25:24 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit b85aff89050b44712b8d9d5c9892c243ece6d2b9
+commit db6e2e5954ffb9802e5356d1bd719365d6af5412
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 20 11:02:55 2012 +0200
 
@@ -244,7 +244,7 @@ Date:	Sun May 20 11:02:55 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 83ee462b907fca6bdb918318f9e3d82321be4bac
+commit a409f4ce4b0ea0fbb56520dadf00e472d5a81683
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 20 11:00:01 2012 +0200
 
@@ -254,7 +254,7 @@ Date:	Sun May 20 11:00:01 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 978e4f6af9279c1388542f073a7105a7a07fdb37
+commit 13c4c638fbc0142a4d6ef8b7df8f434c5d319dd4
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 20 10:58:23 2012 +0200
 
@@ -265,7 +265,7 @@ Date:	Sun May 20 10:58:23 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 6af1f4f4745f4efe85dd58a92755dd28eef39adc
+commit 7cc967f71796df4b9593d30ec63367af4a45443d
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu May 17 09:05:23 2012 +0200
 
@@ -273,7 +273,7 @@ Date:	Thu May 17 09:05:23 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit fb90cf6a449e28c7625d9ce8697a982e27b12888
+commit cb03580b41ce7f9baaea1805a97b4be7b73ff991
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon May 14 21:53:53 2012 +0200
 
@@ -281,7 +281,7 @@ Date:	Mon May 14 21:53:53 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit bfeb22077f09e6e3ab6762bd93cf9a9244114e1e
+commit 8808a70e1f6719277b3c7ec96be387c5dee688a0
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 13 14:51:24 2012 +0200
 
@@ -289,7 +289,7 @@ Date:	Sun May 13 14:51:24 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 99406977724c549c7d9b8a5e367070e93e64b318
+commit a0c9acfbfa1e4fc67da81d295540f0257be1514d
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 13 14:45:45 2012 +0200
 
@@ -297,7 +297,7 @@ Date:	Sun May 13 14:45:45 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 57a6f83a618da0df99888523c5b7cbe95b74ca3b
+commit 8a6777a6a1ecd22f554697cf9d0c72dfd41e53d3
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 13 14:44:14 2012 +0200
 
@@ -305,7 +305,7 @@ Date:	Sun May 13 14:44:14 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit f77a8b9b534a8856a8ef717911a2e0d4d3f540d4
+commit acde2d19668c60d63f0ad8392e5f95dd71cac300
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 13 00:01:39 2012 +0200
 
@@ -313,7 +313,7 @@ Date:	Sun May 13 00:01:39 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 3370fd4f6c7191cfa4a04e9c38ce6fd73da0e3c1
+commit 80e23527b95aeca34041173ea2ba5bb445ddb28f
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri May 11 23:46:05 2012 +0200
 
@@ -321,7 +321,7 @@ Date:	Fri May 11 23:46:05 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit d6aa296b56eeeb0b2364f64df5d6e6a10457c4a3
+commit 132b3a03ed88980ad16f2b3364718dc4677e01b2
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri May 11 00:56:43 2012 +0200
 
@@ -329,7 +329,7 @@ Date:	Fri May 11 00:56:43 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 16b6c9f321830aca1ed5c3d6c9ca412490ec2c87
+commit 8e6f3c57ceda157c48f60e1d4930bde68307e232
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu May 10 19:56:32 2012 +0200
 
@@ -337,7 +337,7 @@ Date:	Thu May 10 19:56:32 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 87e56740c4716040b39c3ca217b057c22e10e1e6
+commit 5487d9ce6c60a3a8b124346a4682a31907a5cbd6
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu May 10 19:54:58 2012 +0200
 
@@ -345,7 +345,7 @@ Date:	Thu May 10 19:54:58 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit bd14c0305485384a5ea077289754801a0d9256b0
+commit 1755319bff97e85e884872586801d005c9b9ab33
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu May 10 19:53:57 2012 +0200
 
@@ -353,7 +353,7 @@ Date:	Thu May 10 19:53:57 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 0e29fc0074e04d3f96d3515bb2c8b6117df60c59
+commit 88f069acfa8acdc0cb238775185c726587ed64cf
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat May 5 12:06:55 2012 +0200
 
@@ -361,7 +361,7 @@ Date:	Sat May 5 12:06:55 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 69ea5ce58bcf58e548e1ecad012006777271bcd1
+commit 2db7ee31ee1f46aea225fe963b0d266d97c0fab7
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat May 5 12:06:16 2012 +0200
 
@@ -369,7 +369,7 @@ Date:	Sat May 5 12:06:16 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit f94766f7da587a3e7cb455145dd847fe5233b598
+commit dd45f766f7113908aa8570055d7872129d86e124
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu May 3 21:10:37 2012 +0200
 
@@ -377,7 +377,7 @@ Date:	Thu May 3 21:10:37 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 2f0acd4e625f9bf8f58b629ff066241d9a95fa12
+commit e48e0691693c7e3d267a28f7d5a123c0ecbc5de9
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu May 3 21:09:56 2012 +0200
 
@@ -385,7 +385,7 @@ Date:	Thu May 3 21:09:56 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 5dba1d65377878a544fd9f7e04d5bbbe24034c9d
+commit b2412fa4d44d1869e949c7d2414b2cb1a03a90a8
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Apr 28 10:20:33 2012 +0200
 
@@ -402,7 +402,7 @@ Date:	Sat Apr 28 10:20:33 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 30e172a7a32170a8ccc2799b77c3445d682c0ad9
+commit b3bf96582946615d5db330a261998ea6673addd5
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Apr 27 22:43:08 2012 +0200
 
@@ -410,7 +410,7 @@ Date:	Fri Apr 27 22:43:08 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit c9f814dcd584a8893a14c0e86ced147ca786c093
+commit faa26344a46ed058b2d546d8913cb1a272018ee7
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Apr 27 20:28:15 2012 +0200
 
@@ -424,7 +424,7 @@ Date:	Fri Apr 27 20:28:15 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit fdfbc4413da33a1878987d31c15c8df041f8f8a3
+commit ce897bfb80c9607f99bacbf0e5eb5e4692fc68da
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Apr 27 19:17:09 2012 +0200
 
@@ -432,7 +432,7 @@ Date:	Fri Apr 27 19:17:09 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 05e1dfd08eb86db0bf65ce60e8e7e3aef240497d
+commit 60defd4f86f2c91fa9de74d291605862e5e4b37a
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Apr 27 17:58:51 2012 +0200
 
@@ -440,7 +440,7 @@ Date:	Fri Apr 27 17:58:51 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 70e66faaab83e71db1d266c3fba06d3ab4e16b0c
+commit 896694885d9a5a9f077ed8f115d2199b1be38a23
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Apr 27 17:45:28 2012 +0200
 
@@ -448,7 +448,7 @@ Date:	Fri Apr 27 17:45:28 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 59b20f755ffdd649ac31ba634265e0456d64f3e5
+commit 822a61af5f42c3bc2ccb64bb0a400533b719798e
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Apr 24 17:23:53 2012 +0200
 
@@ -456,7 +456,7 @@ Date:	Tue Apr 24 17:23:53 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 7e463f22232ae14f90d12d1f7a38a1726dc68b0f
+commit 03949fbce941214450f973e1632683b6b2e27cf1
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Apr 24 17:23:37 2012 +0200
 
@@ -464,7 +464,7 @@ Date:	Tue Apr 24 17:23:37 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 106f90868b8cc465fc606dc42251d7d73e2eca0f
+commit af543f478668a31e83d508e67f8583427fde0b36
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Apr 23 09:42:58 2012 +0200
 
@@ -472,7 +472,7 @@ Date:	Mon Apr 23 09:42:58 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 1646fca489035fe08110ab58e0fcbd0a8b7632c4
+commit 7f9f40f03fff914d66e748f40b862ceafeba6282
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Apr 23 09:28:53 2012 +0200
 
@@ -480,7 +480,7 @@ Date:	Mon Apr 23 09:28:53 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit f1f9c528a13c6dcee096e797c4e5e915a0c44231
+commit 72207fdd253b214fc7faba342a40b2793a67270b
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Apr 22 00:16:12 2012 +0200
 
@@ -488,7 +488,7 @@ Date:	Sun Apr 22 00:16:12 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 5a662f36431094da7bef8769c9d063a8db22fb39
+commit a5a37b0384164b5e198fe0c949469a9f2e707e28
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Apr 21 09:21:42 2012 +0200
 
@@ -499,7 +499,7 @@ Date:	Sat Apr 21 09:21:42 2012 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit b47900d43500d22e46d06787eea44422e275d790
+commit c1897c93956e98a91f18faf79fc13735d75165f1
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Feb 23 19:50:51 2012 +0100
 
@@ -507,7 +507,7 @@ Date:	Thu Feb 23 19:50:51 2012 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit f015814d60f316b25554aad0dee850cfe5cf000f
+commit 310b341bd81440f537682fe9e4fa7bb15926a76e
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Wed Feb 15 19:44:47 2012 +0100
 
@@ -524,7 +524,7 @@ Date:	Wed Feb 15 19:44:47 2012 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 5347af8008b6ad6553a66eb66f1e74df40575082
+commit db4f6c80a9d5cddf5a1543c9749aafe76990f05f
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Feb 14 23:45:08 2012 +0100
 
@@ -532,7 +532,7 @@ Date:	Tue Feb 14 23:45:08 2012 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit cf3e5bf0dcd5fb54df46962cb24e668d7a037a79
+commit 47dbf8dcb9d014be2d3aa3364c54b31a0f53ed8f
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Feb 14 23:44:23 2012 +0100
 
@@ -540,7 +540,7 @@ Date:	Tue Feb 14 23:44:23 2012 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit fc57b9a2bb6523013741cd1b87c3b5d87c3627b0
+commit 5fe8b915f9e87302bedffd6fc3d0c0ed233ec40a
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Feb 14 21:45:26 2012 +0100
 
@@ -548,7 +548,7 @@ Date:	Tue Feb 14 21:45:26 2012 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 6457cb60cf4d09df6216e380332fb1a7947f68ea
+commit 75362b243306c1e9bf6e66dbf446d66d17ccddbc
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Feb 13 22:42:26 2012 +0100
 
@@ -564,7 +564,7 @@ Date:	Mon Feb 13 22:42:26 2012 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit a4e2e804f4eceec0f9714ea043faf0bae9720b3e
+commit 63d4dc8adf9853f1b9f35cbddf5c332c9a122a38
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Feb 13 19:17:31 2012 +0100
 
@@ -575,7 +575,7 @@ Date:	Mon Feb 13 19:17:31 2012 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 07666c56d2d99f4af3836a07343c9de34b09fb5a
+commit 0adbac4f7ffb2b153c5ab000d38b2a4e7f020452
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Jan 7 00:47:14 2012 +0100
 
@@ -583,7 +583,7 @@ Date:	Sat Jan 7 00:47:14 2012 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 6a4c07450666931af61eab6af26bd5a28c020c7f
+commit 3f1ee010caf93860b2b2faafa2f41d81280a026b
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Jan 7 00:42:47 2012 +0100
 
@@ -591,7 +591,7 @@ Date:	Sat Jan 7 00:42:47 2012 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit e1e0167b7e5c5cfc31dddb9ba04bbcf50b49d227
+commit 95f27254fb407e9711b9949dec14e8d402d43f3f
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Jan 7 00:35:38 2012 +0100
 
@@ -604,7 +604,7 @@ Date:	Sat Jan 7 00:35:38 2012 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 99045acded8d749ad36686b2919a4c378f3c692b
+commit 3d5256b103e2fc65c503240c220b61f6bc8991b5
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Wed Jan 4 17:18:56 2012 +0100
 
@@ -612,7 +612,7 @@ Date:	Wed Jan 4 17:18:56 2012 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 4680a29518e22e7709917d0c93a195b6c7b1a638
+commit c480360e439d357b04572461d9804f41ef171388
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Wed Jan 4 17:13:44 2012 +0100
 
@@ -620,7 +620,7 @@ Date:	Wed Jan 4 17:13:44 2012 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit b23847b56c2515aa274c67fd7e1f96746758261f
+commit bded91aff93390652a320011ad6c0618154bb254
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Wed Jan 4 17:12:22 2012 +0100
 
@@ -628,7 +628,7 @@ Date:	Wed Jan 4 17:12:22 2012 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 22a42a825e8debe0339cac0dfc9e34e84b72772e
+commit 390cb8c191aabce9ee7b9a43527f53a594c69f33
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Jan 3 18:58:08 2012 +0100
 
@@ -636,7 +636,7 @@ Date:	Tue Jan 3 18:58:08 2012 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 34e3ea1a0a5c1b54d8ff01a74bad9cd5b18dc8a0
+commit c450ec793386007e0c3f08834141c6ea042295a1
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Jan 3 09:43:33 2012 +0100
 
@@ -644,7 +644,7 @@ Date:	Tue Jan 3 09:43:33 2012 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 15192364967195702c3cb35c4104d06f0b2f5264
+commit a6960229072a409cbf2203204029dc0110874ecb
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Jan 2 21:08:44 2012 +0100
 
@@ -652,7 +652,7 @@ Date:	Mon Jan 2 21:08:44 2012 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit d34862d0421222ee774c98547c2529aca5b76646
+commit 2dac74c0c3b9eec70785998aedf6ca1a105c3173
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Jan 2 21:08:29 2012 +0100
 
@@ -660,7 +660,7 @@ Date:	Mon Jan 2 21:08:29 2012 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 1f4a12b6bd663511019a295b4ad47a440ce8c8b0
+commit 241c902e6c2b4b7272ae5d3ec322d0fe6f993f69
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Dec 27 17:42:23 2011 +0100
 
@@ -668,7 +668,7 @@ Date:	Tue Dec 27 17:42:23 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 64b23942ff5ccf49f41d255d2bfe2c87fce39c5c
+commit bb449bb5ba447058528fe64490c2f4315dbe2ea3
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Dec 27 17:42:05 2011 +0100
 
@@ -676,7 +676,7 @@ Date:	Tue Dec 27 17:42:05 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 619cc9fdcc13aea685bd1f6d91fe9584dd79ce4d
+commit 6105b711bdd8a70522432f10ef744f5c494b7130
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Dec 27 13:53:11 2011 +0100
 
@@ -684,7 +684,7 @@ Date:	Tue Dec 27 13:53:11 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit d7ee87956e2fd0d64e5f2ef6ca2032b8e6512353
+commit 1590df1f7c590fb76f0f960b2ce3be3dcf43e4d7
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Dec 27 13:52:23 2011 +0100
 
@@ -692,7 +692,7 @@ Date:	Tue Dec 27 13:52:23 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit eaff6fe7d5ddeff60b076a1962f3e3784a6415ac
+commit a48991cd3dc7210fcb6eb0d525f0e9d5b4da763d
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Dec 20 16:53:36 2011 +0100
 
@@ -700,7 +700,7 @@ Date:	Tue Dec 20 16:53:36 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit cdda9d3c861ee5341c0a46b60f7c5462b4ba75c9
+commit 04fe58e814fb1bd9aa97055578c2d4a9a3a84a57
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Dec 20 16:41:29 2011 +0100
 
@@ -710,7 +710,7 @@ Date:	Tue Dec 20 16:41:29 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit e80b47c278e5800ef13fb7728f418cc42a3fc9ff
+commit 8243fd25deb2606dbdecb46bf91ffed8d25307ba
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Dec 20 16:30:36 2011 +0100
 
@@ -718,7 +718,7 @@ Date:	Tue Dec 20 16:30:36 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit a4f879acb71c407c2426edbb821665b4ef2b4302
+commit 825c4efe4b4a9095f14956a9fef67707bca817e3
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Oct 9 19:23:11 2011 +0200
 
@@ -726,7 +726,7 @@ Date:	Sun Oct 9 19:23:11 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit ef6e5a323c6e7ca835178d36ee12ccae11c5b491
+commit ca84a4eb4ee4ac185327dca0c82041e408fe0361
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Oct 8 10:49:09 2011 +0200
 
@@ -742,7 +742,7 @@ Date:	Sat Oct 8 10:49:09 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit ad1d035e6fbef9877bb88ffd58aaa9819f3d1830
+commit d29fc1aacf63c8251a2a0f23b56c768a9da8ff72
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Oct 3 17:20:46 2011 +0200
 
@@ -750,7 +750,7 @@ Date:	Mon Oct 3 17:20:46 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit e14f1c09ccf280c9a0edd1a9b24871db96da22bf
+commit d0d4f6129e8fe12766f6fcb2cf5ff0ec68dcbc77
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Oct 3 17:01:08 2011 +0200
 
@@ -758,7 +758,7 @@ Date:	Mon Oct 3 17:01:08 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 9d8b24c80d8fd9cbe606c674ec18fde1e00d69cd
+commit d99eed55c44a887f4b5f747598733197012ae553
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Oct 3 16:58:24 2011 +0200
 
@@ -766,7 +766,7 @@ Date:	Mon Oct 3 16:58:24 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 7fcbc21f34e2c1148a11ceadfad6b85ff9a6c46e
+commit 113341a348b385597f6c8e396deb5bf72a5f058e
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Oct 3 14:58:05 2011 +0200
 
@@ -774,7 +774,7 @@ Date:	Mon Oct 3 14:58:05 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit accb1536283ca6fe4ad6ff68a9b3636c2af4ebeb
+commit 5d3a4436810ae46e025aa29e9fa8552feb2e4a5b
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Jun 2 09:47:01 2011 +0200
 
@@ -784,7 +784,7 @@ Date:	Thu Jun 2 09:47:01 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit aa52d2b0e65266e90abbaef3289adeb723a6dc8b
+commit 02fa87e42b216eab9cc7dde11a01c00b377b2031
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Jun 2 09:32:05 2011 +0200
 
@@ -792,7 +792,7 @@ Date:	Thu Jun 2 09:32:05 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit a7f53801faee5a33f266e6c3f161c2d7f2de6ea7
+commit adea285497dffd7977c3472ff9d047980c0f25a7
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Jun 2 09:28:54 2011 +0200
 
@@ -803,7 +803,7 @@ Date:	Thu Jun 2 09:28:54 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 82b06b410ea4f69cfff09b851aa5cc1d650dea12
+commit 439378f5a2e46257242ef5842b111ca53e05a779
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu May 26 23:01:26 2011 +0200
 
@@ -817,7 +817,7 @@ Date:	Thu May 26 23:01:26 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 38678199208cda9dc7f60f13ae75fa11e1f7ea3b
+commit dc6474d168f515b8fe53ee75fe243401fff1fa65
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 22 19:19:00 2011 +0200
 
@@ -825,7 +825,7 @@ Date:	Sun May 22 19:19:00 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit ac790bb1ac5bb55a7868cc1c2ec7e1635483dc03
+commit fc50cfcd81f74ee335942584084582f5a0deb2d7
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 22 19:06:43 2011 +0200
 
@@ -833,7 +833,7 @@ Date:	Sun May 22 19:06:43 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit a33e216f575fb97bc1241ff5866224158702d663
+commit f37eba9e633f2d7c3430442cc4699d2cb495c89f
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 22 18:59:26 2011 +0200
 
@@ -846,7 +846,7 @@ Date:	Sun May 22 18:59:26 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit f4302a22e50c4bc00eb723b015ffad2de3984de6
+commit c30f77e79da49212e5f56a57e334bf8453bb3a07
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 22 18:51:41 2011 +0200
 
@@ -857,7 +857,7 @@ Date:	Sun May 22 18:51:41 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit d82bf2556c1b79dd6f4ba8d46ecbc3a5be08275a
+commit 3805d46c748688a8193b0790c8a391ae7c4f830f
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 22 18:47:19 2011 +0200
 
@@ -868,7 +868,7 @@ Date:	Sun May 22 18:47:19 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit f4827fb28b51ef5de6898035acb42e6a31620bfe
+commit 976f07e9afb93668026722826f1dfbed8fbb6d85
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat May 14 00:19:14 2011 +0200
 
@@ -879,7 +879,7 @@ Date:	Sat May 14 00:19:14 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit ec3f348e5e3df51bf506ff87830b0f3fd220014f
+commit 5efca0d6feedacd1690800652f9bc93ea9d2e293
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 8 15:07:00 2011 +0200
 
@@ -887,7 +887,7 @@ Date:	Sun May 8 15:07:00 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 8a631d1d06235baaa256524c7ac23d5e5e9a1ff1
+commit b96166f4f1fc54c03152ac3945a640c40db7aece
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 8 15:02:29 2011 +0200
 
@@ -895,7 +895,7 @@ Date:	Sun May 8 15:02:29 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 42b722fa228e163265f05c2fd3d00db4bcdfc5d5
+commit 2e8af5d0949b8213de5a53e11948c71b70d06dff
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 8 14:34:23 2011 +0200
 
@@ -906,7 +906,7 @@ Date:	Sun May 8 14:34:23 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit a65060f4457522efcb284e5276a8125011f94ec5
+commit de01c1b38bba5e8453e217183b453d0df6fe962f
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 8 14:32:29 2011 +0200
 
@@ -914,7 +914,7 @@ Date:	Sun May 8 14:32:29 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 89c070a94bca49bb5e765f995973dbeffcf9fdbf
+commit 167738fdfca8ff5a326a868145861939df7c3fab
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 8 13:20:15 2011 +0200
 
@@ -922,7 +922,7 @@ Date:	Sun May 8 13:20:15 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 63a5c64be8f697bb21e3929306b2f351f8e4fd21
+commit e0ca44658ab57992f6e026ece6fea31c1271e855
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun May 8 13:13:41 2011 +0200
 
@@ -930,7 +930,7 @@ Date:	Sun May 8 13:13:41 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 1b9725a588f6bd6aca752ce54644b5cf4a7b85b5
+commit 16f40d384b88b7984aca13106412990255fc6790
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu May 5 00:37:00 2011 +0200
 
@@ -940,7 +940,7 @@ Date:	Thu May 5 00:37:00 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit edf080724e6223d3f13622858a579c8a28986044
+commit 8b27f10554355da278b94e9f64bd383761b14b80
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Wed May 4 23:18:10 2011 +0200
 
@@ -951,7 +951,7 @@ Date:	Wed May 4 23:18:10 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit e5e21fa4b3351d11d1e241558d7fbbc7530b596f
+commit 57ee02a20941b373bfab73d620d4e8a237f85eee
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Wed May 4 22:12:40 2011 +0200
 
@@ -964,7 +964,7 @@ Date:	Wed May 4 22:12:40 2011 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 646a8926e707b0fba94f59d84e0a3abe45a473b3
+commit 4c9862bb7769c24690bef4312a96e385e576d2fa
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Mar 1 17:04:14 2011 +0100
 
@@ -977,7 +977,7 @@ Date:	Tue Mar 1 17:04:14 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 5d4c559eba9fa3e6027069759d05499dbc433bb3
+commit 87a7f857cd7029555be722ac08e88fd0e0d416ae
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Mar 1 17:02:40 2011 +0100
 
@@ -987,7 +987,7 @@ Date:	Tue Mar 1 17:02:40 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit aa549392ce3e398272d29daaf61f8cae91415d6a
+commit 115b9c87c866f0de4f2529f68fd89befb02126fc
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Mar 1 16:56:10 2011 +0100
 
@@ -995,7 +995,7 @@ Date:	Tue Mar 1 16:56:10 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit fe56058963b0e9e14721c8243db56f6ffcbbee98
+commit 81225f3939fc00c0deaec6f8d2415d84edc4b2cf
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Mar 1 16:52:40 2011 +0100
 
@@ -1007,7 +1007,7 @@ Date:	Tue Mar 1 16:52:40 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 884e7c7df2379e074641ea3e0afb7b7c0e137226
+commit a5dc6a3d053a03b05cd7ead886099e468f50b688
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Feb 17 12:11:19 2011 +0100
 
@@ -1017,7 +1017,7 @@ Date:	Thu Feb 17 12:11:19 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 251d90ca8fb6155cdbd3df81fe3063a7e95f265a
+commit 7304b8c44ec0e023a80c60410735e10540c210ee
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Feb 17 12:07:57 2011 +0100
 
@@ -1025,7 +1025,7 @@ Date:	Thu Feb 17 12:07:57 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 98f5756a2ce52a3e0d19605d20bb7ffed9595953
+commit 380279a585edacefad0a8035de65c20dd2139a11
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Feb 17 12:01:14 2011 +0100
 
@@ -1042,7 +1042,7 @@ Date:	Thu Feb 17 12:01:14 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 2f0d555cbe115a09923d07a90400fbfd0d012616
+commit 914e8ecb14aa8490b84eaeb1c6c8e1eab7adc386
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Feb 17 10:46:55 2011 +0100
 
@@ -1050,7 +1050,7 @@ Date:	Thu Feb 17 10:46:55 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit ae4f0eeb3b840095077764cf5fbf6e7ad9eb0065
+commit 854f3a4c492e429f2881b3b6684b1d5688c3c9bd
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Feb 14 09:32:53 2011 +0100
 
@@ -1060,7 +1060,7 @@ Date:	Mon Feb 14 09:32:53 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit fc282d0045d17d560dd8459e447fb1137a71a9fe
+commit cae8abbf597e27622dfb123d77a4b5b3b879ebc9
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Feb 14 09:27:28 2011 +0100
 
@@ -1075,7 +1075,7 @@ Date:	Mon Feb 14 09:27:28 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 67ea7c26ff15a45b65aedacca58c328375e27c8e
+commit 5b4aa165eccbefee857f147ba0e7f4cce0af7918
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Jan 28 16:58:53 2011 +0100
 
@@ -1088,7 +1088,7 @@ Date:	Fri Jan 28 16:58:53 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit d09f1f7c1213f996d27b9f1085bb116bf0d804d0
+commit e9732bb0b87505dbf3465a0ad42a37d75263284f
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Jan 28 16:57:08 2011 +0100
 
@@ -1098,7 +1098,7 @@ Date:	Fri Jan 28 16:57:08 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 104e4e51529845c5417070aa6be3c6d7ccbaacda
+commit f1af04672c2bcaeea7d71ac70f5d0d5428d314cc
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Jan 27 09:51:02 2011 +0100
 
@@ -1109,7 +1109,7 @@ Date:	Thu Jan 27 09:51:02 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit bbf27af3452562f45f94c7fd0e8bc77ba0cfc70a
+commit a4d6006b1d0f3240abb0cbde0c2abd573c334dad
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Wed Jan 26 22:20:00 2011 +0100
 
@@ -1119,7 +1119,7 @@ Date:	Wed Jan 26 22:20:00 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 5b9b32b9b9de75f5a4328f1000a95d609fef36be
+commit e5e01390003f24330c73bb54eabeda79c410b261
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Wed Jan 26 22:16:06 2011 +0100
 
@@ -1131,7 +1131,7 @@ Date:	Wed Jan 26 22:16:06 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 109141d0995952f59878b73a9bf5eec7bd5a2a9c
+commit 687e675fe7cfc42ac9290d7a1179e3f8bd11c2aa
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Wed Jan 26 22:11:49 2011 +0100
 
@@ -1142,7 +1142,7 @@ Date:	Wed Jan 26 22:11:49 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 5f44050ad8812f8943e97b3b0d9093cf0a4da358
+commit 6ff4bcb21ac119eaf83edc2f85e200781dd772c1
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Jan 25 21:41:33 2011 +0100
 
@@ -1152,7 +1152,7 @@ Date:	Tue Jan 25 21:41:33 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 1b114f9a5f76ace501f034edd6f946d32027ab8a
+commit 1a5eb20865dde5c625719de54fa6cf6d2148fb55
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Jan 25 21:38:55 2011 +0100
 
@@ -1163,7 +1163,7 @@ Date:	Tue Jan 25 21:38:55 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 4fee873d709b4ef51c147fcfa4121fd46c2bd923
+commit 36c5183740db9f9a88d80d9f03375e811af161c4
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Jan 25 21:38:29 2011 +0100
 
@@ -1174,7 +1174,7 @@ Date:	Tue Jan 25 21:38:29 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit e5fff3ff38a439e9e75a52f9f6d06ff728f735c6
+commit 833bffa5dbf2917a67f6d567436721f8db25c24f
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Jan 25 21:38:13 2011 +0100
 
@@ -1185,7 +1185,7 @@ Date:	Tue Jan 25 21:38:13 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 7d0f62b9727a78a91c53f68b9ca75c49fa67eefe
+commit 6f5e03f47985f0eb374f8805be98543a6269db06
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Jan 25 21:37:38 2011 +0100
 
@@ -1196,7 +1196,7 @@ Date:	Tue Jan 25 21:37:38 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 19f7fce9f26d5bd6374a6641e32a5882b5e1b3e6
+commit 2493898af321c34633c3ac11802b631502692d0c
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Jan 25 21:34:51 2011 +0100
 
@@ -1208,7 +1208,7 @@ Date:	Tue Jan 25 21:34:51 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 633875a88b9155743a9dffebde7d0209ff8cf8d8
+commit ef64dda3a8596015451a4e540da4ab84d404cb24
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Jan 25 16:50:56 2011 +0100
 
@@ -1224,7 +1224,7 @@ Date:	Tue Jan 25 16:50:56 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit baeee0f8d1a746ac02fcdacf5aa5ed012cfa6873
+commit ad974affa583582c25f30ac5ab980c0f5172bf1c
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Jan 24 21:14:03 2011 +0100
 
@@ -1235,7 +1235,7 @@ Date:	Mon Jan 24 21:14:03 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit e7e52a27462acedeec670db51404d83b907e58eb
+commit 25b699f39161d309c24ba40a6ebfd40c2f8f307f
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jan 23 19:36:01 2011 +0100
 
@@ -1247,7 +1247,7 @@ Date:	Sun Jan 23 19:36:01 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 9c58fd6b2912d94d5239a0a67f771a3a0494c0b4
+commit 25b2064b9f4a59552e55338893c70c8222d6bbc9
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jan 23 19:31:44 2011 +0100
 
@@ -1255,7 +1255,7 @@ Date:	Sun Jan 23 19:31:44 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 3f63cdbef770079132dcb7a5310ccf1df7b6965a
+commit ce4c2689408ffc322c26d329cc1c10d3dc6d6beb
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Jan 20 15:42:55 2011 +0100
 
@@ -1266,7 +1266,7 @@ Date:	Thu Jan 20 15:42:55 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 0031978f9729e422555e442d36de2759ce9b027e
+commit f624f8bff7a0a67131339b563afb7b92c319749e
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jan 16 23:04:45 2011 +0100
 
@@ -1276,7 +1276,7 @@ Date:	Sun Jan 16 23:04:45 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 5bb62dfc17e50794bac08851da602c16ca5d5678
+commit 082fad1dfbdef6aebfcd025080c0e9c50d0a24c8
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jan 16 14:39:55 2011 +0100
 
@@ -1284,7 +1284,7 @@ Date:	Sun Jan 16 14:39:55 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 30331afd7e82c6df72f3c15a1a791cc98f65993e
+commit d7ee91d5f75dfc35761f0c293403c0c602b67f83
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Jan 15 21:00:19 2011 +0100
 
@@ -1294,7 +1294,7 @@ Date:	Sat Jan 15 21:00:19 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 8bbb0ad36ccdc3299ca99f99452e522154baef70
+commit bb7f88f43f53913b73c8b4c7d4669c6600f5800a
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Jan 15 20:58:26 2011 +0100
 
@@ -1305,7 +1305,7 @@ Date:	Sat Jan 15 20:58:26 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 15e0cc1f59e5885d2e3bfde26b8a9134dd438ead
+commit c0a948c45b9a34f539b4889911b47763ebcf68ad
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Jan 15 20:57:51 2011 +0100
 
@@ -1316,7 +1316,7 @@ Date:	Sat Jan 15 20:57:51 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 5dbae3e458d5eab133eb1cd84a7a24216d887c17
+commit 30c3cf4a6b67800514367b2656caa802a9323836
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Jan 15 20:03:27 2011 +0100
 
@@ -1327,7 +1327,7 @@ Date:	Sat Jan 15 20:03:27 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 7f72854c4bd22b54101175e700f19749bc15bcab
+commit 372a1ecbebb096b8e87d0a802717177addcb6bd3
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Jan 15 19:45:36 2011 +0100
 
@@ -1338,7 +1338,7 @@ Date:	Sat Jan 15 19:45:36 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit b8bb5ff32a9b86797c8deabcce4df2429f395e03
+commit 5e48b906977f2275f94fd3ac567b5d3519d5727c
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Jan 15 19:41:41 2011 +0100
 
@@ -1349,7 +1349,7 @@ Date:	Sat Jan 15 19:41:41 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit e94d5d7d0b57f82231177aee9dd3a9393d18e7bc
+commit cf9fa8c494767945e53e7d49333232f263e0b618
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Jan 15 18:40:35 2011 +0100
 
@@ -1368,7 +1368,7 @@ Date:	Sat Jan 15 18:40:35 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit ba4c77ac46c4daebc6885f1d0fce4262b1fe5b67
+commit bfda2dc617246d2a60f2b7cb167519161fc7c16e
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Jan 15 18:20:46 2011 +0100
 
@@ -1376,7 +1376,7 @@ Date:	Sat Jan 15 18:20:46 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit a7bf75c103aac053aedfb985665c8db645327fa9
+commit d03e07a0dc34742939a423cbab920476c1a64ae5
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Wed Jan 12 18:36:33 2011 +0100
 
@@ -1386,7 +1386,7 @@ Date:	Wed Jan 12 18:36:33 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 976500d707852cf2f4de2bcf2a58cc01808b3a40
+commit 54e04513968f59a682651cf71fee49eccf5b26f2
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Wed Jan 12 17:54:23 2011 +0100
 
@@ -1394,7 +1394,7 @@ Date:	Wed Jan 12 17:54:23 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 03cb769a3d774164b6fec6cd3fd21328122c00e1
+commit 103a703d156bca89375bc89a09ed265c63ec1199
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Wed Jan 12 17:53:07 2011 +0100
 
@@ -1402,7 +1402,7 @@ Date:	Wed Jan 12 17:53:07 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 6309012393c802414f6141f915479f605ab86393
+commit c3124a0b386cdc5a10f7fb661b3dc54330c429ff
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Wed Jan 12 17:52:12 2011 +0100
 
@@ -1410,7 +1410,7 @@ Date:	Wed Jan 12 17:52:12 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 49da3dbe16b0e724a5230c081161092b7948bd48
+commit 022e843aa41e74ab3ec6212bc5719edf5deaf585
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Wed Jan 12 17:51:11 2011 +0100
 
@@ -1418,7 +1418,7 @@ Date:	Wed Jan 12 17:51:11 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit f56563b9a751a54a53c153565e8929773c9b9546
+commit a7162999bb1841f95b6d559ef51094a22da80256
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jan 9 14:59:41 2011 +0100
 
@@ -1428,7 +1428,7 @@ Date:	Sun Jan 9 14:59:41 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit cf02189b2b83275d362d9899e502525c939ce0e3
+commit 271f6529d449716a57f1f6d2cc3e3bac4c0a5a51
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jan 9 14:57:17 2011 +0100
 
@@ -1438,7 +1438,7 @@ Date:	Sun Jan 9 14:57:17 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 2e2861c755b70c10937a6aa2e2174e0c69c82fca
+commit 8dd69e070242cfea51a7caa182e4643188cfe202
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jan 9 14:53:28 2011 +0100
 
@@ -1446,7 +1446,7 @@ Date:	Sun Jan 9 14:53:28 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 6ef4d562cd9ea153d195f631db57fa2baf7ece09
+commit 1da53f275ab656ad326de32c59fcd0d26cd7e23b
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jan 9 14:52:55 2011 +0100
 
@@ -1454,7 +1454,7 @@ Date:	Sun Jan 9 14:52:55 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit b2f566eb9beee21b71375d9faa349f96abb2d6a3
+commit 005ff238dc5efffa7ddda99170e973494eaf136c
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jan 9 14:45:45 2011 +0100
 
@@ -1462,7 +1462,7 @@ Date:	Sun Jan 9 14:45:45 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 910f18a36fb2e9bca32728aeb10b810d93803e2f
+commit 1bc7f8980abfaa145995389e1c08f85da8044b61
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jan 9 14:44:46 2011 +0100
 
@@ -1470,7 +1470,7 @@ Date:	Sun Jan 9 14:44:46 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 1ca149dc4c73d93743852e816e9f73fa842c7de4
+commit 3aac35fe3016098995fdacd86ebe4f0774dcc824
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Jan 9 14:22:28 2011 +0100
 
@@ -1481,7 +1481,7 @@ Date:	Sun Jan 9 14:22:28 2011 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 07a50f4497094cec93d9cf41511d3a121b1f9a59
+commit eafa6bab35a96a3ef77c4c5e6c37d7824b2f4720
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Dec 16 23:27:28 2010 +0100
 
@@ -1491,7 +1491,7 @@ Date:	Thu Dec 16 23:27:28 2010 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 3394f5ec8abe239bfa5e8351b29ea957a3c254d8
+commit 04ba519f8e1a34565e65adae14817d807815a77c
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Thu Dec 16 22:55:22 2010 +0100
 
@@ -1502,7 +1502,7 @@ Date:	Thu Dec 16 22:55:22 2010 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 7eebef94c3be0ff281e02cb66ef45428750b8e7b
+commit be88dbf6b9c0211112bf38e82b92dca6035874f6
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Nov 19 20:15:58 2010 +0100
 
@@ -1514,7 +1514,7 @@ Date:	Fri Nov 19 20:15:58 2010 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit f42abc8c3e8b5db47549a74d54dffd9d4c454f51
+commit 0f9d1a768f23b0edd243c1581fde0b67deb9a13e
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Nov 14 14:27:49 2010 +0100
 
@@ -1524,49 +1524,7 @@ Date:	Sun Nov 14 14:27:49 2010 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit aae2f6246bc62f04cb69cc3aa08fdfb07871a48b
-Author: Stephan Linz <linz@li-pro.net>
-Date:	Sun Nov 14 10:37:46 2010 +0100
-
-    reference-designs: Xilinx SP3ADSP1800 with new sw params
-
-    see commit: fde51a5afb08b40ffcd2330fc7dcc0f76c3bbdd0
-
-    Signed-off-by: Stephan Linz <linz@li-pro.net>
-
-commit 46cfdc6b8d655c6d806f29b3ec751b2796038dba
-Author: Stephan Linz <linz@li-pro.net>
-Date:	Sun Nov 14 10:33:10 2010 +0100
-
-    Xilinx-SP3ADSP1800-MMU-full-12.2 new pre-build images
-
-    Signed-off-by: Stephan Linz <linz@li-pro.net>
-
-commit 6ed352885d4a1bceaff2c17ea78c3b9d28fee523
-Author: Stephan Linz <linz@li-pro.net>
-Date:	Sun Nov 14 09:34:30 2010 +0100
-
-    Xilinx-SP3ADSP1800-MMU-lite-12.2 new pre-build images
-
-    Signed-off-by: Stephan Linz <linz@li-pro.net>
-
-commit c26acb29e03b0a5b0ad739420bcebbf65493b05a
-Author: Stephan Linz <linz@li-pro.net>
-Date:	Sat Nov 13 15:13:30 2010 +0100
-
-    Xilinx-SP3ADSP1800-MMU-full-11.4 new pre-build images
-
-    Signed-off-by: Stephan Linz <linz@li-pro.net>
-
-commit f6b41cb3868ca41f202ae350fd3f0f811d06bbd5
-Author: Stephan Linz <linz@li-pro.net>
-Date:	Sat Nov 13 14:06:00 2010 +0100
-
-    Xilinx-SP3ADSP1800-MMU-lite-11.4 new pre-build images
-
-    Signed-off-by: Stephan Linz <linz@li-pro.net>
-
-commit d3b155c3343378cfee40aca2156a9467d0b58f0a
+commit 90416c5b56a3231ec35c77bb523aa10c8f5cdf89
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Nov 13 11:27:31 2010 +0100
 
@@ -1576,7 +1534,7 @@ Date:	Sat Nov 13 11:27:31 2010 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 7dae5f631905662f956b9494236f7e871f20b7b7
+commit a9c9ff21e24ba024c1ab2154918946658647c166
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Nov 13 10:36:35 2010 +0100
 
@@ -1589,7 +1547,7 @@ Date:	Sat Nov 13 10:36:35 2010 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit dd964e28d23211d726d69374387ee14e7e61fc5e
+commit 215efbe26d62cf221c37dadee4f89feaf7d58eca
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Nov 13 10:36:06 2010 +0100
 
@@ -1597,7 +1555,7 @@ Date:	Sat Nov 13 10:36:06 2010 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit fde51a5afb08b40ffcd2330fc7dcc0f76c3bbdd0
+commit d95ba73acfdcf8362b0cf69040dd5a62e74b98eb
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Nov 13 10:24:14 2010 +0100
 
@@ -1610,7 +1568,7 @@ Date:	Sat Nov 13 10:24:14 2010 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 94de875c38c4b24151bb5dbf9d733e4b9594e369
+commit 37a2d35fc8b08b8e71b5ebdc8aa978c99c1da275
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Nov 13 09:37:44 2010 +0100
 
@@ -1624,7 +1582,7 @@ Date:	Sat Nov 13 09:37:44 2010 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit ce7c1889e87b50221aa498107b609a9077522a32
+commit 7fc519faca6c0c14098950ca1588a94a133b8170
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Nov 6 16:04:57 2010 +0100
 
@@ -1632,7 +1590,7 @@ Date:	Sat Nov 6 16:04:57 2010 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit bdb00bf7b95159bdbf94b4d06f08cf7da9e3765b
+commit 3abfd3c80295d89cea111627ce3ad23306fe0efd
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Nov 6 16:00:32 2010 +0100
 
@@ -1654,7 +1612,7 @@ Date:	Sat Nov 6 16:00:32 2010 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 6bc054ce16fbe4ed1d42fbdf026b56cf7f5abf7a
+commit 5e32cd7a33ab9278e89d18f314aa78df9e1d1ec0
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Nov 6 15:58:47 2010 +0100
 
@@ -1662,7 +1620,7 @@ Date:	Sat Nov 6 15:58:47 2010 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 399e55710cfe2c4eef0a4797782eb391fa594862
+commit 3ca9969e17f0f8b8fff4967e024544c929cdd112
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Nov 1 00:55:27 2010 +0100
 
@@ -1684,7 +1642,7 @@ Date:	Mon Nov 1 00:55:27 2010 +0100
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit ba1f10817df090bc0916d5ec60b7d473a3eff858
+commit 50006e63e5fa56297402ceb3ad36dc47d24060dc
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sat Oct 30 21:30:13 2010 +0200
 
@@ -1694,7 +1652,7 @@ Date:	Sat Oct 30 21:30:13 2010 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 8ed4bbca4950c5bd4ec2bfa59f3a08a99fd19276
+commit 9042f8cd38425c4d0793bc7ca01653138116ee2c
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Sun Oct 10 16:56:51 2010 +0200
 
@@ -1704,39 +1662,7 @@ Date:	Sun Oct 10 16:56:51 2010 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit b32d7e44b9fb629c530442086d2e6c7dace20c57
-Author: Stephan Linz <linz@li-pro.net>
-Date:	Sun Oct 10 16:55:15 2010 +0200
-
-    Xilinx-SP3ADSP1800-MMU-full-12.2 new pre-build images
-
-    Signed-off-by: Stephan Linz <linz@li-pro.net>
-
-commit 5b587642379ce561b422d3340f400c2fa62efef3
-Author: Stephan Linz <linz@li-pro.net>
-Date:	Sun Oct 10 16:54:59 2010 +0200
-
-    Xilinx-SP3ADSP1800-MMU-lite-12.2 new pre-build images
-
-    Signed-off-by: Stephan Linz <linz@li-pro.net>
-
-commit ba1d0ccb3b86c46e5a5aecfac557d3c040092047
-Author: Stephan Linz <linz@li-pro.net>
-Date:	Sun Oct 10 16:54:20 2010 +0200
-
-    Xilinx-SP3ADSP1800-MMU-full-11.4 new pre-build images
-
-    Signed-off-by: Stephan Linz <linz@li-pro.net>
-
-commit c48b9e6e7a87aa9b52d0881cb088c6b6210c043d
-Author: Stephan Linz <linz@li-pro.net>
-Date:	Sun Oct 10 16:53:27 2010 +0200
-
-    Xilinx-SP3ADSP1800-MMU-lite-11.4 new pre-build images
-
-    Signed-off-by: Stephan Linz <linz@li-pro.net>
-
-commit 383f0f7c4283060c8e7dad49cc7a34fb13c08b7b
+commit b210de88b312407869ccc785208e6a954e36e20c
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Oct 5 00:57:05 2010 +0200
 
@@ -1746,7 +1672,7 @@ Date:	Tue Oct 5 00:57:05 2010 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit db5a64e1f092c38aa89f6fd4b96318e8992ea1c3
+commit a8e6f30b985cc75b6e1569970b03fba7ac359fb8
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Oct 5 00:54:15 2010 +0200
 
@@ -1754,7 +1680,7 @@ Date:	Tue Oct 5 00:54:15 2010 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 8132ba877812f9cf783f537892f2d0ad3f95c4b4
+commit 626d332c2966f042c16ca139362af3a585f7ed45
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Oct 5 00:51:16 2010 +0200
 
@@ -1762,7 +1688,7 @@ Date:	Tue Oct 5 00:51:16 2010 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 3fd7d6a6301cf6c33e6d09251262a26b8482a432
+commit 8a12aa01f962ef08c15ee367acd0c42eda0d995c
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Tue Oct 5 00:48:41 2010 +0200
 
@@ -1770,7 +1696,7 @@ Date:	Tue Oct 5 00:48:41 2010 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit c8475b5bc75a141c02f38a2b4e9b5599f11bf7a7
+commit 5ba39262f11f12b4615fa8909225de52f29cac95
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Oct 4 18:24:02 2010 +0200
 
@@ -1780,7 +1706,7 @@ Date:	Mon Oct 4 18:24:02 2010 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 7f51352ce36bd9d182f08d0ba447a193f9c2b76b
+commit a10e14998341de8ebc1536bfc5e9d0ad1f304c39
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Oct 4 18:20:41 2010 +0200
 
@@ -1788,7 +1714,7 @@ Date:	Mon Oct 4 18:20:41 2010 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit 0252806e06a2d7a5f9baf008e78c7aafc7a2537a
+commit 696fd10c6c6411641e4c6135b5e58f641c101bb8
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Oct 4 18:18:24 2010 +0200
 
@@ -1796,7 +1722,7 @@ Date:	Mon Oct 4 18:18:24 2010 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit f1994bdd9653a97ead18ea98007529bc9b09309c
+commit 20b69e6c6ef2e4d0ecaa2139b666b7003cbd33bd
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Oct 1 16:26:26 2010 +0200
 
@@ -1806,7 +1732,7 @@ Date:	Fri Oct 1 16:26:26 2010 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit a64b1226606ad9085b154e3f683d69d1926294ea
+commit 00e38a6db567de783b1fc5f62c6848af25a2fd58
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Oct 1 16:21:35 2010 +0200
 
@@ -1814,7 +1740,7 @@ Date:	Fri Oct 1 16:21:35 2010 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit a6d6b001e6c680dd3209e047e63ca45ede546842
+commit bd2be188c18da22fd6000f5fa95bcaa5a4c1cbf8
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Oct 1 16:18:28 2010 +0200
 
@@ -1822,7 +1748,7 @@ Date:	Fri Oct 1 16:18:28 2010 +0200
 
     Signed-off-by: Stephan Linz <linz@li-pro.net>
 
-commit ec21425128d153ab08530eb68a9eeba0a74e9320
+commit afef196724a2c52657634360c366c7699b2e340a
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Oct 1 15:08:58 2010 +0200
 
@@ -1830,7 +1756,7 @@ Date:	Fri Oct 1 15:08:58 2010 +0200
 
     This reverts commit 696d52f850e0e87b559e370db37e172fe3ba9ddf.
 
-commit e4b21424b7742da5d7164072d517271e3b0c1324
+commit cefe0021faf964c61b5a7179476d24f76345b8d1
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Oct 1 15:08:07 2010 +0200
 
@@ -1838,45 +1764,13 @@ Date:	Fri Oct 1 15:08:07 2010 +0200
 
     This reverts commit 26bf305b5288f98c786d05f6e2b00e2cd826eb59.
 
-commit f20bb9ff42002c93ed105af9df22e09fc041a2f8
+commit be184518057bd85da1c6f2abd63af6bde4c807f9
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Oct 1 15:03:47 2010 +0200
 
     Revert "Xilinx-SP3ADSP1800-MMU-full-12.2: new SDK bundle"
 
     This reverts commit 27a2555b746adc0807c37af901427359f8475fb7.
-
-commit 785471ab7b7e140535d752a215e7ffa891786e70
-Author: Stephan Linz <linz@li-pro.net>
-Date:	Fri Oct 1 11:56:17 2010 +0200
-
-    reference-designs: support Xilinx SP3ADSP1800
-
-     * Xilinx-SP3ADSP1800-MMU-lite-11.4
-     * Xilinx-SP3ADSP1800-MMU-full-11.4
-     * Xilinx-SP3ADSP1800-MMU-lite-12.2
-     * Xilinx-SP3ADSP1800-MMU-full-12.2
-
-     * MMU means:
-	- virtual, full register access
-	- 2 protection zones
-
-     * lite means:
-	- 2kB/2kB I/D-Cache
-	- MUL32, w/o DIV, w/o FPU
-	- XPS UART Lite, 115200 Baud (8N1)
-	- XPS Ethernet Lite, w/o second Rx/Tx buffer
-
-     * fulle means:
-	- 16k/16k I/D-Cache
-	- MUL32, DIV, FPU
-	- XPS 16550 UART
-	- XPS LL TEMAC, SDMA access
-
-     * 11.4 means: Xilinx EDK 11.4
-     * 12.2 means: Xilinx EDK 12.2
-
-    Signed-off-by: Stephan Linz <linz@li-pro.net>
 
 commit 27a2555b746adc0807c37af901427359f8475fb7
 Author: Stephan Linz <linz@li-pro.net>
