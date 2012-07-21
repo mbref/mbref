@@ -26,6 +26,7 @@ extern "C" {
 #endif
 
 extern void putnumxx(const unsigned int bits, const unsigned int num);
+extern void putnum0(const unsigned int num);
 
 static inline void putnum8(const unsigned char num)
 {

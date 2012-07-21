@@ -30,7 +30,7 @@ static inline void locblob_info(struct locblob * const locblob)
 	putstr(", ");
 	putstr(locblob->header.date);
 	putstr(", ");
-	putnum32(locblob->header.size);
+	putnum0(locblob->header.size);
 	putstr(" byte\r\n");
 }
 
