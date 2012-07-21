@@ -52,6 +52,10 @@ inline u8 getkey(void)
 
 #elif defined(XLB_UART16550)
 
+#ifndef XLB_STDIO_BAUDRATE
+#define XLB_STDIO_BAUDRATE	115200
+#endif
+
 inline void xuart16550_init(void)
 {
 	/* if we have a uart 16550, then that needs to be initialized */

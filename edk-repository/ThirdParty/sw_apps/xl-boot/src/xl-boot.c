@@ -30,10 +30,6 @@
 
 #define XLB_SRC_VER		"0.20"
 
-#ifndef XLB_STDIO_BAUDRATE
-#define XLB_STDIO_BAUDRATE	115200
-#endif
-
 #ifndef XLB_BOOT_COUNTER
 #define XLB_BOOT_COUNTER	10
 #endif
