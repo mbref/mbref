@@ -23,30 +23,10 @@
 #include "xparameters.h"
 #include "xlb_config.h"
 
-#include "xtmrctr_l.h"
+#include "xl-xuart.h"
+#include "xl-xtm.h"
 
-#ifdef XLB_UARTLITE
-#include "xuartlite_l.h"
-#define XLB_STDIO_HW		"uartlite"
-#if !defined(XUartLite_mReadReg)
-#define XLB_NEED_XIL_MACROBACK
-#endif
-#endif
-
-#ifdef XLB_UART16550
-#include "xuartns550_l.h"
-#define XLB_STDIO_HW		"uart16550"
-#if !defined(XUartNs550_mReadReg)
-#define XLB_NEED_XIL_MACROBACK
-#endif
-#endif
-
-/* bring back the removed _m macros */
-#ifdef XLB_NEED_XIL_MACROBACK
-#include "xil_macroback.h"
-#endif
-
-#define XLB_SRC_VER		"0.01"
+#define XLB_SRC_VER		"0.10"
 
 #ifndef XLB_STDIO_BAUDRATE
 #define XLB_STDIO_BAUDRATE	115200
@@ -78,68 +58,17 @@ typedef void (*locblob)(void);
 
 #if (XLB_BOOT_COUNTER != 0)
 
-#if defined(XLB_UARTLITE)
-
-char getkey(void)
-{
-	if(XUartLite_mIsReceiveEmpty(XLB_STDIO_BASEADDR)) {
-		return '\0';
-	} else {
-		return XUartLite_RecvByte(XLB_STDIO_BASEADDR);
-	}
-}
-
-#elif defined(XLB_UART16550)
-
-char getkey(void)
-{
-	if (!XUartNs550_mIsReceiveData(XLB_STDIO_BASEADDR)) {
-		return '\0';
-	} else {
-		return XUartNs550_mReadReg(XLB_STDIO_BASEADDR, XUN_RBR_OFFSET);
-	}
-}
-
-#endif
-
-#define XTmrCtr_mAckEvent(BaseAddress, TmrCtrNumber)			\
-	XTmrCtr_mSetControlStatusReg((BaseAddress), (TmrCtrNumber),	\
-	XTmrCtr_mGetControlStatusReg((BaseAddress), (TmrCtrNumber)))
-
-#define tm_ack()	XTmrCtr_mAckEvent(XLB_TIMER_0_BASEADDR, 0)
-#define tm_event()	XTmrCtr_mHasEventOccurred(XLB_TIMER_0_BASEADDR, 0)
-#define tm_deinit()	XTmrCtr_mDisable(XLB_TIMER_0_BASEADDR, 0)
-
-inline void tm_init(void)
-{
-	/*
-	 * TI	:= Timer Interval (in our case 1s)
-	 * TLR	:= Timer Load Register
-	 * FREQ	:= Frequency (CPU clock)
-	 *
-	 *	TLR + 2
-	 * TI = --------	--> TLR	= TI * FREQ - 2		| TI = 1s
-	 *	  FREQ			= FREQ - 2
-	 *				  ========
-	 */
-	XTmrCtr_mSetLoadReg(XLB_TIMER_0_BASEADDR, 0, XLB_MB_CLOCK_FREQ - 2);
-	XTmrCtr_mLoadTimerCounterReg(XLB_TIMER_0_BASEADDR, 0);
-	XTmrCtr_mSetControlStatusReg(XLB_TIMER_0_BASEADDR, 0,
-			XTC_CSR_AUTO_RELOAD_MASK | XTC_CSR_DOWN_COUNT_MASK);
-	XTmrCtr_mEnable(XLB_TIMER_0_BASEADDR, 0);
-}
-
-inline int boot_stop(void)
+static inline int boot_stop(void)
 {
 	int bc = XLB_BOOT_COUNTER;
 
 	print("Hit any key to stop autoboot: ");
 	putnum(bc);
 
-	tm_init();
+	xtm_init();
 	while (bc) {
-		if (tm_event()) {
-			tm_ack();
+		if (xtm_event()) {
+			xtm_ack();
 			print("\b\b\b\b\b\b\b\b");
 			putnum(--bc);
 		}
@@ -148,14 +77,14 @@ inline int boot_stop(void)
 		}
 	}
 
-	tm_deinit();
+	xtm_deinit();
 	print("\r\n");
 	return bc;
 }
 
 #else
 
-inline int boot_stop(void)
+static inline int boot_stop(void)
 {
 	return 0;
 }
@@ -173,12 +102,7 @@ int main ()
 {
 	locblob locblob_start = (locblob)(XLB_LOCBLOB_START);
 
-#ifdef XLB_UART16550
-	/* if we have a uart 16550, then that needs to be initialized */
-	XUartNs550_SetBaud(XLB_STDIO_BASEADDR, XLB_XILINX_UART16550_0_CLOCK_HZ,
-							XLB_STDIO_BAUDRATE);
-	XUartNs550_mSetLineControlReg(XLB_STDIO_BASEADDR, XUN_LCR_8_DATA_BITS);
-#endif
+	xuart_init();
 
 	/* bootloader greeting */
 	print(XLB_GREETING_STR);
