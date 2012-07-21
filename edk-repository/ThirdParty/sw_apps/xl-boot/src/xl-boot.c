@@ -1,5 +1,5 @@
 /*
- * (C) Copyright 2010 Li-Pro.Net
+ * (C) Copyright 2010-2012 Li-Pro.Net
  * Stephan Linz <linz@li-pro.net>
  *
  * This program is free software; you can redistribute it and/or
@@ -18,7 +18,8 @@
  * MA 02111-1307 USA
  */
 
-#include <stdio.h>
+#include "putstr.h"
+#include "putnum.h"
 
 #include "xbasic_types.h"
 #include "xparameters.h"
@@ -27,7 +28,7 @@
 #include "xl-xuart.h"
 #include "xl-xtm.h"
 
-#define XLB_SRC_VER		"0.10"
+#define XLB_SRC_VER		"0.20"
 
 #ifndef XLB_STDIO_BAUDRATE
 #define XLB_STDIO_BAUDRATE	115200
@@ -59,7 +60,8 @@ typedef void (*locblob)(void);
 
 /*
  * Stubbed out version of newlib _exit hook and reduce code size
- * significantly.
+ * significantly. We can do this since we newer regist a newlib
+ * exit handler with atexit().
  */
 void __call_exitprocs(void)
 {
@@ -69,17 +71,17 @@ void __call_exitprocs(void)
 
 static inline int boot_stop(void)
 {
-	int bc = XLB_BOOT_COUNTER;
+	int bc = XLB_BOOT_COUNTER & 0xFFFF;
 
-	print("Hit any key to stop autoboot: ");
-	putnum(bc);
+	putstr("Hit any key to stop autoboot: ");
+	putnum16(bc);
 
 	xtm_init();
 	while (bc) {
 		if (xtm_event()) {
 			xtm_ack();
-			print("\b\b\b\b\b\b\b\b");
-			putnum(--bc);
+			putstr("\b\b\b\b");
+			putnum16(--bc);
 		}
 		if (getkey()) {
 			break;
@@ -87,7 +89,7 @@ static inline int boot_stop(void)
 	}
 
 	xtm_deinit();
-	print("\r\n");
+	putstr("\r\n");
 	return bc;
 }
 
@@ -114,18 +116,18 @@ int main(void)
 	xuart_init();
 
 	/* bootloader greeting */
-	print(XLB_GREETING_STR);
+	putstr(XLB_GREETING_STR);
 
 	/* search and run locator blob image */
-	putnum(XLB_LOCBLOB_START);
-	print(": ");
+	putnum32(XLB_LOCBLOB_START);
+	putstr(": ");
 	if (*(u32 *)locblob_start == XLB_LOCBLOB_KEY) {
-		print("start image locator...\r\n");
+		putstr("start image locator...\r\n");
 		if (!boot_stop()) {
 			locblob_start();
 		}
 	}
 
-	print("no image, use XMD for JTAG download.\r\n");
+	putstr("no image, use XMD for JTAG download.\r\n");
 	return -1;
 }
