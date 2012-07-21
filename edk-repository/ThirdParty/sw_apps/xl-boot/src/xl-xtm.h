@@ -38,4 +38,8 @@ extern inline void xtm_ack(void);
 
 #endif /* XLB_BOOT_COUNTER */
 
+#ifdef __cplusplus
+}
+#endif
+
 #endif /* _XLB_XTM_H */
