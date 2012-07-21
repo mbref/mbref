@@ -25,6 +25,7 @@
 extern "C" {
 #endif
 
+#include "xbasic_types.h"
 #include "xparameters.h"
 #include "xlb_config.h"
 
@@ -52,7 +53,7 @@ extern inline void xuart16550_init(void);
 #define xuart_init() xuart16550_init()
 #endif
 
-extern inline char getkey(void);
+extern inline u8 getkey(void);
 
 #ifdef __cplusplus
 }

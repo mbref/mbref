@@ -56,7 +56,7 @@ inline void xtm_deinit(void)
 	XTmrCtr_mDisable(XLB_TIMER_0_BASEADDR, 0);
 }
 
-inline unsigned int xtm_event(void)
+inline u32 xtm_event(void)
 {
 	return XTmrCtr_mHasEventOccurred(XLB_TIMER_0_BASEADDR, 0);
 }

@@ -25,6 +25,7 @@
 extern "C" {
 #endif
 
+#include "xbasic_types.h"
 #include "xparameters.h"
 #include "xlb_config.h"
 
@@ -32,7 +33,7 @@ extern "C" {
 
 extern inline void xtm_init(void);
 extern inline void xtm_deinit(void);
-extern inline unsigned int xtm_event(void);
+extern inline u32 xtm_event(void);
 extern inline void xtm_ack(void);
 
 #endif /* XLB_BOOT_COUNTER */

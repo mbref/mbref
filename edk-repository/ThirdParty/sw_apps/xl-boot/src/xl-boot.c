@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 
+#include "xbasic_types.h"
 #include "xparameters.h"
 #include "xlb_config.h"
 
@@ -98,7 +99,7 @@ static inline int boot_stop(void)
 	"[" XLB_MB_FAMILY ":" XLB_MB_HW_VER ":" XLB_STDIO_HW		\
 	":" __DATE__ " " __TIME__ "]\r\n"
 
-int main ()
+int main(void)
 {
 	locblob locblob_start = (locblob)(XLB_LOCBLOB_START);
 
@@ -110,7 +111,7 @@ int main ()
 	/* search and run locator blob image */
 	putnum(XLB_LOCBLOB_START);
 	print(": ");
-	if (*(unsigned int *)locblob_start == XLB_LOCBLOB_KEY) {
+	if (*(u32 *)locblob_start == XLB_LOCBLOB_KEY) {
 		print("start image locator...\r\n");
 		if (!boot_stop()) {
 			locblob_start();

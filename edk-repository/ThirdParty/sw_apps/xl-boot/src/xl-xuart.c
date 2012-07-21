@@ -41,7 +41,7 @@
 
 #if defined(XLB_UARTLITE)
 
-char getkey(void)
+inline u8 getkey(void)
 {
 	if(XUartLite_mIsReceiveEmpty(XLB_STDIO_BASEADDR)) {
 		return '\0';
@@ -60,7 +60,7 @@ inline void xuart16550_init(void)
 	XUartNs550_mSetLineControlReg(XLB_STDIO_BASEADDR, XUN_LCR_8_DATA_BITS);
 }
 
-inline char getkey(void)
+inline u8 getkey(void)
 {
 	if (!XUartNs550_mIsReceiveData(XLB_STDIO_BASEADDR)) {
 		return '\0';
