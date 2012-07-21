@@ -256,5 +256,5 @@ proc swapp_get_linker_constraints {} {
     # set code & data memory to point to bram
     # no need for vectors section (affects PPC linker scripts only)
     # no need for heap
-    return "code_memory $code_memory data_memory $data_memory vector_section no heap 0";
+    return "code_memory $code_memory data_memory $data_memory vector_section no stack 512 heap 0";
 }
