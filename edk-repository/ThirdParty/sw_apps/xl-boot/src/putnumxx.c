@@ -44,15 +44,15 @@ void putnumxx(const unsigned int bits, const unsigned int num)
 	char *ptr;
 	int cnt;
 	int digit;
-	int bytes;
+	int nibbles;
 
 	if (bits == 0)
 		return;
 
-	bytes = (4 + (bits - 1) - (bits - 1) % 4) / 4;
+	nibbles = (4 + (bits - 1) - (bits - 1) % 4) / 4;
 
 	ptr = buf;
-	for (cnt = bytes - 1 ; cnt >= 0 ; cnt--) {
+	for (cnt = nibbles - 1 ; cnt >= 0 ; cnt--) {
 		digit = (num >> (cnt * 4)) & 0xf;
 
 		if (digit <= 9)
