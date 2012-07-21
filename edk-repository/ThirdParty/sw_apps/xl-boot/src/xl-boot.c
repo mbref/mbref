@@ -25,10 +25,11 @@
 #include "xparameters.h"
 #include "xlb_config.h"
 
+#include "xl-blob.h"
 #include "xl-xuart.h"
 #include "xl-xtm.h"
 
-#define XLB_SRC_VER		"0.20"
+#define XLB_SRC_VER		"0.40"
 
 #ifndef XLB_BOOT_COUNTER
 #define XLB_BOOT_COUNTER	10
@@ -42,17 +43,6 @@
 #warning "missing XLB_FLASH_START, set to zero (HOT FIX, expand your BSP)"
 #define XLB_FLASH_START		0
 #endif
-
-#define XLB_LOCBLOB_START	(XLB_FLASH_START + XLB_LOCBLOB_OFFSET)
-
-/*
- * image key is the first fixed assmebly mnemonic of the image locator blob:
- *	brlid r5, locator	--> 0xb8b40008
- */
-#define XLB_LOCBLOB_KEY		0xb8b40008
-
-/* locator blob entry */
-typedef void (*locblob)(void);
 
 /*
  * Stubbed out version of newlib _exit hook and reduce code size
@@ -105,9 +95,12 @@ static inline int boot_stop(void)
 	"[" XLB_MB_FAMILY ":" XLB_MB_HW_VER ":" XLB_STDIO_HW		\
 	":" __DATE__ " " __TIME__ "]\r\n"
 
+#define XLB_LOCBLOB_START	(XLB_FLASH_START + XLB_LOCBLOB_OFFSET)
+
 int main(void)
 {
-	locblob locblob_start = (locblob)(XLB_LOCBLOB_START);
+	struct locblob * const locblob = (struct locblob *)(XLB_LOCBLOB_START);
+	locblobfp const locblob_start = (locblobfp)(locblob);
 
 	xuart_init();
 
@@ -115,15 +108,14 @@ int main(void)
 	putstr(XLB_GREETING_STR);
 
 	/* search and run locator blob image */
-	putnum32(XLB_LOCBLOB_START);
-	putstr(": ");
-	if (*(u32 *)locblob_start == XLB_LOCBLOB_KEY) {
-		putstr("start image locator...\r\n");
+	if (locblob_probe(locblob)) {
 		if (!boot_stop()) {
+			putstr("Start image locator...\r\n");
 			locblob_start();
 		}
 	}
 
-	putstr("no image, use XMD for JTAG download.\r\n");
+	putnum32(XLB_LOCBLOB_START);
+	putstr(": no image, use XMD for JTAG download.\r\n");
 	return -1;
 }
