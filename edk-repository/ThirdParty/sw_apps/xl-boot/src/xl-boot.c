@@ -57,6 +57,14 @@
 /* locator blob entry */
 typedef void (*locblob)(void);
 
+/*
+ * Stubbed out version of newlib _exit hook and reduce code size
+ * significantly.
+ */
+void __call_exitprocs(void)
+{
+}
+
 #if (XLB_BOOT_COUNTER != 0)
 
 static inline int boot_stop(void)
