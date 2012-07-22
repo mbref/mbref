@@ -86,6 +86,8 @@ BEGIN OS tpos
     # standard peripherals
     PARAM NAME = sysace, DESC = "sysace interface for CF", TYPE = peripheral_instance, RANGE = (opb_sysace, xps_sysace, axi_sysace), DEFAULT = none;
     PARAM NAME = ethernet, DESC = "ethernet controller", TYPE = peripheral_instance, RANGE = (opb_ethernet, opb_ethernetlite, xps_ethernetlite, axi_ethernetlite, xps_ethernet, axi_ethernet, xps_ll_temac, s2imac_epc), DEFAULT = none;
+    PARAM NAME = ethernet_phychip, DESC = "manual selection of supported ethernet phy chip", TYPE = enum, VALUES = ("Marvell 88e1111" = PHY_88E1111, "Natsemi DP83848" = PHY_DP83848, "Natsemi DP83865" = PHY_DP83865), DEFAULT = PHY_88E1111;
+    PARAM NAME = ethernet_phyaddr, DESC = "manual selection of ethernet phy address (MDIO bus)", TYPE = int, RANGE = (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31), DEFAULT = 7;
     PARAM NAME = gpio, DESC = "LED interface controller", TYPE = peripheral_instance, RANGE = (opb_gpio, plb_gpio, xps_gpio, axi_gpio), DEFAULT = none;
     PARAM NAME = iic, DESC = "I2C interface controller", TYPE = peripheral_instance, RANGE = (opb_iic, xps_iic, axi_iic), DEFAULT = none;
     PARAM NAME = spi, DESC = "SPI interface controller", TYPE = peripheral_instance, RANGE = (xps_spi, axi_spi), DEFAULT = none;

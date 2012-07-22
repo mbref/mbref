@@ -122,6 +122,10 @@ proc generate {os_handle} {
 	set flash_memory_bank [xget_sw_parameter_value $os_handle "flash_memory_bank"]
 	global flash_memory_sfchip
 	set flash_memory_sfchip [xget_sw_parameter_value $os_handle "flash_memory_sfchip"]
+	global ethernet_phychip
+	set ethernet_phychip [xget_sw_parameter_value $os_handle "ethernet_phychip"]
+	global ethernet_phyaddr
+	set ethernet_phyaddr [xget_sw_parameter_value $os_handle "ethernet_phyaddr"]
 	global timer
 	set timer [xget_sw_parameter_value $os_handle "timer"]
 
@@ -2352,13 +2356,29 @@ proc gen_macaddr {ip_tree} {
 }
 
 proc gen_phytree {} {
+	global ethernet_phychip ethernet_phyaddr
+	variable phy_compat
 	variable phy_count
 
-	set phy_name [format_ip_name phy 7 "phy$phy_count"]
+	# Set phy type and mdio bus address
+	switch -exact ${ethernet_phychip} {
+		"PHY_DP83848" {
+			set phy_compat "natsemi,dp83848"
+		}
+		"PHY_DP83865" {
+			set phy_compat "natsemi,dp83865"
+		}
+		"PHY_88E1111" -
+		default {
+			set phy_compat "marvell,88e1111"
+		}
+	}
+
+	set phy_name [format_ip_name phy $ethernet_phyaddr "phy$phy_count"]
 	set phy_tree [list $phy_name tree {}]
-	set phy_tree [tree_append $phy_tree [list "reg" int 7]]
+	set phy_tree [tree_append $phy_tree [list "reg" int $ethernet_phyaddr]]
 	set phy_tree [tree_append $phy_tree [list "device_type" string "ethernet-phy"]]
-	set phy_tree [tree_append $phy_tree [list "compatible" string "marvell,88e1111"]]
+	set phy_tree [tree_append $phy_tree [list "compatible" string $phy_compat]]
 
 	incr phy_count
 	return $phy_tree
