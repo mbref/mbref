@@ -65,20 +65,26 @@ void putnumxx(const unsigned int bits, const unsigned int num)
 	putstr (buf);
 }
 
-void putnum0(const unsigned int num)
+int putnum0(const unsigned int num)
 {
 	unsigned int mask = ~0L;
 	unsigned int bits = 0;
 
 	/* special case num == 0 */
-	if (!num)
+	if (!num) {
 		putnumxx(4, num);
+		return 4;
+	}
 
 	/* use a rolling mask for size optimization (code and stack) */
 	while (mask) {
-		if (!(num & mask))
-			return putnumxx(bits, num);
+		if (!(num & mask)) {
+			putnumxx(bits, num);
+			return bits;
+		}
 		mask <<= 4;
 		bits += 4;
 	}
+
+	return 0;
 }
