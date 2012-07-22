@@ -57,17 +57,20 @@ void __call_exitprocs(void)
 
 static inline int boot_stop(void)
 {
-	int bc = XLB_BOOT_COUNTER & 0xFFFF;
+	int bc = XLB_BOOT_COUNTER;
+	int bits, nibbles;
 
 	putstr("Hit any key to stop autoboot: ");
-	putnum16(bc);
+	bits = putnum0(bc);
 
 	xtm_init();
 	while (bc) {
+		nibbles = bits / 4;
 		if (xtm_event()) {
 			xtm_ack();
-			putstr("\b\b\b\b");
-			putnum16(--bc);
+			while (nibbles--)
+				putstr("\b");
+			putnumxx(bits, --bc);
 		}
 		if (getkey()) {
 			break;
