@@ -21,7 +21,12 @@
 #include "putstr.h"
 #include "putnum.h"
 
+#include "xbasic_types.h"
+#include "xparameters.h"
+#include "xlb_config.h"
+
 #include "xl-blob.h"
+#include "xl-spiflash.h"
 
 static inline void locblob_info(struct locblob * const locblob)
 {
@@ -34,8 +39,43 @@ static inline void locblob_info(struct locblob * const locblob)
 	putstr(" byte\r\n");
 }
 
+#ifdef XLB_SPI_FLASH_BASEADDR
+
+static inline int locblob_load(struct locblob * const locblob)
+{
+	int ret;
+
+	if(spi_flash_probe(1 /* verbose */) != 0)
+		return 0;
+
+	if(spi_flash_read_fast(XLB_LOCBLOB_OFFSET,
+			sizeof(struct locblob), (void *)locblob))
+		return 0;
+
+	if (*(u32 *)locblob != XLB_LOCBLOB_KEY || !locblob->header.size)
+		return 0;
+
+	putstr("LB: copy payload data... ");
+	ret = spi_flash_read_fast(XLB_LOCBLOB_OFFSET + sizeof(struct locblob),
+			locblob->header.size, (void *)(locblob + 1));
+	putstr("\r\n");
+
+	if (ret)
+		return 0;
+
+	return 1;
+}
+
+#endif /* XLB_SPI_FLASH_BASEADDR */
+
 int locblob_probe(struct locblob * const locblob)
 {
+#ifdef XLB_SPI_FLASH_BASEADDR
+	if ((u32)locblob == XLB_RAM_START)
+		if (!locblob_load(locblob))
+			return 0;
+#endif
+
 	if (*(u32 *)locblob == XLB_LOCBLOB_KEY) {
 		locblob_info(locblob);
 		return 1;

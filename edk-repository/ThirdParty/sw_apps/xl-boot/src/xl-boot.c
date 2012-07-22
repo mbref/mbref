@@ -29,7 +29,7 @@
 #include "xl-xuart.h"
 #include "xl-xtm.h"
 
-#define XLB_SRC_VER		"0.40"
+#define XLB_SRC_VER		"0.50"
 
 #ifndef XLB_BOOT_COUNTER
 #define XLB_BOOT_COUNTER	10
@@ -39,9 +39,12 @@
 #define XLB_LOCBLOB_OFFSET	0
 #endif
 
-#ifndef XLB_FLASH_START
-#warning "missing XLB_FLASH_START, set to zero (HOT FIX, expand your BSP)"
-#define XLB_FLASH_START		0
+#if	defined(XLB_FLASH_START)
+#define XLB_LOCBLOB_START	(XLB_FLASH_START + XLB_LOCBLOB_OFFSET)
+#elif	defined(XLB_RAM_START)
+#define XLB_LOCBLOB_START	(XLB_RAM_START)
+#else
+#error "missing XLB_FLASH_START or XLB_RAM_START to set XLB_LOCBLOB_START"
 #endif
 
 /*
@@ -98,8 +101,6 @@ static inline int boot_stop(void)
 	"[" XLB_MB_FAMILY ":" XLB_MB_HW_VER ":" XLB_STDIO_HW		\
 	":" __DATE__ " " __TIME__ "]\r\n"
 
-#define XLB_LOCBLOB_START	(XLB_FLASH_START + XLB_LOCBLOB_OFFSET)
-
 int main(void)
 {
 	struct locblob * const locblob = (struct locblob *)(XLB_LOCBLOB_START);
@@ -118,7 +119,7 @@ int main(void)
 		}
 	}
 
-	putnum32(XLB_LOCBLOB_START);
+	putnum32((u32)locblob);
 	putstr(": no image, use XMD for JTAG download.\r\n");
 	return -1;
 }
