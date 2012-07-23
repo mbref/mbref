@@ -105,6 +105,11 @@ int main(void)
 	struct locblob * const locblob = (struct locblob *)(XLB_LOCBLOB_START);
 	locblobfp const locblob_start = (locblobfp)(locblob);
 
+	/* switch of all caches */
+	XCACHE_FLUSH_DCACHE();
+	XCACHE_INVALIDATE_ICACHE();
+	XCACHE_DISABLE_CACHE();
+
 	xuart_init();
 
 	/* bootloader greeting */
