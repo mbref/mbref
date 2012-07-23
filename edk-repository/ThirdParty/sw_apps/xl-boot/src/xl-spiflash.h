@@ -25,9 +25,8 @@
 extern "C" {
 #endif
 
-#include "xbasic_types.h"
-#include "xparameters.h"
-#include "xlb_config.h"
+#include <xenv_standalone.h>
+#include <xlb_config.h>
 
 extern int spi_flash_probe(int verbose);
 extern int spi_flash_read_fast(u32 offset, u32 len, void *data);

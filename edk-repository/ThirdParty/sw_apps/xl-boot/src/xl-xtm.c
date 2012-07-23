@@ -18,6 +18,9 @@
  * MA 02111-1307 USA
  */
 
+#include <xenv_standalone.h>
+#include <xlb_config.h>
+
 #include "xl-xtm.h"
 
 #include "xtmrctr_l.h"

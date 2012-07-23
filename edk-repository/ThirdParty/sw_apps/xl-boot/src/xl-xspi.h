@@ -25,9 +25,8 @@
 extern "C" {
 #endif
 
-#include "xbasic_types.h"
-#include "xparameters.h"
-#include "xlb_config.h"
+#include <xenv_standalone.h>
+#include <xlb_config.h>
 
 #define XSPI_OPFLAG_XFR_VERBOSE	(1 << 31)
 #define	XSPI_OPFLAG_XFR_END	(1 << 16)

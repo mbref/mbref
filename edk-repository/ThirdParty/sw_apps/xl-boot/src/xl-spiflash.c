@@ -24,12 +24,11 @@
  *    Licensed under the GPL-2 or later.
  */
 
+#include <xenv_standalone.h>
+#include <xlb_config.h>
+
 #include "putstr.h"
 #include "putnum.h"
-
-#include "xbasic_types.h"
-#include "xparameters.h"
-#include "xlb_config.h"
 
 #include "xl-xspi.h"
 

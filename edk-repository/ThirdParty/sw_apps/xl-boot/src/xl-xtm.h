@@ -25,9 +25,8 @@
 extern "C" {
 #endif
 
-#include "xbasic_types.h"
-#include "xparameters.h"
-#include "xlb_config.h"
+#include <xenv_standalone.h>
+#include <xlb_config.h>
 
 #if (XLB_BOOT_COUNTER != 0)
 

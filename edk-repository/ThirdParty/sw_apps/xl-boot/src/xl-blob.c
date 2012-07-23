@@ -18,12 +18,11 @@
  * MA 02111-1307 USA
  */
 
+#include <xenv_standalone.h>
+#include <xlb_config.h>
+
 #include "putstr.h"
 #include "putnum.h"
-
-#include "xbasic_types.h"
-#include "xparameters.h"
-#include "xlb_config.h"
 
 #include "xl-blob.h"
 #include "xl-spiflash.h"
