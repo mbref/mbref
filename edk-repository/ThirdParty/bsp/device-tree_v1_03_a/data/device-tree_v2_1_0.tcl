@@ -526,10 +526,9 @@ proc get_intc_signals {intc} {
 }
 
 # Get interrupt number
-proc get_intr {ip_handle intc intc_value port_name} {
+proc get_intr_algo {intc intc_value port_handle} {
 	if {![string match "" $intc] && ![string match -nocase "none" $intc]} {
 		set intc_signals [get_intc_signals $intc]
-		set port_handle [xget_hw_port_handle $ip_handle "$port_name"]
 		set interrupt_signal [xget_value $port_handle "VALUE"]
 		set index [lsearch $intc_signals $interrupt_signal]
 		if {$index == -1} {
@@ -543,9 +542,17 @@ proc get_intr {ip_handle intc intc_value port_name} {
 	}
 }
 
-proc get_intr_type {ip_handle port_name} {
-	set ip_name [xget_hw_name $ip_handle]
+proc get_intr {ip_handle intc intc_value port_name} {
 	set port_handle [xget_hw_port_handle $ip_handle "$port_name"]
+	return [get_intr_algo $intc $intc_value $port_handle]
+}
+
+proc get_intr_mhs {mhs intc intc_value connector_name} {
+	set port_handle [xget_hw_connected_ports_handle $mhs "$connector_name" "source"]
+	return [get_intr_algo $intc $intc_value $port_handle]
+}
+
+proc get_intr_type_algo {ip_name port_handle error_string} {
 	set sensitivity [xget_hw_subproperty_value $port_handle "SENSITIVITY"];
 	# Follow the openpic specification
 	if { [string compare -nocase $sensitivity "EDGE_FALLING"] == 0 } {
@@ -557,8 +564,19 @@ proc get_intr_type {ip_handle port_name} {
 	} elseif { [string compare -nocase $sensitivity "LEVEL_LOW"] == 0 } {
 		return 1;
 	} else {
-		error "Unknown interrupt sensitivity on port $port_name of $ip_name was $sensitivity"
+		error "Unknown interrupt sensitivity on $error_string of $ip_name was $sensitivity"
 	}
+}
+
+proc get_intr_type {ip_handle port_name} {
+	set ip_name [xget_hw_name $ip_handle]
+	set port_handle [xget_hw_port_handle $ip_handle "$port_name"]
+	return [get_intr_type_algo $ip_name $port_handle "port $port_name"]
+}
+
+proc get_intr_type_mhs {mhs connector_name} {
+	set port_handle [xget_hw_connected_ports_handle $mhs "$connector_name" "source"]
+	return [get_intr_type_algo "MHS" $port_handle "connector $connector_name"]
 }
 
 # Generate a template for a compound slave, such as the ll_temac or
@@ -2531,10 +2549,18 @@ proc gen_ranges_property_list {slave rangelist} {
 	return [list "ranges" hexinttuple $ranges]
 }
 
+proc gen_interrupt_property_algo {tree intc interrupt_list} {
+	set intc_name [xget_hw_name $intc]
+	if {[llength $interrupt_list] != 0} {
+		set tree [tree_append $tree [list "interrupts" inttuple $interrupt_list]]
+		set tree [tree_append $tree [list "interrupt-parent" labelref $intc_name]]
+	}
+	return $tree
+}
+
 proc gen_interrupt_property {tree slave intc interrupt_port_list} {
 	set pocet [scan_int_parameter_value $intc "C_NUM_INTR_INPUTS"]
 	set pocet [expr $pocet - 1]
-	set intc_name [xget_hw_name $intc]
 	set interrupt_list {}
 	foreach in $interrupt_port_list {
 		set irq [get_intr $slave $intc $pocet $in]
@@ -2544,11 +2570,22 @@ proc gen_interrupt_property {tree slave intc interrupt_port_list} {
 			lappend interrupt_list $irq $irq_type
 		}
 	}
-	if {[llength $interrupt_list] != 0} {
-		set tree [tree_append $tree [list "interrupts" inttuple $interrupt_list]]
-		set tree [tree_append $tree [list "interrupt-parent" labelref $intc_name]]
+	return [gen_interrupt_property_algo $tree $intc $interrupt_list]
+}
+
+proc gen_interrupt_property_mhs {tree mhs intc interrupt_connector_list} {
+	set pocet [scan_int_parameter_value $intc "C_NUM_INTR_INPUTS"]
+	set pocet [expr $pocet - 1]
+	set interrupt_list {}
+	foreach in $interrupt_connector_list {
+		set irq [get_intr_mhs $mhs $intc $pocet $in]
+
+		if {![string match $irq "-1"]} {
+			set irq_type [get_intr_type_mhs $mhs $in]
+			lappend interrupt_list $irq $irq_type
+		}
 	}
-	return $tree
+	return [gen_interrupt_property_algo $tree $intc $interrupt_list]
 }
 
 proc gen_reg_property {nodename baseaddr highaddr {name "reg"}} {
