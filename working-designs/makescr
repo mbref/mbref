@@ -252,7 +252,15 @@ function xps_run_program() {
 		if [ ${HAVE_TO_PATCH_MAKEFILE} -eq 1 ]; then
 			sed -i -e 's%\(libgen.*\)\(-pe.*$\)%\1-lp ../../../edk-repository/ThirdParty \2%' ${MB_SOFTWARE}/Makefile
 		fi
-		make -C ${MB_SOFTWARE}
+		sed -i -e 's%\(^CC_FLAGS.*$\)%\1 -O2 -g%' ${MB_SOFTWARE}/Makefile
+		cat << EOF >>${MB_SOFTWARE}/Makefile
+elfcheck: \$(EXEC)
+	elfcheck \$< -hw \$(HWSPEC) -pe ${MB_INSTANCE}
+
+showsize: \$(EXEC)
+	\$(patsubst %-gcc,%-size,\$(CC)) \$<
+EOF
+		make -C ${MB_SOFTWARE} all elfcheck showsize
 	else
 		xps -nw system.xmp << EOF
 set tcl_interactive 0
