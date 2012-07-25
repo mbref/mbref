@@ -44,6 +44,7 @@ variable uart16550_count
 variable ethernet_count
 variable mac_count
 variable phy_count
+variable rtc_count
 
 #############################################################################
 #  Package meta
@@ -77,6 +78,7 @@ set uart16550_count 0
 set mac_count 0
 set ethernet_count 0
 set phy_count 0
+set rtc_count 0
 set gpio_names {}
 set overrides {}
 
@@ -128,6 +130,10 @@ proc generate {os_handle} {
 	set ethernet_phyaddr [xget_sw_parameter_value $os_handle "ethernet_phyaddr"]
 	global timer
 	set timer [xget_sw_parameter_value $os_handle "timer"]
+	global rtc
+	set rtc [xget_sw_parameter_value $os_handle "rtc"]
+	global rtc_interrupt
+	set rtc_interrupt [xget_sw_parameter_value $os_handle "rtc_interrupt"]
 
 	# FIXME: Why we have to set generic_uio_list here?
 	#        Why is global setup invalid? (see above around line 110-115)
@@ -1412,8 +1418,16 @@ proc gener_slave {node slave intc} {
 		"axi_iic" -
 		"xps_iic" -
 		"opb_iic" {
-			# We should handle this specially, to report two ports.
-			lappend node [slaveip_intr $slave $intc [interrupt_list $slave] "i2c" [default_parameters $slave]]
+			# TODO: We should handle this specially, to report two ports.
+			set ip_tree [slaveip_intr $slave $intc [interrupt_list $slave] "i2c" [default_parameters $slave]]
+			# If it is a I2C/RTC, we will add a RTC subnode to the I2C controller
+			set ip_rtctree [gen_rtctree $intc $type]
+			if { $ip_rtctree != -1} {
+				set ip_tree [tree_append $ip_tree [list "#address-cells" int "1"]]
+				set ip_tree [tree_append $ip_tree [list "#size-cells" int "0"]]
+				set ip_tree [tree_append $ip_tree $ip_rtctree]
+			}
+			lappend node $ip_tree
 		}
 		"xps_spi" -
 		"axi_spi" -
@@ -2407,6 +2421,39 @@ proc gen_mdiotree {} {
 	set mdio_tree [tree_append $mdio_tree [list \#size-cells int 0]]
 	set mdio_tree [tree_append $mdio_tree [list \#address-cells int 1]]
 	return [tree_append $mdio_tree [gen_phytree]]
+}
+
+proc gen_rtctree {intc devicetype} {
+	global rtc rtc_interrupt
+	variable rtc_compat
+	variable rtc_count
+
+	# Set rtc type and bus address
+	switch -exact ${rtc} {
+		"RTC_IIC_DS3232" {
+			set rtc_compat "dallas,ds3232"
+			set rtc_addr 0x68
+		}
+		default {
+			return -1
+		}
+	}
+
+	set rtc_name [format_ip_name $devicetype $rtc_addr "rtc$rtc_count"]
+	set rtc_tree [list $rtc_name tree {}]
+	set rtc_tree [tree_append $rtc_tree [list "reg" hexinttuple $rtc_addr]]
+	set rtc_tree [tree_append $rtc_tree [list "device_type" string "rtc"]]
+	set rtc_tree [tree_append $rtc_tree [list "compatible" string $rtc_compat]]
+
+	if {![string match "" $rtc_interrupt]} {
+		set proc_handle [xget_libgen_proc_handle]
+		set hwproc_handle [xget_handle $proc_handle "IPINST"]
+		set mhs_handle [xget_hw_parent_handle $hwproc_handle]
+		set rtc_tree [gen_interrupt_property_mhs $rtc_tree $mhs_handle $intc [list $rtc_interrupt]]
+	}
+
+	incr rtc_count
+	return $rtc_tree
 }
 
 # TODO: remove next two lines which is a temporary HACK for CR 532315
