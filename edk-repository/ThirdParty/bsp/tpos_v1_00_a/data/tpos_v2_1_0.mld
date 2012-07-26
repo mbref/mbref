@@ -74,7 +74,6 @@ BEGIN OS tpos
     PARAM NAME = main_memory_offset, DESC = "manual override of main memory start offset", TYPE = int, DEFAULT = 0;
     # flash peripherals (ROM), Xilinx (Multi-Channel) External Memory Controller on OPB or PLB
     PARAM NAME = flash_memory, DESC = "flash memory (mainly NOR via CFI or SPI)", TYPE = peripheral_instance, RANGE = (opb_emc, plb_emc, mch_opb_emc, xps_mch_emc, axi_emc, xps_spi, axi_spi), DEFAULT = none;
-    PARAM NAME = flash_memory_sfchip, DESC = "manual selection of supported spi flash chip (nonSPI: unused)", TYPE = enum, VALUES = ("Unknown" = SF_UNKNOWN, "N25Q128" = SF_N25Q128), DEFAULT = SF_UNKNOWN;
     PARAM NAME = flash_memory_bank, DESC = "bank within memory controller of flash memory (SPI: slave select)", TYPE = int, DEFAULT = 0;
     PARAM NAME = flash_memory_start, DESC = "manual override of flash memory start address (SPI: unused)", TYPE = int, DEFAULT = -1;
     PARAM NAME = flash_memory_size, DESC = "manual override of flash memory size (SPI: unused)", TYPE = int, DEFAULT = 0;

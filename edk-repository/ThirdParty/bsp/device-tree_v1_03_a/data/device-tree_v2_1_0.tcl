@@ -45,6 +45,7 @@ variable ethernet_count
 variable mac_count
 variable phy_count
 variable rtc_count
+variable sf_count
 
 #############################################################################
 #  Package meta
@@ -79,6 +80,7 @@ set mac_count 0
 set ethernet_count 0
 set phy_count 0
 set rtc_count 0
+set sf_count 0
 set gpio_names {}
 set overrides {}
 
@@ -122,8 +124,6 @@ proc generate {os_handle} {
 	set flash_memory [xget_sw_parameter_value $os_handle "flash_memory"]
 	global flash_memory_bank
 	set flash_memory_bank [xget_sw_parameter_value $os_handle "flash_memory_bank"]
-	global flash_memory_sfchip
-	set flash_memory_sfchip [xget_sw_parameter_value $os_handle "flash_memory_sfchip"]
 	global timer
 	set timer [xget_sw_parameter_value $os_handle "timer"]
 
@@ -549,6 +549,74 @@ proc valid_iic_addr {addr} {
 	&& $addr != 0x79 && $addr != 0x7a && $addr != 0x7b && $addr != 0x7c
 	&& $addr != 0x7d && $addr != 0x7e && $addr != 0x7f } {
 		return $addr
+	}
+	return
+}
+
+# generate structure for Flash chip on spi.
+# {key-word IP_name chip_compat chip_ss}
+#
+# PARAMETER periph_type_overrides = {flash-spi SPI_FLASH micron,n25q128 0}
+proc flash_spi {slave intc} {
+	variable overrides
+	variable sf_count
+	global flash_memory
+	global flash_memory_bank
+	set tree {}
+	foreach over $overrides {
+		# parse flash-spi keyword
+		if {[lindex $over 0] == "flash-spi"} {
+			# search if that spi name is valid IP core in system
+			set desc [valid_spi [xget_hw_name $slave] [lindex $over 1]]
+			if { "$desc" != "" } {
+				set compat [lindex $over 2]
+				set ssmax [scan_int_parameter_value $slave "C_NUM_SS_BITS"]
+				set ss [valid_spi_ss $ssmax [lindex $over 3]]
+				if { [string match -nocase $flash_memory $desc] && $flash_memory_bank ==  $ss } {
+					set entry_name "primary_flash"
+				} else {
+					set entry_name "spi_flash$sf_count"
+				}
+				# check if is a compat string and valid iic address
+				if { "$compat" != "" &&  "$ss" != "" } {
+					set devicetype [xget_hw_value $slave]
+					set name [format_ip_name $devicetype $ss $entry_name]
+					set tree [list $name tree {}]
+					set tree [tree_append $tree [list "reg" hexinttuple $ss]]
+					set tree [tree_append $tree [list "compatible" string $compat]]
+					# Set the SPI Flash clock freqeuncy
+					if { $devicetype == "axi_spi" } {
+						set sys_clk [get_clock_frequency $slave "S_AXI_ACLK"]
+					} else {
+						set sys_clk [get_clock_frequency $slave "SPLB_Clk"]
+					}
+					set sck_ratio [scan_int_parameter_value $slave "C_SCK_RATIO"]
+					set sck [expr { $sys_clk / $sck_ratio }]
+					set tree [tree_append $tree [list "spi-max-frequency" int $sck]]
+					incr sf_count
+				} else {
+					debug warning "WARNING: FLASH-SPI: Missing compat-name or slave select. Can't generate correct."
+				}
+# NOT APPLICABLE	} else {
+# NOT APPLICABLE		puts "FLASH-SPI: Not valid IP name $over"
+			}
+		}
+	}
+	return $tree
+}
+
+# Check if spi name is valid or not
+proc valid_spi {slave_name over_name} {
+	if { "$slave_name" == "$over_name" } {
+		return $slave_name
+	}
+	return
+}
+
+# Check if spi slave select is valid or not
+proc valid_spi_ss {maxss ss} {
+	if { ![string match "" $ss] && $ss < $maxss } {
+		return $ss
 	}
 	return
 }
@@ -1571,35 +1639,13 @@ proc gener_slave {node slave intc} {
 		"axi_spi" -
 		"axi_quad_spi" {
 			# We will handle SPI FLASH here
-			global flash_memory flash_memory_bank flash_memory_sfchip
 			set tree [slaveip_intr $slave $intc [interrupt_list $slave] "spi" [default_parameters $slave] "" ]
-
-			if {[string match -nocase $flash_memory $name]} {
+			set sftree [flash_spi $slave $intc]
+			if { "$sftree" != "" } {
 				# Add the address-cells and size-cells to make the DTC compiler stop outputing warning
 				set tree [tree_append $tree [list "#address-cells" int "1"]]
 				set tree [tree_append $tree [list "#size-cells" int "0"]]
-				# If it is a SPI FLASH, we will add a SPI Flash
-				# subnode to the SPI controller
-				set subnode {}
-				# Set the SPI Flash chip select
-				lappend subnode [list "reg" hexinttuple [list $flash_memory_bank]]
-				# Set the SPI Flash clock freqeuncy
-				if { $type == "axi_spi" } {
-					set sys_clk [get_clock_frequency $slave "S_AXI_ACLK"]
-				} else {
-					set sys_clk [get_clock_frequency $slave "SPLB_Clk"]
-				}
-				set sck_ratio [scan_int_parameter_value $slave "C_SCK_RATIO"]
-				set sck [expr { $sys_clk / $sck_ratio }]
-				lappend subnode [list [format_name "spi-max-frequency"] int $sck]
-				# Set the SPI Flash chip compatible entry
-				switch -exact ${flash_memory_sfchip} {
-					"SF_N25Q128" {
-						lappend subnode [list [format_name "compatible"] string "micron,n25q128"]
-					}
-					default {}
-				}
-				set tree [tree_append $tree [list [format_ip_name $type $flash_memory_bank "primary_flash"] tree $subnode]]
+				set tree [tree_append $tree $sftree]
 			}
 			lappend node $tree
 		}

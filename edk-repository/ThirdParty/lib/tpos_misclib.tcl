@@ -1246,15 +1246,17 @@ proc put_normem_cfg_ch {pkg fh osh nh} {
 			set flash_fifoexist [xget_sw_parameter_value ${nh} C_FIFO_EXIST]
 
 			# SPI Flash memory size and sector size by given chip
-			set flash_memory_sfchip [xget_sw_parameter_value ${osh} "flash_memory_sfchip"]
+			set flash_memory_sfchip [get_spi_flash_compat ${osh} ${nh} ${normem_bank}]
 			switch -exact ${flash_memory_sfchip} {
-				"SF_N25Q128" {
+				"micron,n25q128" {
 					set flash_size  [format "0x%08x" [expr { 16 * 1024 * 1024 }]]
 					set flash_ssize [format "0x%08x" [expr { 64 * 1024 }]]
 				}
 				default {
 					debug warning "WARNING: SPI Flash memory chip not specified."
-					debug warning "         Please specify flash_memory_sfchip in projects MSS."
+					debug warning "         Please specify periph_type_overrides in projects MSS."
+					array unset define SPISize
+					array unset define SPISectSize
 					set flash_size 0
 					set flash_ssize 0
 				}
@@ -2509,6 +2511,52 @@ proc get_value {handle name} {
 		error "ERROR: Request for undefined value [xget_hw_name ${handle}]:${name}"
 	}
 	return $value
+}
+
+proc get_value_if_lt {exp val} {
+	if { "$val" < "$exp" } {
+		return $val
+	}
+	return
+}
+
+proc get_value_if_equal {exp val} {
+	if { "$val" == "$exp" } {
+		return $val
+	}
+	return
+}
+
+proc get_periph_type_overrides {handle key} {
+	set tree {}
+	set overrides [get_value ${handle} "periph_type_overrides"]
+	foreach over ${overrides} {
+		# parse overrides keyword and collect all entries
+		if { [string match ${key} [lindex ${over} 0]] } {
+			lappend tree ${over}
+		}
+	}
+	return ${tree}
+}
+
+# generate structure for Flash chip on spi.
+# {key-word IP_name chip_compat chip_ss}
+#
+# PARAMETER periph_type_overrides = {flash-spi SPI_FLASH micron,n25q128 0}
+proc get_spi_flash_compat {handle spi_handle bank} {
+	set overrides [get_periph_type_overrides ${handle} "flash-spi"]
+	foreach over ${overrides} {
+		# search if that spi name is valid IP core in system
+		set desc [get_value_if_equal [xget_hw_name ${spi_handle}] [lindex ${over} 1]]
+		if { ![string match "" ${desc}] } {
+			set ssmax [get_value ${spi_handle} "C_NUM_SS_BITS"]
+			set ss [get_value_if_lt ${ssmax} [lindex $over 3]]
+			if { [string match ${bank} ${ss}] } {
+				return [lindex ${over} 2]
+			}
+		}
+	}
+	return
 }
 
 #test for peripheral - if is correct setting system bus
