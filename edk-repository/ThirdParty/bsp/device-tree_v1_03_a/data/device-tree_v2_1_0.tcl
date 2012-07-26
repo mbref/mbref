@@ -124,10 +124,6 @@ proc generate {os_handle} {
 	set flash_memory_bank [xget_sw_parameter_value $os_handle "flash_memory_bank"]
 	global flash_memory_sfchip
 	set flash_memory_sfchip [xget_sw_parameter_value $os_handle "flash_memory_sfchip"]
-	global ethernet_phychip
-	set ethernet_phychip [xget_sw_parameter_value $os_handle "ethernet_phychip"]
-	global ethernet_phyaddr
-	set ethernet_phyaddr [xget_sw_parameter_value $os_handle "ethernet_phyaddr"]
 	global timer
 	set timer [xget_sw_parameter_value $os_handle "timer"]
 	global rtc
@@ -432,6 +428,68 @@ proc headerc {ufile generator_version} {
 	puts $ufile " * XPS project directory: [file tail [get_project_folder]]"
 	puts $ufile " */"
 	puts $ufile ""
+}
+
+# generate structure for PHY chip on mdio.
+# {key-word IP_name chip_compat chip_addr chip_irq_connector}
+# chip_irq_connector can lack for chips without interrupt line
+#
+# PARAMETER periph_type_overrides = {phy-mdio Ethernet_MAC marvell,88e1111 7}
+proc phy_mdio {slave intc} {
+	variable overrides
+	variable phy_count
+	set tree {}
+	foreach over $overrides {
+		# parse phy-mdio keyword
+		if {[lindex $over 0] == "phy-mdio"} {
+			# search if that ethernet name is valid IP core in system
+			set desc [valid_ether [xget_hw_name $slave] [lindex $over 1]]
+			if { "$desc" != "" } {
+				set compat [lindex $over 2]
+				set addr [valid_mdio_addr [lindex $over 3]]
+				# check if is a compat string and valid mdio address
+				if { "$compat" != "" &&  "$addr" != "" } {
+					#set devicetype [xget_hw_value $slave]
+					#set name [format_ip_name $devicetype $addr "phy$phy_count"]
+					set name [format_ip_name phy $addr "phy$phy_count"]
+					set tree [list $name tree {}]
+					set tree [tree_append $tree [list "reg" int $addr]]
+					set tree [tree_append $tree [list "device_type" string "ethernet-phy"]]
+					set tree [tree_append $tree [list "compatible" string $compat]]
+					set connect [lindex $over 4]
+					# check if is a interrup connection
+					if { "$connect" != "" } {
+						set proc_handle [xget_libgen_proc_handle]
+						set hwproc_handle [xget_handle $proc_handle "IPINST"]
+						set mhs_handle [xget_hw_parent_handle $hwproc_handle]
+						set tree [gen_interrupt_property_mhs $tree $mhs_handle $intc [list $connect]]
+					}
+					incr phy_count
+				} else {
+					debug warning "WARNING: PHY-MDIO: Missing compat-name or wrong address. Can't generate correct."
+				}
+# NOT APPLICABLE	} else {
+# NOT APPLICABLE		puts "PHY-MDIO: Not valid IP name $over"
+			}
+		}
+	}
+	return $tree
+}
+
+# Check if ethernet name is valid or not
+proc valid_ether {slave_name over_name} {
+	if { "$slave_name" == "$over_name" } {
+		return $slave_name
+	}
+	return
+}
+
+# Check if mdio addr is valid or not
+proc valid_mdio_addr {addr} {
+	if { ![string match "" $addr] && [expr {$addr & 0x1f}] } {
+		return $addr
+	}
+	return
 }
 
 # generate structure for reset gpio.
@@ -877,7 +935,7 @@ proc slave_ll_temac_port {slave intc index} {
 		# connection. Most likely an xps_ll_fifo
 		set ip_tree [tree_append $ip_tree [list "llink-connected" labelref "$connected_ip_name"]]
 	}
-	set ip_tree [tree_append $ip_tree [gen_mdiotree]]
+	set ip_tree [tree_append $ip_tree [gen_mdiotree $slave $intc]]
 	return $ip_tree
 }
 
@@ -1161,7 +1219,7 @@ proc gener_slave {node slave intc} {
 					if {$has_mdio == 1} {
 						variable phy_count
 						set ip_tree [tree_append $ip_tree [list "phy-handle" labelref phy$phy_count]]
-						set ip_tree [tree_append $ip_tree [gen_mdiotree]]
+						set ip_tree [tree_append $ip_tree [gen_mdiotree $slave $intc]]
 					}
 				}
 			}
@@ -1217,7 +1275,7 @@ proc gener_slave {node slave intc} {
 			set connected_ip_type [xget_hw_value $connected_ip_handle]
 			set ip_tree [tree_append $ip_tree [list "axistream-connected" labelref $connected_ip_name]]
 
-			set ip_tree [tree_append $ip_tree [gen_mdiotree]]
+			set ip_tree [tree_append $ip_tree [gen_mdiotree $slave $intc]]
 
 			lappend node $ip_tree
 		}
@@ -2405,40 +2463,31 @@ proc gen_macaddr {ip_tree} {
 	return $ip_tree
 }
 
-proc gen_phytree {} {
-	global ethernet_phychip ethernet_phyaddr
-	variable phy_compat
+proc gen_phytree {slave intc} {
 	variable phy_count
 
-	# Set phy type and mdio bus address
-	switch -exact ${ethernet_phychip} {
-		"PHY_DP83848" {
-			set phy_compat "natsemi,dp83848"
-		}
-		"PHY_DP83865" {
-			set phy_compat "natsemi,dp83865"
-		}
-		"PHY_88E1111" -
-		default {
-			set phy_compat "marvell,88e1111"
-		}
+	set phy_tree [phy_mdio $slave $intc]
+	if { "$phy_tree" != "" } {
+		return $phy_tree
 	}
 
-	set phy_name [format_ip_name phy $ethernet_phyaddr "phy$phy_count"]
+	# TODO: We should remove this code
+	debug warning "WARNING: Use default marvell,88e1111 for phy$phy_count. Can't generate correct."
+	set phy_name [format_ip_name phy 7 "phy$phy_count"]
 	set phy_tree [list $phy_name tree {}]
-	set phy_tree [tree_append $phy_tree [list "reg" int $ethernet_phyaddr]]
+	set phy_tree [tree_append $phy_tree [list "reg" int 7]]
 	set phy_tree [tree_append $phy_tree [list "device_type" string "ethernet-phy"]]
-	set phy_tree [tree_append $phy_tree [list "compatible" string $phy_compat]]
+	set phy_tree [tree_append $phy_tree [list "compatible" string "marvell,88e1111"]]
 
 	incr phy_count
 	return $phy_tree
 }
 
-proc gen_mdiotree {} {
+proc gen_mdiotree {slave intc} {
 	set mdio_tree [list "mdio" tree {}]
 	set mdio_tree [tree_append $mdio_tree [list \#size-cells int 0]]
 	set mdio_tree [tree_append $mdio_tree [list \#address-cells int 1]]
-	return [tree_append $mdio_tree [gen_phytree]]
+	return [tree_append $mdio_tree [gen_phytree $slave $intc]]
 }
 
 proc gen_rtctree {intc devicetype} {
