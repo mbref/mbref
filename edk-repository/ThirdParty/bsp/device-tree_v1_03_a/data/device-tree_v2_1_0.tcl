@@ -550,12 +550,22 @@ proc get_intr_algo {intc intc_value port_handle} {
 
 proc get_intr {ip_handle intc intc_value port_name} {
 	set port_handle [xget_hw_port_handle $ip_handle "$port_name"]
-	return [get_intr_algo $intc $intc_value $port_handle]
+	if {![string match "" $port_handle] && ![string match -nocase "none" $port_handle]} {
+		return [get_intr_algo $intc $intc_value $port_handle]
+	} else {
+		debug warning "WARNING: Unknown port name was found. Can't generate correct."
+		return -1
+	}
 }
 
 proc get_intr_mhs {mhs intc intc_value connector_name} {
 	set port_handle [xget_hw_connected_ports_handle $mhs "$connector_name" "source"]
-	return [get_intr_algo $intc $intc_value $port_handle]
+	if {![string match "" $port_handle] && ![string match -nocase "none" $port_handle]} {
+		return [get_intr_algo $intc $intc_value $port_handle]
+	} else {
+		debug warning "WARNING: Unknown connector name was found. Can't generate correct."
+		return -1
+	}
 }
 
 proc get_intr_type_algo {ip_name port_handle error_string} {
@@ -577,12 +587,20 @@ proc get_intr_type_algo {ip_name port_handle error_string} {
 proc get_intr_type {ip_handle port_name} {
 	set ip_name [xget_hw_name $ip_handle]
 	set port_handle [xget_hw_port_handle $ip_handle "$port_name"]
-	return [get_intr_type_algo $ip_name $port_handle "port $port_name"]
+	if {![string match "" $port_handle] && ![string match -nocase "none" $port_handle]} {
+		return [get_intr_type_algo $ip_name $port_handle "port $port_name"]
+	} else {
+		error "Unknown interrupt line on port $port_name of $ip_name"
+	}
 }
 
 proc get_intr_type_mhs {mhs connector_name} {
 	set port_handle [xget_hw_connected_ports_handle $mhs "$connector_name" "source"]
-	return [get_intr_type_algo "MHS" $port_handle "connector $connector_name"]
+	if {![string match "" $port_handle] && ![string match -nocase "none" $port_handle]} {
+		return [get_intr_type_algo "MHS" $port_handle "connector $connector_name"]
+	} else {
+		error "Unknown interrupt line on connector $connector_name of MHS"
+	}
 }
 
 # Generate a template for a compound slave, such as the ll_temac or
