@@ -1843,7 +1843,7 @@ proc put_spi_cfg_ch {pkg fh osh sh} {
 	}
 
 	# Interrupt source number
-	set arg_name IIC2INTC_Irpt
+	set arg_name IP2INTC_Irpt
 	set arg_value [get_intr ${sh} ${arg_name}]
 	if { ${arg_value} >= 0 } {
 		if {[array name define ${arg_name}] == ${arg_name}} {
