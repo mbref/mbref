@@ -126,10 +126,6 @@ proc generate {os_handle} {
 	set flash_memory_sfchip [xget_sw_parameter_value $os_handle "flash_memory_sfchip"]
 	global timer
 	set timer [xget_sw_parameter_value $os_handle "timer"]
-	global rtc
-	set rtc [xget_sw_parameter_value $os_handle "rtc"]
-	global rtc_interrupt
-	set rtc_interrupt [xget_sw_parameter_value $os_handle "rtc_interrupt"]
 
 	# FIXME: Why we have to set generic_uio_list here?
 	#        Why is global setup invalid? (see above around line 110-115)
@@ -487,6 +483,71 @@ proc valid_ether {slave_name over_name} {
 # Check if mdio addr is valid or not
 proc valid_mdio_addr {addr} {
 	if { ![string match "" $addr] && [expr {$addr & 0x1f}] } {
+		return $addr
+	}
+	return
+}
+
+# generate structure for RTC chip on iic.
+# {key-word IP_name chip_compat chip_addr chip_irq_connector}
+# chip_irq_connector can lack for chips without interrupt line
+#
+# PARAMETER periph_type_overrides = {rtc-iic IIC_Bus dallas,ds3232 0x68}
+proc rtc_iic {slave intc} {
+	variable overrides
+	variable rtc_count
+	set tree {}
+	foreach over $overrides {
+		# parse rtc-iic keyword
+		if {[lindex $over 0] == "rtc-iic"} {
+			# search if that iic name is valid IP core in system
+			set desc [valid_iic [xget_hw_name $slave] [lindex $over 1]]
+			if { "$desc" != "" } {
+				set compat [lindex $over 2]
+				set addr [valid_iic_addr [lindex $over 3]]
+				# check if is a compat string and valid iic address
+				if { "$compat" != "" &&  "$addr" != "" } {
+					set devicetype [xget_hw_value $slave]
+					set name [format_ip_name $devicetype $addr "rtc$rtc_count"]
+					set tree [list $name tree {}]
+					set tree [tree_append $tree [list "reg" hexinttuple $addr]]
+					set tree [tree_append $tree [list "device_type" string "rtc"]]
+					set tree [tree_append $tree [list "compatible" string $compat]]
+					set connect [lindex $over 4]
+					# check if is a interrup connection
+					if { "$connect" != "" } {
+						set proc_handle [xget_libgen_proc_handle]
+						set hwproc_handle [xget_handle $proc_handle "IPINST"]
+						set mhs_handle [xget_hw_parent_handle $hwproc_handle]
+						set tree [gen_interrupt_property_mhs $tree $mhs_handle $intc [list $connect]]
+					}
+					incr rtc_count
+				} else {
+					debug warning "WARNING: RTC-IIC: Missing compat-name or wrong address. Can't generate correct."
+				}
+# NOT APPLICABLE	} else {
+# NOT APPLICABLE		puts "RTC-IIC: Not valid IP name $over"
+			}
+		}
+	}
+	return $tree
+}
+
+# Check if iic name is valid or not
+proc valid_iic {slave_name over_name} {
+	if { "$slave_name" == "$over_name" } {
+		return $slave_name
+	}
+	return
+}
+
+# Check if iic addr is valid or not
+proc valid_iic_addr {addr} {
+	if { ![string match "" $addr] && [expr {$addr & 0x7f}]
+	&& $addr != 1 && $addr != 2 && $addr != 3 && $addr != 4
+	&& $addr != 5 && $addr != 6 && $addr != 7 && $addr != 0x78
+	&& $addr != 0x79 && $addr != 0x7a && $addr != 0x7b && $addr != 0x7c
+	&& $addr != 0x7d && $addr != 0x7e && $addr != 0x7f } {
 		return $addr
 	}
 	return
@@ -1497,8 +1558,9 @@ proc gener_slave {node slave intc} {
 			# TODO: We should handle this specially, to report two ports.
 			set ip_tree [slaveip_intr $slave $intc [interrupt_list $slave] "i2c" [default_parameters $slave]]
 			# If it is a I2C/RTC, we will add a RTC subnode to the I2C controller
-			set ip_rtctree [gen_rtctree $intc $type]
-			if { $ip_rtctree != -1} {
+			set ip_rtctree [rtc_iic $slave $intc]
+			if { "$ip_rtctree" != "" } {
+				# Add the address-cells and size-cells to make the DTC compiler stop outputing warning
 				set ip_tree [tree_append $ip_tree [list "#address-cells" int "1"]]
 				set ip_tree [tree_append $ip_tree [list "#size-cells" int "0"]]
 				set ip_tree [tree_append $ip_tree $ip_rtctree]
@@ -2488,39 +2550,6 @@ proc gen_mdiotree {slave intc} {
 	set mdio_tree [tree_append $mdio_tree [list \#size-cells int 0]]
 	set mdio_tree [tree_append $mdio_tree [list \#address-cells int 1]]
 	return [tree_append $mdio_tree [gen_phytree $slave $intc]]
-}
-
-proc gen_rtctree {intc devicetype} {
-	global rtc rtc_interrupt
-	variable rtc_compat
-	variable rtc_count
-
-	# Set rtc type and bus address
-	switch -exact ${rtc} {
-		"RTC_IIC_DS3232" {
-			set rtc_compat "dallas,ds3232"
-			set rtc_addr 0x68
-		}
-		default {
-			return -1
-		}
-	}
-
-	set rtc_name [format_ip_name $devicetype $rtc_addr "rtc$rtc_count"]
-	set rtc_tree [list $rtc_name tree {}]
-	set rtc_tree [tree_append $rtc_tree [list "reg" hexinttuple $rtc_addr]]
-	set rtc_tree [tree_append $rtc_tree [list "device_type" string "rtc"]]
-	set rtc_tree [tree_append $rtc_tree [list "compatible" string $rtc_compat]]
-
-	if {![string match "" $rtc_interrupt]} {
-		set proc_handle [xget_libgen_proc_handle]
-		set hwproc_handle [xget_handle $proc_handle "IPINST"]
-		set mhs_handle [xget_hw_parent_handle $hwproc_handle]
-		set rtc_tree [gen_interrupt_property_mhs $rtc_tree $mhs_handle $intc [list $rtc_interrupt]]
-	}
-
-	incr rtc_count
-	return $rtc_tree
 }
 
 # TODO: remove next two lines which is a temporary HACK for CR 532315

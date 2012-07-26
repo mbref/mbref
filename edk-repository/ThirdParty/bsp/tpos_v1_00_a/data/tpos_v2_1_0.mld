@@ -89,8 +89,6 @@ BEGIN OS tpos
     PARAM NAME = gpio, DESC = "LED interface controller", TYPE = peripheral_instance, RANGE = (opb_gpio, plb_gpio, xps_gpio, axi_gpio), DEFAULT = none;
     PARAM NAME = iic, DESC = "I2C interface controller", TYPE = peripheral_instance, RANGE = (opb_iic, xps_iic, axi_iic), DEFAULT = none;
     PARAM NAME = spi, DESC = "SPI interface controller", TYPE = peripheral_instance, RANGE = (xps_spi, axi_spi), DEFAULT = none;
-    PARAM NAME = rtc, DESC = "manual selection of supported RTC chip", TYPE = enum, VALUES = ("Unknown" = RTC_UNKNOWN, "Dallas DS3232 I2C" = RTC_IIC_DS3232), DEFAULT = RTC_UNKNOWN;
-    PARAM NAME = rtc_interrupt, DESC = "manual definition of RTC interrupt line (optional)", TYPE = string, DEFAULT = "";
   END CATEGORY
 
   BEGIN CATEGORY customio
