@@ -15,7 +15,7 @@ BEGIN OS
  PARAMETER timer = xps_timer_0
  PARAMETER gpio = xps_gpio_3
  PARAMETER ethernet = xps_ether_0
- PARAMETER periph_type_overrides = {hard-reset-gpios xps_gpio_0 0 1} {led heartbeat xps_gpio_3 0 1} {led green-1 xps_gpio_3 1 1} {led green-2 xps_gpio_3 2 1} {led green-3 xps_gpio_3 3 1} {led green-4 xps_gpio_3 4 1} {led green-5 xps_gpio_3 5 1} {led green-6 xps_gpio_3 6 1} {led green-7 xps_gpio_3 7 1}
+ PARAMETER periph_type_overrides = {hard-reset-gpios xps_gpio_0 0 1} {led heartbeat xps_gpio_3 0 1} {led green-1 xps_gpio_3 1 1} {led green-2 xps_gpio_3 2 1} {led green-3 xps_gpio_3 3 1} {led green-4 xps_gpio_3 4 1} {led green-5 xps_gpio_3 5 1} {led green-6 xps_gpio_3 6 1} {led green-7 xps_gpio_3 7 1} {phy-mdio xps_ether_0 natsemi,dp83865 1}
  PARAMETER board_name = sp3adsp1800
  PARAMETER linux_bootargs = console=ttyUL0,115200 root=/dev/mtdblock2 rw rootfstype=jffs2 mtdparts=af000000.flash:2048k(bpi),4096k(kernel),9728k(rootfs),384k(u-boot-xl)ro,128k(env) debug
  PARAMETER xlboot_boot_counter = 3

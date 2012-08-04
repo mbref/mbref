@@ -31,7 +31,14 @@ XmdStub: 0
 SwProj: xl-boot
 Processor: microblaze_0
 Executable: xl-boot/executable.elf
+Source: ../../edk-repository/ThirdParty/sw_apps/xl-boot/src/putnumxx.c
+Source: ../../edk-repository/ThirdParty/sw_apps/xl-boot/src/putstr.c
+Source: ../../edk-repository/ThirdParty/sw_apps/xl-boot/src/xl-blob.c
 Source: ../../edk-repository/ThirdParty/sw_apps/xl-boot/src/xl-boot.c
+Source: ../../edk-repository/ThirdParty/sw_apps/xl-boot/src/xl-spiflash.c
+Source: ../../edk-repository/ThirdParty/sw_apps/xl-boot/src/xl-xspi.c
+Source: ../../edk-repository/ThirdParty/sw_apps/xl-boot/src/xl-xtm.c
+Source: ../../edk-repository/ThirdParty/sw_apps/xl-boot/src/xl-xuart.c
 DefaultInit: EXECUTABLE
 InitBram: 1
 Active: 1

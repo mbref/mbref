@@ -8,7 +8,6 @@ BEGIN OS
  PARAMETER PROC_INSTANCE = microblaze_0
  PARAMETER STDIN = xps_uart_0
  PARAMETER STDOUT = xps_uart_0
- PARAMETER BOARD_NAME = s6lx150t
  PARAMETER INTC = xps_intc_0
  PARAMETER TIMER = xps_timer_0
  PARAMETER LMB_MEMORY = dlmb_cntlr
@@ -19,8 +18,9 @@ BEGIN OS
  PARAMETER IIC = xps_iic_0
  PARAMETER XLBOOT_BOOT_COUNTER = 3
  PARAMETER XLBOOT_LOCBLOB_OFFSET = 0x1F80000
+ PARAMETER PERIPH_TYPE_OVERRIDES = {hard-reset-gpios xps_gpio_0 0 1} {led heartbeat xps_gpio_3 0 1} {led red-1 xps_gpio_3 1 1} {led red-2 xps_gpio_3 2 1} {led red-3 xps_gpio_3 3 1} {led red-4 xps_gpio_3 4 1} {led red-5 xps_gpio_3 5 1} {led red-6 xps_gpio_3 6 1} {led red-7 xps_gpio_3 7 1} {phy-mdio xps_ether_0 natsemi,dp83865 1} {rtc-iic xps_iic_0 dallas,ds3232 0x68 fpga_0_RTC_Int_pin}
  PARAMETER LINUX_BOOTARGS = console=ttyUL0,115200 ubi.mtd=2 root=ubi0:root rootfstype=ubifs rw mtdparts=ae000000.flash:16384k(bpi),4096k(kernel),11776k(rootfs),384k(u-boot-xl)ro,128k(env) debug
- PARAMETER PERIPH_TYPE_OVERRIDES = {hard-reset-gpios xps_gpio_0 0 1} {led heartbeat xps_gpio_3 0 1} {led red-1 xps_gpio_3 1 1} {led red-2 xps_gpio_3 2 1} {led red-3 xps_gpio_3 3 1} {led red-4 xps_gpio_3 4 1} {led red-5 xps_gpio_3 5 1} {led red-6 xps_gpio_3 6 1} {led red-7 xps_gpio_3 7 1}
+ PARAMETER BOARD_NAME = s6lx150t
  PARAMETER GENERIC_UIO_LIST = (mbref_mio_0,mbref_reg_0)
 END
 

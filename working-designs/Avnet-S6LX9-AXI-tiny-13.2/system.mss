@@ -14,10 +14,13 @@ BEGIN OS
  PARAMETER SPI = axi_spi_0
  PARAMETER LMB_MEMORY = dlmb_ctrl
  PARAMETER MAIN_MEMORY = axi_s6_ddrx_0
+ PARAMETER FLASH_MEMORY = axi_spi_0
  PARAMETER INTC = axi_intc_0
  PARAMETER TIMER = axi_timer_0
- PARAMETER LINUX_BOOTARGS = console=ttyUL0,115200 debug
- PARAMETER PERIPH_TYPE_OVERRIDES = {led heartbeat axi_gpio_3 0 1} {led red-1 axi_gpio_3 1 1} {led red-2 axi_gpio_3 2 1} {led red-3 axi_gpio_3 3 1}
+ PARAMETER PERIPH_TYPE_OVERRIDES = {led heartbeat axi_gpio_3 0 1} {led red-1 axi_gpio_3 1 1} {led red-2 axi_gpio_3 2 1} {led red-3 axi_gpio_3 3 1} {phy-mdio axi_ether_0 natsemi,dp83848 30} {flash-spi axi_spi_0 micron,n25q128 0}
+ PARAMETER LINUX_BOOTARGS = console=ttyUL0,115200 mtdparts=spi32766.0:16384k(all)ro debug
+ PARAMETER XLBOOT_BOOT_COUNTER = 3
+ PARAMETER XLBOOT_LOCBLOB_OFFSET = 0xF80000
 END
 
 
