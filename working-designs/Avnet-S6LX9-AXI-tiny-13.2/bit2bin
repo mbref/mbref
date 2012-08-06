@@ -1,6 +1,5 @@
 #!/bin/sh
 
-promgen -w -p bin -c FF -o download.bin -s 32768 -u 0 implementation/download.bit -bpi_dc parallel -data_width 16
-# promgen -w -p mcs -c FF -o download -x xcf08p xcf32p -ver 0 implementation/download.bit
+promgen -w -p mcs -c FF -o download.mcs -s 16384 -u 0 implementation/download.bit -spi
 rm -f download*.cfi download*.prm download*.sig
 
