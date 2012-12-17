@@ -1,3 +1,408 @@
+commit 58ff2c86a31cd9a27a2853ad8511fc6d27d85cbd
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Aug 6 18:43:55 2012 +0200
+
+    workspace: remove useless download.bin generations
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 174f0f6ae53e518b54b6500100c5b63121176bee
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Aug 6 18:42:24 2012 +0200
+
+    workspace: rename ?lmb_ctrl to ?lmb_cntlr
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 1016a66b4353f668b52b1eef8cf24e1c67ccdcac
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Aug 4 15:46:17 2012 +0200
+
+    workspace: adapt to new PERIPH_TYPE_OVERRIDES
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 99c632e6f09c87b70b5a8735457640401d537861
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jul 26 21:58:03 2012 +0200
+
+    tpos: device-tree: use overrides for SPI Flash setup
+
+    Change the parser for SPI Flash parameters from separated
+    SW parameters to use the common periph_type_overrides
+    SW parameter list.
+
+    That replace the method from sha1:131b517
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit feefa4355fdcc90caef6f3e0b5e0a94d9e5b9535
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jul 26 21:56:04 2012 +0200
+
+    tpos: device-tree: use overrides for I2C/RTC setup
+
+    Change the parser for I2C/RTC parameters from separated
+    SW parameters to use the common periph_type_overrides
+    SW parameter list.
+
+    That replace the method from sha1:3df2d9d
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 96cd204d891359e105c98eddcbe7f7e62c3646dc
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jul 26 21:52:52 2012 +0200
+
+    tpos: device-tree: use overrides for PHY setup
+
+    Change the parser for PHY parameters from separated
+    SW parameters to use the common periph_type_overrides
+    SW parameter list.
+
+    That replace the method from sha1:fcdd535
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 75fad6fbdc2378c6d24d037381e807a3ee7f6d01
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jul 26 21:39:23 2012 +0200
+
+    tpos: device-tree: protect interrupt fetch
+
+    Protect all interrupt fetch procedures against wrong
+    argument of port name.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit d27b83ab834edfe9886e3a6d6359e1019d817cb2
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jul 26 21:35:39 2012 +0200
+
+    tpos: fix typo on SPI interrupt source number
+
+    error was:
+    CPU: Can not fount interrupt for axi_spi_0
+	 port "159825064" is name "S_AXI_ACLK"
+	 port "160040640" is name "SS"
+	 port "160040872" is name "SPISEL"
+	 port "160041192" is name "SCK"
+	 port "160041560" is name "MOSI"
+	 port "160041792" is name "MISO"
+	 port "160042024" is name "IP2INTC_Irpt"
+	 port "160042256" is name "S_AXI_ARESETN"
+	 port "160042488" is name "S_AXI_AWADDR"
+	 port "160042720" is name "S_AXI_AWVALID"
+	 port "160042952" is name "S_AXI_AWREADY"
+	 port "160043184" is name "S_AXI_WDATA"
+	 port "160043416" is name "S_AXI_WSTRB"
+	 port "160043648" is name "S_AXI_WVALID"
+	 port "160043880" is name "S_AXI_WREADY"
+	 port "160044112" is name "S_AXI_BRESP"
+	 port "160044344" is name "S_AXI_BVALID"
+	 port "160044576" is name "S_AXI_BREADY"
+	 port "160044808" is name "S_AXI_ARADDR"
+	 port "160045040" is name "S_AXI_ARVALID"
+	 port "160045272" is name "S_AXI_ARREADY"
+	 port "160045504" is name "S_AXI_RDATA"
+	 port "160045736" is name "S_AXI_RRESP"
+	 port "160045968" is name "S_AXI_RVALID"
+	 port "160046200" is name "S_AXI_RREADY"
+	 port "160046432" is name "SCK_I"
+	 port "160046664" is name "SCK_O"
+	 port "160046896" is name "SCK_T"
+	 port "160047128" is name "MISO_I"
+	 port "160047360" is name "MISO_O"
+	 port "160047592" is name "MISO_T"
+	 port "160047824" is name "MOSI_I"
+	 port "160048056" is name "MOSI_O"
+	 port "160048288" is name "MOSI_T"
+	 port "160048520" is name "SS_I"
+	 port "160048752" is name "SS_O"
+	 port "160048984" is name "SS_T"
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit ebd82359d36e1fedea1f1d4d0eaaa152e24e6e7c
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Thu Jul 26 17:43:21 2012 +0200
+
+    tpos: device-tree: remove wrong vi swap file
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit da31fac47741d4d92772923ac575ef3c0c3c45dc
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Jul 25 21:55:18 2012 +0200
+
+    mbref: add software Makefile extensions
+
+    For application programm compilation we add:
+      - compiler options: -O2 -g
+      - Makefile targets: elfcheck, showsize
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 3df2d9dd471b993fa2f4bac10cdbac1f96f732c7
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Jul 25 21:51:14 2012 +0200
+
+    tpos: device-tree: add parser for I2C/RTC parameters
+
+    Introduce new SW parameters (rtc and rtc_interrupt) to
+    determine the platform eI2C/RTC as mounted.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 040819d2a9107f5f57614c99b8c011bf77a4b9cf
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Wed Jul 25 21:46:11 2012 +0200
+
+    tpos: device-tree: support MHS connected interrupt sources
+
+      - split get_intr() into get_intr_algo() and get_intr(),
+	add new intercafe get_intr_mhs()
+      - split get_intr_type() into get_intr_type_algo() and
+	get_intr_type(), add new interface get_intr_type_mhs()
+      - split gen_interrupt_property() into
+	gen_interrupt_property_algo() and gen_interrupt_property(),
+	add new interface gen_interrupt_property_mhs()
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit f074aeebaca68eb088d6a3dc3c7ac9b72299fa1e
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Jul 23 21:15:23 2012 +0200
+
+    tpos: xl-boot: switch of all caches on startup
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 50f07b21826fc3f8c8b56d6e8a35d34b96f5b4fe
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Jul 23 21:15:01 2012 +0200
+
+    tpos: xl-boot: fix header inclusion order
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit fcdd5359e63867aebfea3f5eaccbb4f436084c65
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jul 22 19:01:06 2012 +0200
+
+    tpos: device-tree: add parser for PHY parameters
+
+    Introduce new SW parameters (ethernet_phychip and
+    ethernet_phyaddr) to determine the platform ethernet
+    PHY as mounted.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit fd53ced04e4ece03b9853ce78d547999418a9d55
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jul 22 17:10:58 2012 +0200
+
+    tpos: xl-boot: add locblob_load() for SPI Flash access
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 0d0715c24602bb6f78eddc2c2309ec18b47a5bf4
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jul 22 17:07:39 2012 +0200
+
+    tpos: xl-boot: add SPI Flash driver
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit a4d327647c2024abf3fca2cf1c790554a3cb9031
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jul 22 17:07:25 2012 +0200
+
+    tpos: xl-boot: add Xilinx SPI driver
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 131b517af031646dfefff5a5093cb1d4f28eae63
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Jun 25 23:53:28 2012 +0200
+
+    tpos: add parser for SPI controller
+
+    Enable NOR Flash over SPI (xps_spi, axi_spi). Introduce a
+    new SW parameter (flash_memory_sfchip) to determine the
+    SF chip. So we can set the memory size and sector size as
+    known from CFI flash devices.
+
+    Generate output for XL-Boot, U-Boot, and DTS.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 522da8f3cdae8f408240f7e2d47cfee670c0fc0c
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jul 22 10:43:55 2012 +0200
+
+    tpos: xl-boot: use putnum0() for bootcount
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 30f6745ac90f20c6a3d5ce6a72d6d3b2c7ad17b5
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jul 22 10:41:26 2012 +0200
+
+    tpos: xl-boot: return detected bits from putnum0()
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 4a7262447f9f403519aacbfdad760f9941bd2ace
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jul 22 00:37:56 2012 +0200
+
+    tpos: xl-boot: rename bytes to nibbles in putnumxx()
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 4578eb98270c53374bb88f09ff2197181fb7b16a
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sun Jul 22 00:23:36 2012 +0200
+
+    tpos: xl-boot: add private putnum0()
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit d9ff5ccffad0cb20d71777c0bcdb6716e8970782
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jul 21 23:35:37 2012 +0200
+
+    tpos: xl-boot: add locater blob handling
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 377043e63bd0b77a677b5243b1a49aab2f31b9b5
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jul 21 22:34:17 2012 +0200
+
+    tpos: xl-boot: move XLB_STDIO_BAUDRATE
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 89ad17b06f14244cbad0d5e16b293f4f15109080
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jul 21 21:55:57 2012 +0200
+
+    tpos: xl-boot: add private putstr() and putnumxx()
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 2243e6db67708a108f3d24e7854756432c6a936b
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jul 21 21:15:47 2012 +0200
+
+    tpos: xl-boot: Stubbed __call_exitprocs()
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 694471a0cb585009377f7dd29b23c53db51ccd7c
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jul 21 20:26:40 2012 +0200
+
+    tpos: xl-boot: fix the missing _#ifdef __cplusplus
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 408557d93cc78a8b91ede29e76dfa7638e05dd4e
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jul 21 20:24:32 2012 +0200
+
+    tpos: xl-boot: use xbasic_types.h
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 9652062934d80f779d5f296a599ceb21f02b722c
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jul 21 20:08:20 2012 +0200
+
+    tpos: xl-boot: refactor timer und uart code
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 11d910ca69dd83b355620dc7aac00b0dd6b31742
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jul 21 20:07:50 2012 +0200
+
+    tpos: xl-boot: reduce stack size to 512byte
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit c4dcf9bf9eb6eebaa325a426710ca3791949c90f
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Fri Jun 29 18:30:12 2012 +0200
+
+    mbref: correct version for development
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
+commit 2811bf18b56b2643532de1d39e8e7598e91af8e3
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Sat Jul 14 23:26:35 2012 +0200
+
+    mbref: remove reference-designs to save space
+
+    Rewrite 238 objects with:
+
+	git filter-branch \
+	    --tree-filter 'rm -rf reference-designs' \
+	    --tag-name-filter 'cat' \
+	    --prune-empty -- --all
+
+    Clean-up history and removing empty commits.
+    Removing 256 duplicate objects with:
+
+	rm -rf .git/refs/original/ && \
+	    git reflog expire --all && \
+	    git gc --aggressive --prune
+
+    After deleting the unwanted objects I still had amount of wasted
+    space in my repository. I was only able to get rid of this by
+    cloning it with git clone file:///path/to/repository. Note that
+    the file:// makes a world of difference when cloning a local
+    repository - only the referenced objects are copied across, not
+    the whole directory structure.
+
+	mv mbref mbref-prepared && \
+	    git clone file:///abspath_to_workspace/mbref-prepared mbref
+
+	cd mbref && \
+	    git checkout -b devel/tpos origin/devel/tpos && \
+	git remote rm origin && \
+	git remote add origin git@gitorious.org:mbref/mbref.git && \
+	    git push origin master && git push origin devel/tpos
+
+    _________________________________________________________________
+    results
+
+    until now:
+
+    git clone git://gitorious.org/mbref/mbref.git mbref-20120714-1630-backup-gitorious.org
+    Initialized empty Git repository in /store/devel/MICROBLAZE/mbref-20120714-1630-backup-gitorious.org/.git/
+    remote: Counting objects: 2483, done.
+    remote: Compressing objects: 100% (1869/1869), done.
+    remote: Total 2483 (delta 1368), reused 866 (delta 378)
+    Receiving objects: 100% (2483/2483), 154.27 MiB | 91 KiB/s, done.
+    Resolving deltas: 100% (1368/1368), done.
+    Checking out files: 100% (1005/1005), done.
+
+    now attained:
+
+    git clone git://gitorious.org/mbref/mbref.git mbref-20120714-2330-backup-gitorious.org
+    Initialized empty Git repository in /store/devel/MICROBLAZE/mbref-20120714-2330-backup-gitorious.org/.git/
+    remote: Counting objects: 2059, done.
+    remote: Compressing objects: 100% (722/722), done.
+    remote: Total 2059 (delta 1112), reused 2040 (delta 1110)
+    Receiving objects: 100% (2059/2059), 23.79 MiB | 96 KiB/s, done.
+    Resolving deltas: 100% (1112/1112), done.
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit 5a0d729a51a81f3c62e909baef764a4f3e838a3d
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Fri Jun 29 18:25:22 2012 +0200
