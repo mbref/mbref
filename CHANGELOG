@@ -1,3 +1,13 @@
+commit 564748f0573531dccb1db51b97a1f16ce0ca5d29
+Author: Stephan Linz <linz@li-pro.net>
+Date:	Mon Dec 17 19:01:16 2012 +0100
+
+    Prepare 2012.12-rc1
+
+    Update Makefile and CHANGELOG
+
+    Signed-off-by: Stephan Linz <linz@li-pro.net>
+
 commit 58ff2c86a31cd9a27a2853ad8511fc6d27d85cbd
 Author: Stephan Linz <linz@li-pro.net>
 Date:	Mon Aug 6 18:43:55 2012 +0200
