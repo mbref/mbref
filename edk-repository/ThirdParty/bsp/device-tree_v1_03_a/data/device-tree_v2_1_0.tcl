@@ -9,7 +9,7 @@
 # (C) Copyright 2007-2010 Michal Simek
 # Michal SIMEK <monstr@monstr.eu>
 #
-# (C) Copyright 2010-2012 Li-Pro.Net
+# (C) Copyright 2010-2014 Li-Pro.Net
 # Stephan Linz <linz@li-pro.net>
 #
 # This program is free software; you can redistribute it and/or
@@ -399,7 +399,7 @@ proc headerc {ufile generator_version} {
 	puts $ufile " * (C) Copyright 2007-2010 Michal Simek"
 	puts $ufile " * Michal SIMEK <monstr@monstr.eu>"
 	puts $ufile " *"
-	puts $ufile " * (C) Copyright 2010-2012 Li-Pro.Net"
+	puts $ufile " * (C) Copyright 2010-2014 Li-Pro.Net"
 	puts $ufile " * Stephan Linz <linz@li-pro.net>"
 	puts $ufile " *"
 	puts $ufile " * This program is free software; you can redistribute it and/or"

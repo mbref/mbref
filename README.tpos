@@ -9,14 +9,14 @@ Haydnstr. 3
 07749 Jena
 Germany
 
-Copyright © 2010-2011 by Li-Pro.Net, Stephan Linz
+Copyright © 2010-2014 by Li-Pro.Net, Stephan Linz
 Copyright © 2007-2010 by Michal Simek
 Copyright © 2007-2008 by Xilinx, Inc.
 
 Legal Notice
 
 TPOS Copyright and Licensing. The TPOS bundle of Xilinx EDK
-configuration modules is copyright (C) 2010-2011 by Li-Pro.Net.
+configuration modules is copyright (C) 2010-2014 by Li-Pro.Net.
 Some components were merged in from other Open Source projects,
 see Third-Party Software below. This program is free software;
 you may redistribute and/or modify it under the terms of the GNU
@@ -57,7 +57,7 @@ Note
      comments.
 
 Creative Commons License for this TPOS Guide. This TPOS Guide
-is copyright (C) 2010-2011 by Li-Pro.Net. It is hereby placed
+is copyright (C) 2010-2014 by Li-Pro.Net. It is hereby placed
 under version 3.0 of the Creative Commons Attribution NonCommercial
 ShareAlike License. This allows you redistribute and modify the
 work as you desire, as long as you credit the original source.

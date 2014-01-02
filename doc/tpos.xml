@@ -30,10 +30,10 @@ more information: http://www.xmlmind.com/xmleditor/
       </author>
     </authorgroup>
 
-    <pubdate>January 2011</pubdate>
+    <pubdate>January 2014</pubdate>
 
     <copyright>
-      <year>2010-2011</year>
+      <year>2010-2014</year>
 
       <holder>by Li-Pro.Net, Stephan Linz</holder>
     </copyright>
@@ -68,7 +68,7 @@ more information: http://www.xmlmind.com/xmleditor/
         <title>TPOS Copyright and Licensing</title>
 
         <para>The <emphasis>TPOS bundle of Xilinx EDK configuration
-        modules</emphasis> is copyright (C) 2010-2011 by Li-Pro.Net. Some
+        modules</emphasis> is copyright (C) 2010-2014 by Li-Pro.Net. Some
         components were merged in from other Open Source projects, see
         <emphasis role="bold">Third-Party Software</emphasis> below. This
         program is free software; you may redistribute and/or modify it under
@@ -128,7 +128,7 @@ more information: http://www.xmlmind.com/xmleditor/
       <formalpara>
         <title>Creative Commons License for this TPOS Guide</title>
 
-        <para>This <emphasis>TPOS Guide</emphasis> is copyright (C) 2010-2011
+        <para>This <emphasis>TPOS Guide</emphasis> is copyright (C) 2010-2014
         by Li-Pro.Net. It is hereby placed under version 3.0 of the <ulink
         url="http://creativecommons.org/licenses/by-nc-sa/3.0/">Creative
         Commons Attribution NonCommercial ShareAlike License</ulink>. This

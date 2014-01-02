@@ -1,7 +1,7 @@
 #
 # EDK BSP board generation for third party operating systems misclib
 #
-# (C) Copyright 2010-2012
+# (C) Copyright 2010-2014
 # Li-Pro.Net <www.li-pro.net>
 # Stephan Linz <linz@li-pro.net>
 #
@@ -2893,7 +2893,7 @@ proc put_ch_header {fh desc vers} {
 	puts ${fh} " * (C) Copyright 2007-2009 Michal Simek"
 	puts ${fh} " * Michal SIMEK <monstr@monstr.eu>"
 	puts ${fh} " *"
-	puts ${fh} " * (C) Copyright 2010-2012 Li-Pro.Net"
+	puts ${fh} " * (C) Copyright 2010-2014 Li-Pro.Net"
 	puts ${fh} " * Stephan Linz <linz@li-pro.net>"
 	puts ${fh} " *"
 	puts ${fh} " * This program is free software; you can redistribute it and/or"
@@ -2928,7 +2928,7 @@ proc put_mk_header {fh desc vers} {
 	puts ${fh} "\# (C) Copyright 2007-2009 Michal Simek"
 	puts ${fh} "\# Michal SIMEK <monstr@monstr.eu>"
 	puts ${fh} "\#"
-	puts ${fh} "\# (C) Copyright 2010-2012 Li-Pro.Net"
+	puts ${fh} "\# (C) Copyright 2010-2014 Li-Pro.Net"
 	puts ${fh} "\# Stephan Linz <linz@li-pro.net>"
 	puts ${fh} "\#"
 	puts ${fh} "\# This program is free software; you can redistribute it and/or"
