@@ -1,0 +1,4 @@
+[submodule "device-tree"]
+	path = edk-repository/ThirdParty/bsp/device-tree_v1_10_m
+	url = git@gitorious.org:mbref/device-tree-mbref.git
+	branch = devel/mbref
