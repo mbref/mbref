@@ -30,7 +30,7 @@
 set tpos_version_list [list 1.00.a]
 set fsboot_version_list [list 1.00.a]
 set xlboot_version_list [list 1.00.a]
-set uboot_version_list [list 4.02.a 4.01.a]
+set uboot_version_list [list 4.02.a]
 set linux_version_list [list 1.00.a]
 set devtree_version_list [list 1.03.a 1.02.a]
 
