@@ -113,7 +113,7 @@ set os ""
 namespace eval tpos_bsp {
 	namespace import ::sw_tpos_misclib::debug
 	namespace export find
-	proc find {tpos_bsp_name path} {
+	proc find {tpos_bsp_name path name_space} {
 		set tcl_name [string range ${tpos_bsp_name} 0 [string first "_" ${tpos_bsp_name}]]
 		append tcl_name "v2_1_0.tcl"
 		debug info "\#--------------------------------------"
@@ -124,7 +124,7 @@ namespace eval tpos_bsp {
 		foreach arg ${path} {
 			set full_path [file join ${arg} ${tpos_bsp_name} "data" ${tcl_name}]
 			debug jabber "${full_path}"
-			set code [catch {source $full_path} string]
+			set code [catch {namespace eval ${name_space} source ${full_path}}]
 			case $code {
 				0 {
 					debug info "   ... found"
@@ -281,11 +281,11 @@ proc generate_tpos {os_handle} {
 # Recursive call to find and calling all generate functions:
 proc tpos_genmod {path name version_list os_handle} {
 	foreach version ${version_list} {
-		if { ![tpos_bsp::find [get_mld_name ${name} ${version}] ${path}] } {
+		if { ![tpos_bsp::find [get_mld_name ${name} ${version}] ${path} ${name}] } {
 			debug info "Calling ${name}::generate"
 			file mkdir [file join "./.." [get_mld_name ${name} ${version}]]
 			cd [file join "./.." [get_mld_name ${name} ${version}]]
-			tpos_bsp::generate ${os_handle}
+			tpos_bsp::${name}::generate ${os_handle}
 			return
 		}
 	}
