@@ -66,6 +66,7 @@
 variable pkg_name
 variable pkg_version
 variable tpos_verstr
+variable board_name
 
 #############################################################################
 #  Package meta
@@ -214,6 +215,10 @@ proc generate_tpos {os_handle} {
 
 	# finding all posible paths in Windows or Linux format
 	set path [get_path]
+
+	# set global variable 'board_name' (needed by device-tree only)
+	global board_name
+	set board_name [file tail [get_project_folder]]
 
 	# apply all bsp parts
 	# TODO: make a common probe-and-run procedure
