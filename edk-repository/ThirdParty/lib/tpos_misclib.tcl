@@ -32,7 +32,7 @@ set fsboot_version_list [list 1.00.a]
 set xlboot_version_list [list 1.00.a]
 set uboot_version_list [list 4.02.a]
 set linux_version_list [list 1.00.a]
-set devtree_version_list [list 1.03.a]
+set devtree_version_list [list 1.10.m 1.03.a]
 
 variable put_cfg_procs
 set put_cfg_procs(fsboot) {
