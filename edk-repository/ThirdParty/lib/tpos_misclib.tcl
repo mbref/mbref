@@ -2570,6 +2570,9 @@ proc get_spi_primary_flash_compat {handle spi_handle name bank} {
 # {key-word IP_name chip_compat chip_ss}
 #
 # PARAMETER periph_type_overrides = {flash-spi SPI_FLASH micron,n25q128 0}
+#
+# !!! OBSOLETE !!!
+#
 proc get_spi_flash_compat {handle spi_handle bank} {
 	set overrides [get_periph_type_overrides ${handle} "flash-spi"]
 	foreach over ${overrides} {
@@ -2577,7 +2580,7 @@ proc get_spi_flash_compat {handle spi_handle bank} {
 		set desc [get_value_if_equal [xget_hw_name ${spi_handle}] [lindex ${over} 1]]
 		if { ![string match "" ${desc}] } {
 			set ssmax [get_value ${spi_handle} "C_NUM_SS_BITS"]
-			set ss [get_value_if_lt ${ssmax} [lindex $over 3]]
+			set ss [get_value_if_lt ${ssmax} [lindex ${over} 3]]
 			if { [string match ${bank} ${ss}] } {
 				return [lindex ${over} 2]
 			}
