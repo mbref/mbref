@@ -1226,6 +1226,7 @@ proc put_normem_cfg_ch {pkg fh osh nh} {
 	put_info ${fh} "NOR Flash memory is [xget_hw_name ${nh}]"
 
 	# Handle different FLASHs differently
+	set normem [xget_sw_parameter_value ${osh} "flash_memory"]
 	set normem_bank [xget_sw_parameter_value ${osh} "flash_memory_bank"]
 	set flash_type [xget_hw_value ${nh}]
 	switch -exact ${flash_type} {
@@ -1246,7 +1247,11 @@ proc put_normem_cfg_ch {pkg fh osh nh} {
 			set flash_fifoexist [xget_sw_parameter_value ${nh} C_FIFO_EXIST]
 
 			# SPI Flash memory size and sector size by given chip
-			set flash_memory_sfchip [get_spi_flash_compat ${osh} ${nh} ${normem_bank}]
+			set flash_memory_sfchip [get_spi_primary_flash_compat ${osh} ${nh} ${normem} ${normem_bank}]
+			if {${flash_memory_sfchip} == ""} {
+				# try old override parameter
+				set flash_memory_sfchip [get_spi_flash_compat ${osh} ${nh} ${normem_bank}]
+			}
 			switch -exact ${flash_memory_sfchip} {
 				"micron,n25q128" {
 					set flash_size  [format "0x%08x" [expr { 16 * 1024 * 1024 }]]
@@ -2537,6 +2542,28 @@ proc get_periph_type_overrides {handle key} {
 		}
 	}
 	return ${tree}
+}
+
+# generate structure for primary Flash chip on spi.
+# {key-word key-word-option IP_name chip_compat}
+#
+# PARAMETER periph_type_overrides = {compatible -replace|-append primary_flash micron,n25q128}
+proc get_spi_primary_flash_compat {handle spi_handle name bank} {
+	set overrides [get_periph_type_overrides ${handle} "compatible"]
+	foreach over ${overrides} {
+		if { [string match "primary_flash" [lindex ${over} 2]] } {
+			# search if that spi name is valid IP core in system
+			set desc [get_value_if_equal [xget_hw_name ${spi_handle}] ${name}]
+			if { ![string match "" ${desc}] } {
+				set ssmax [get_value ${spi_handle} "C_NUM_SS_BITS"]
+				set ss [get_value_if_lt ${ssmax} ${bank}]
+				if { [string match ${bank} ${ss}] } {
+					return [lindex ${over} 3]
+				}
+			}
+		}
+	}
+	return
 }
 
 # generate structure for Flash chip on spi.
