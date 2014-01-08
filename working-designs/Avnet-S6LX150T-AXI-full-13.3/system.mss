@@ -14,11 +14,11 @@ BEGIN OS
  PARAMETER MAIN_MEMORY = axi_s6_ddrx_0
  PARAMETER FLASH_MEMORY = axi_emc_0
  PARAMETER ETHERNET = axi_ether_0
- PARAMETER GPIO = axi_gpio_3
+ PARAMETER GPIO = axi_gpio_0
  PARAMETER IIC = axi_iic_0
  PARAMETER XLBOOT_BOOT_COUNTER = 3
  PARAMETER XLBOOT_LOCBLOB_OFFSET = 0x1F80000
- PARAMETER PERIPH_TYPE_OVERRIDES = {hard-reset-gpios axi_gpio_0 0 1} {led heartbeat axi_gpio_3 0 1} {led red-1 axi_gpio_3 1 1} {led red-2 axi_gpio_3 2 1} {led red-3 axi_gpio_3 3 1} {led red-4 axi_gpio_3 4 1} {led red-5 axi_gpio_3 5 1} {led red-6 axi_gpio_3 6 1} {led red-7 axi_gpio_3 7 1} {phy-mdio axi_ether_0 natsemi,dp83865 1} {rtc-iic axi_iic_0 dallas,ds3232 0x68 fpga_0_RTC_Int_pin}
+ PARAMETER PERIPH_TYPE_OVERRIDES = {hard-reset-gpios axi_gpio_0 0 1} {led heartbeat axi_gpio_3 0 1} {led red-1 axi_gpio_3 1 1} {led red-2 axi_gpio_3 2 1} {led red-3 axi_gpio_3 3 1} {led red-4 axi_gpio_3 4 1} {led red-5 axi_gpio_3 5 1} {led red-6 axi_gpio_3 6 1} {led red-7 axi_gpio_3 7 1} {phy axi_ether_0 1 natsemi,dp83865} {rtc-iic axi_iic_0 0x68 dallas,ds3232 fpga_0_RTC_Int_pin} {compatible -append mbref_reg_0 generic-uio} {compatible -append mbref_mio_0 generic-uio}
  PARAMETER LINUX_BOOTARGS = console=ttyS0,115200 ubi.mtd=2 root=ubi0:root rootfstype=ubifs rw mtdparts=ae000000.flash:16384k(bpi),4096k(kernel),11776k(rootfs),384k(u-boot-xl)ro,128k(env) debug
  PARAMETER BOARD_NAME = s6lx150t
  PARAMETER GENERIC_UIO_LIST = (mbref_mio_0,mbref_reg_0)
