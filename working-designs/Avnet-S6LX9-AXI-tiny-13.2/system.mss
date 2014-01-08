@@ -10,14 +10,14 @@ BEGIN OS
  PARAMETER STDOUT = axi_uart_0
  PARAMETER BOARD_NAME = s6lx9
  PARAMETER ETHERNET = axi_ether_0
- PARAMETER GPIO = axi_gpio_3
+ PARAMETER GPIO = axi_gpio_0
  PARAMETER SPI = axi_spi_0
  PARAMETER LMB_MEMORY = dlmb_cntlr
  PARAMETER MAIN_MEMORY = axi_s6_ddrx_0
  PARAMETER FLASH_MEMORY = axi_spi_0
  PARAMETER INTC = axi_intc_0
  PARAMETER TIMER = axi_timer_0
- PARAMETER PERIPH_TYPE_OVERRIDES = {led heartbeat axi_gpio_3 0 1} {led red-1 axi_gpio_3 1 1} {led red-2 axi_gpio_3 2 1} {led red-3 axi_gpio_3 3 1} {phy-mdio axi_ether_0 natsemi,dp83848 30} {flash-spi axi_spi_0 micron,n25q128 0}
+ PARAMETER PERIPH_TYPE_OVERRIDES = {hard-reset-gpios axi_gpio_0 0 1} {led heartbeat axi_gpio_3 0 1} {led red-1 axi_gpio_3 1 1} {led red-2 axi_gpio_3 2 1} {led red-3 axi_gpio_3 3 1} {phy axi_ether_0 30 natsemi,dp83848} {compatible -replace primary_flash micron,n25q128}
  PARAMETER LINUX_BOOTARGS = console=ttyUL0,115200 mtdparts=spi32766.0:16384k(all)ro debug
  PARAMETER XLBOOT_BOOT_COUNTER = 3
  PARAMETER XLBOOT_LOCBLOB_OFFSET = 0xF80000

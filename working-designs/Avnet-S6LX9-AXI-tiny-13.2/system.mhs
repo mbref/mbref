@@ -335,3 +335,4 @@ BEGIN axi_gpio
  PORT S_AXI_ACLK = clk_66_6667MHzPLL0
  PORT GPIO_IO_O = internal_reset_request
 END
+
