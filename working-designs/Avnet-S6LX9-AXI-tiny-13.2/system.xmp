@@ -30,6 +30,7 @@ LockAddr: axi_intc_0,C_BASEADDR
 LockAddr: axi_ether_0,C_BASEADDR
 LockAddr: axi_spi_0,C_BASEADDR
 LockAddr: axi_uart_0,C_BASEADDR
+LockAddr: axi_gpio_0,C_BASEADDR
 LockAddr: axi_gpio_3,C_BASEADDR
 ICacheAddr: axi_s6_ddrx_0,C_S0_AXI_BASEADDR
 ICacheAddr: axi_s6_ddrx_0,C_S1_AXI_BASEADDR

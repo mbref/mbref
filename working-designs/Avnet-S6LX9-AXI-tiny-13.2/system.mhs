@@ -61,6 +61,7 @@ BEGIN proc_sys_reset
  PORT Interconnect_aresetn = proc_sys_reset_0_Interconnect_aresetn
  PORT Ext_Reset_In = sys_rst_s
  PORT BUS_STRUCT_RESET = proc_sys_reset_0_BUS_STRUCT_RESET
+ PORT Aux_Reset_In = internal_reset_request
 END
 
 BEGIN axi_intc
@@ -293,8 +294,8 @@ BEGIN axi_gpio
  PARAMETER C_ALL_INPUTS = 0
  PARAMETER C_INTERRUPT_PRESENT = 0
  PARAMETER C_IS_DUAL = 0
- PARAMETER C_BASEADDR = 0x40000000
- PARAMETER C_HIGHADDR = 0x4000FFFF
+ PARAMETER C_BASEADDR = 0x40040000
+ PARAMETER C_HIGHADDR = 0x4004FFFF
  BUS_INTERFACE S_AXI = axi4lite_0
  PORT S_AXI_ACLK = clk_66_6667MHzPLL0
  PORT GPIO_IO_O = fpga_0_axi_gpio_3_GPIO_IO_pin
@@ -324,3 +325,13 @@ BEGIN axi_ethernetlite
  PORT IP2INTC_Irpt = axi_ether_0_IP2INTC_Irpt
 END
 
+BEGIN axi_gpio
+ PARAMETER INSTANCE = axi_gpio_0
+ PARAMETER HW_VER = 1.01.a
+ PARAMETER C_GPIO_WIDTH = 1
+ PARAMETER C_BASEADDR = 0x40000000
+ PARAMETER C_HIGHADDR = 0x4000FFFF
+ BUS_INTERFACE S_AXI = axi4lite_0
+ PORT S_AXI_ACLK = clk_66_6667MHzPLL0
+ PORT GPIO_IO_O = internal_reset_request
+END
