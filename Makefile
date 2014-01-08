@@ -51,8 +51,9 @@ doc:
 	make -C $@
 
 dist:
-	git archive --format=tar --prefix=$(MBREF_PKGNAME)/ \
-		$(MBREF_PKGRTAG:%-devel=HEAD) | bzip2 -9 >$(MBREF_PKGNAME).tar.bz2
+	$(CURDIR)/git-archive-all -v --format tar --prefix $(MBREF_PKGNAME)/ \
+		$(MBREF_PKGRTAG:%-devel=HEAD) $(MBREF_PKGNAME).tar && \
+			bzip2 -9 $(MBREF_PKGNAME).tar
 
 CHANGELOG:
 	git log --no-merges $(MBREF_LOGREFI) | \
