@@ -6,24 +6,24 @@ BEGIN OS
  PARAMETER OS_NAME = tpos
  PARAMETER OS_VER = 1.00.a
  PARAMETER PROC_INSTANCE = microblaze_0
- PARAMETER stdin = xps_uart_0
- PARAMETER stdout = xps_uart_0
- PARAMETER intc = xps_intc_0
- PARAMETER timer = xps_timer_0
- PARAMETER lmb_memory = dlmb_cntlr
- PARAMETER main_memory = mpmc_0
- PARAMETER flash_memory = xps_mch_emc_0
- PARAMETER sysace = xps_sysace_0
- PARAMETER ethernet = xps_ether_0
- PARAMETER gpio = xps_gpio_3
- PARAMETER linux_bootargs = console=ttyS0,115200 ubi.mtd=2 root=ubi0:root rootfstype=ubifs rw mtdparts=ae000000.flash:16384k(bpi),4096k(kernel),11776k(rootfs),384k(u-boot-xl)ro,128k(env) debug
- PARAMETER board_name = ml605
- PARAMETER periph_type_overrides = {hard-reset-gpios xps_gpio_0 0 1} {led heartbeat xps_gpio_3 0 1} {led green-1 xps_gpio_3 1 1} {led green-2 xps_gpio_3 2 1} {led green-3 xps_gpio_3 3 1} {led green-4 xps_gpio_3 4 1} {led green-5 xps_gpio_3 5 1} {led green-6 xps_gpio_3 6 1} {led green-7 xps_gpio_3 7 1} {phy-mdio axi_ether_0 marvell,88e1111 7}
- PARAMETER xlboot_boot_counter = 3
- PARAMETER xlboot_locblob_offset = 0x1F80000
- PARAMETER iic = xps_iic_0
- PARAMETER microblaze_exception_vectors = ((XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0))
- PARAMETER generic_uio_list = (mbref_mio_0,mbref_reg_0)
+ PARAMETER STDIN = xps_uart_0
+ PARAMETER STDOUT = xps_uart_0
+ PARAMETER INTC = xps_intc_0
+ PARAMETER TIMER = xps_timer_0
+ PARAMETER LMB_MEMORY = dlmb_cntlr
+ PARAMETER MAIN_MEMORY = mpmc_0
+ PARAMETER FLASH_MEMORY = xps_mch_emc_0
+ PARAMETER SYSACE = xps_sysace_0
+ PARAMETER ETHERNET = xps_ether_0
+ PARAMETER GPIO = xps_gpio_0
+ PARAMETER LINUX_BOOTARGS = console=ttyS0,115200 ubi.mtd=2 root=ubi0:root rootfstype=ubifs rw mtdparts=ae000000.flash:16384k(bpi),4096k(kernel),11776k(rootfs),384k(u-boot-xl)ro,128k(env) debug
+ PARAMETER BOARD_NAME = ml605
+ PARAMETER PERIPH_TYPE_OVERRIDES = {hard-reset-gpios xps_gpio_0 0 1} {led heartbeat xps_gpio_3 0 1} {led green-1 xps_gpio_3 1 1} {led green-2 xps_gpio_3 2 1} {led green-3 xps_gpio_3 3 1} {led green-4 xps_gpio_3 4 1} {led green-5 xps_gpio_3 5 1} {led green-6 xps_gpio_3 6 1} {led green-7 xps_gpio_3 7 1} {phy xps_ether_0 7 marvell,88e1111} {compatible -append mbref_reg_0 generic-uio} {compatible -append mbref_mio_0 generic-uio}
+ PARAMETER XLBOOT_BOOT_COUNTER = 3
+ PARAMETER XLBOOT_LOCBLOB_OFFSET = 0x1F80000
+ PARAMETER IIC = xps_iic_0
+ PARAMETER MICROBLAZE_EXCEPTION_VECTORS = ((XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0),(XEXC_NONE,XNullHandler,0))
+ PARAMETER GENERIC_UIO_LIST = (mbref_mio_0,mbref_reg_0)
 END
 
 
