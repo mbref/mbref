@@ -53,7 +53,13 @@ $(STATEDIR)/%.clean:
 	@echo
 	@pushd $(*) && \
 	  ./makescr $(2XLENVSCR_$(*)) clean && \
+	  rm -rf __xps && \
+	  rm -f *.make && \
+	  rm -f *.opt && \
+	  rm -f *.log && \
+	  rm -f *.bak && \
 	  rm -f download.bin && \
+	  rm -f download.mcs && \
 	  rm -f download_*.mcs && \
 	  popd
 
